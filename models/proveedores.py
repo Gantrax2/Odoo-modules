@@ -12,7 +12,7 @@ import requests
 
 def calcula_distancia(self, direccion1, direccion2):
 
-    api_key = '&units=imperial&key=AIzaSyAvffBICS3JwKVK7xSTj_5sXDQkd5iU6wA'
+    api_key = '&units=imperial&key='
 
 
 
