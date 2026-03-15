@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="deudas_tree" model="ir.ui.view">
+        <field name="name">abatar.deudas.tree</field>
+        <field name="model">abatar.deudas</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de deudas">
+                <!-- <button name = "%(deudas_wizard)d" string = "Pagar Selección" class="oe_highlight" type = "object"/> -->
+
+                <field name="name_seq" invisible="1"/>
+                <field name="fecha"/>
+                <field name="proveedor"/>
+                <field name="orden"/>
+                <field name="tipo"/>
+                <field name="deuda" sum="Debo"/>
+                <field name="pago" sum="Pagó"/>
+                <field name="saldo"/>
+                <field name="fecha_calen"/>
+                <field name="caja" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="deudas_form" model="ir.ui.view">
+        <field name="name">abatar.deudas.form</field>
+        <field name="model">abatar.deudas</field>
+        <field name="arch" type="xml">
+            <form string="Form de deudas">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <field name="proveedor"/>
+                        <field name="caja" invisible="1"/>
+                        <field name="name_seq"/>
+                        <field name="tipo"/>
+                        <field name="pago"/>
+                        <field name="deuda"/>
+                        <field name="saldo"/>
+                        <field name="orden" domain="[('active','in',(True,False))]"/>
+                        <field name="fecha" autocomplete="off"/>
+                        <field name="fecha_calen" autocomplete="off"/>
+                        <field name="fecha_pago" autocomplete="off"/>
+                        <field name="caja"/>
+                        <field name="desc"/>
+                        <field name="adjunto">
+                            <tree editable="bottom">
+                                <field name="fecha_op" autocomplete="off"/>
+                                <field name="adjunto"/>
+                                <field name="desc"/>
+                                <field name="deudas_id"/>
+                            </tree>
+                        </field>
+                        <field name="user_id" invisible="1"/>
+                    </group>
+
+
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="deudas_graph" model="ir.ui.view">
+        <field name="name">abatar.deudas.graph</field>
+        <field name="model">abatar.deudas</field>
+        <field name="arch" type="xml">
+            <graph string="Deudas">
+
+                <field name="name_seq" invisible="1"/>
+                <field name="fecha"/>
+                <field name="proveedor"/>
+                <field name="orden"/>
+                <field name="tipo"/>
+                <field name="fecha_calen"/>
+                <field name="caja" />
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_deudas_search" model="ir.ui.view">
+        <field name="name">abatar.deudas.search</field>
+        <field name="model">abatar.deudas</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Deudas">
+                <field string="Proveedor" name="proveedor" domain="[('proveedor', 'ilike','self' )]" />
+                <field string="Cliente" name="clientes" domain="[('clientes', 'ilike','self' )]" />
+                <field string="Fecha de Operacion" name="fecha" domain="[('fecha', 'ilike', 'self')]" />
+                <field string="Fecha de Pago" name="fecha_pago" domain="[('fecha_pago', 'ilike', 'self')]" />
+
+                <field string="Tipo" name="tipo" domain="[('tipo' , 'ilike', 'self')]" />
+                <field string="Orden DT" name="orden" domain="[('orden' , 'ilike', 'self')]" />
+
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Sin Pagar" name="caja" domain="[('active', '=', True)]" context="{'group_by': 'proveedor'}"/>
+                    <filter string="Pagados" name="caja" domain="[('active', '=', False), ('caja', '!=', False)]" context="{'group_by': 'caja'}"/>
+                    <filter string="Proveedores" name="proveedor" context="{'group_by': 'proveedor'}"/>
+                    <filter string="Clientes" name="clientes" context="{'group_by': 'clientes'}"/>
+                    <filter string="Ordenes" name="orden" context="{'group_by': 'orden'}"/>
+                    <filter string="Caja" name="caja" context="{'group_by': 'caja'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+
+    <record id="action_deudas" model="ir.actions.act_window">
+            <field name="name">Deudas</field>
+            <field name="res_model">abatar.deudas</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_resumenes">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <!--ESTADOS ORDEN NUEVA-->
+                <t t-call="web.external_layout">
+                    <div class="page" >
+                        <t t-if="doc.factura">
+                            <table width="100%">
+                            <!--SEPARADOR DE HEADER-->
+                            <tr>
+                                <td style="padding-top: 10px"></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <!--ORDEN-->
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="25%">
+                                                <span style="color:red">Resumen:</span>
+                                                <h3>
+                                                    <span t-field="doc.name_seq"/>
+                                                </h3>
+                                            </td>
+                                            <td width="20%" class="text-right">
+                                                <strong>Vencimiento: </strong><br />
+                                                <span t-field="doc.clientes_id.clientes_gral_id.vto"/> días de F.F.<br />
+                                            </td>
+                                            <td width="30%" class="text-right">
+                                                <strong>Cliente: </strong><br />
+                                                <span t-field="doc.clientes_id.clientes_gral_id.razon_social"/><br />
+                                                 sector: <span t-field="doc.clientes_id.sector"/><br />
+                                                 CUIT: <span t-field="doc.clientes_id.cuit"/><br />
+                                            </td>
+                                            <td width="35%" class="text-right">
+                                                <strong>N° Factura:</strong><br />
+                                                <span t-field="doc.factura.name_seq"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <!--ORDENES-->
+                                    <table style="margin-top: 35px" class="table table-sm o_main_table">
+                                        <thead>
+                                            <tr>
+                                                <!-- TODO: remove in master -->
+                                                <th name="th_description" class="text-left">Fecha</th>
+                                                <th name="th_description" class="text-left">Orden</th>
+                                                <th name="th_description" class="text-left">Unidad</th>
+                                                <th name="th_quantity" class="text-left">Kms</th>
+                                                <th name="th_quantity" class="text-left">Operarios</th>
+                                                <th name="th_quantity" class="text-left">Horas</th>
+                                                <th name="th_description" class="text-left">Descripcion</th>
+                                                <th name="th_description" class="text-left">Adicionales</th>
+                                                <th name="th_priceunit" class="text-right">Precio</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="sale_tbody">
+                                            <t t-set="contador" t-value="0"/>
+                                            <t t-foreach="doc.producto_lines2" t-as="line">
+                                                <t t-set="contador" t-value="contador+1"/>
+                                                <tr>
+                                                    <td  width="12%" class="text-left" style=" border-bottom: 1px solid black">
+                                                        <span t-field="line.ordenes_id.fecha_ejecucion_name2"/>
+                                                    </td>
+                                                    <td  width="8%" class="text-left" style=" border-bottom: 1px solid black">
+                                                        <span t-field="line.ordenes_id.name_seq"/>
+                                                    </td>
+                                                    <t t-set="ud_sv" t-value="''"/>
+                                                    <t t-set="ud_sv_m3" t-value="0"/>
+                                                    <t t-set="ud_kms" t-value="0"/>
+                                                    <t t-set="op_sv" t-value="0"/>
+                                                    <t t-set="hs_sv" t-value="line.ordenes_id.horas_total"/>
+                                                    <t t-if="line.ordenes_id.orden_lines">
+                                                        <t t-foreach="line.ordenes_id.orden_lines" t-as="line2">
+                                                            <t t-if="line2.proveedor_producto.tipo.name=='operario'">
+                                                                <t t-set="op_sv" t-value="op_sv+1"/>
+                                                            </t>
+                                                            <t t-elif="line2.proveedor_producto.tipo.name=='unidad'">
+                                                                <t t-if="line2.tipo_ud.m3>ud_sv_m3">
+                                                                    <t t-set="ud_sv_m3" t-value="line2.tipo_ud.m3"/>
+                                                                    <t t-set="ud_sv" t-value="line2.tipo_ud.name"/>
+                                                                    <t t-set="ud_kms" t-value="line2.kms"/>
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                    </t>
+                                                    <td  width="10%"  style=" border-bottom: 1px solid black">
+                                                        <span t-esc="ud_sv"></span>
+                                                    </td>
+                                                    <td  width="5%"  style=" border-bottom: 1px solid black">
+                                                        <span t-esc="ud_kms"></span>
+                                                    </td>
+                                                    <td  width="5%"  style=" border-bottom: 1px solid black">
+                                                        <span t-esc="op_sv"></span>
+                                                    </td>
+                                                    <td  width="5%"  style=" border-bottom: 1px solid black">
+                                                        <span t-esc="hs_sv"></span>
+                                                    </td>
+                                                    <td width="28%" class="text-left" style="border-bottom: 1px solid black ; font-size: 10px">
+                                                        <t t-if="line.desc"> <span t-field="line.desc"></span></t>
+                                                        <t t-elif="line.ordenes_id.reg_cotiz"> <span t-field="line.ordenes_id.reg_cotiz.name"></span></t>
+                                                        <t t-else=""> <span></span></t>
+                                                    </td>
+
+                                                    <t t-if="line.ordenes_id.reg_cotiz and line.ordenes_id.reg_cotiz_cant_ad and line.ordenes_id.reg_cotiz_text_ad">
+                                                        <td width="15%"  style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.ordenes_id.reg_cotiz_text_ad"> </span> Adicionales <span t-field="line.ordenes_id.reg_cotiz_cant_ad"></span><t t-if="line.ordenes_id.embalaje_lines"><span> + Mat. Emb.</span></t>
+                                                        </td>
+                                                    </t>
+                                                    <t t-elif="line.ordenes_id.reg_cotiz and line.ordenes_id.reg_cotiz_cant_ad">
+                                                        <td width="15%"  style=" border-bottom: 1px solid black">
+                                                            Adicionales <span t-field="line.ordenes_id.reg_cotiz_cant_ad"></span><t t-if="line.ordenes_id.embalaje_lines"><span> + Mat. Emb.</span></t>
+                                                        </td>
+                                                    </t>
+                                                    <t t-elif="line.ordenes_id.embalaje_lines">
+                                                        <td width="15%"  style=" border-bottom: 1px solid black">
+                                                            <span>Mat. Emb.</span>
+                                                        </td>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <td width="15%"  style=" border-bottom: 1px solid black">
+                                                            <span></span>
+                                                        </td>
+                                                    </t>
+                                                    <td width="10%" class="text-right" style="vertical-align:bottom;border-bottom: 1px solid black">
+                                                        <t t-if="doc.tipo_fc in ('A','A(myp)')">
+                                                            $<span t-esc="'{:,.2f}'.format(line.precio)"></span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            $<span t-esc="'{:,.2f}'.format(line.precio*1.21)"></span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                        </tbody>
+                                    </table>
+
+                                    <table style="margin-top: 10px" width="100%">
+                                        <tbody class="sale_tbody">
+                                            <t t-if="doc.tipo_fc in ('A','A(myp)')">
+                                                <tr>
+                                                    <td width="50%" >
+                                                        <strong></strong>
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        <strong>Total Sin Iva</strong><br />
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        $<span t-esc="'{:,.2f}'.format(doc.monto)"></span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td width="50%" >
+                                                        <strong></strong>
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        <strong>Monto IVA 21%</strong>
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        $<span t-esc="'{:,.2f}'.format(doc.monto_IVA)"></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <t t-if="doc.dto!='1'">
+                                                <tr>
+                                                    <td width="50%" >
+                                                        <strong></strong>
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        <strong>Monto con Dto <span t-field="doc.dto"></span></strong>
+                                                    </td>
+                                                    <td class="text-right" width="25%" >
+                                                        $<span t-esc="'{:,.2f}'.format(doc.monto_dto)"></span>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr>
+                                                <td width="50%" >
+                                                    <strong></strong>
+                                                </td>
+                                                <td class="text-right" width="25%" >
+                                                    <strong>TOTAL</strong>
+                                                </td>
+                                                <td class="text-right" width="25%" >
+                                                    $<span t-esc="'{:,.2f}'.format(doc.total)"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                        </t>
+                        <t t-else="">
+                            <h3>
+                                <span style="color:red">ERROR: NO HAY ASIGNADO UN Nº DE FACTURA.</span>
+                            </h3>
+                        </t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="cotizaciones_tree" model="ir.ui.view">
+        <field name="name">abatar.cotizaciones.tree</field>
+        <field name="model">abatar.cotizaciones</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="fecha"/>
+                <field name="cliente"/>
+                <field name="name"/>
+                <field name="precio"/>
+                <field name="texto_adicional"/>
+                <field name="precio_adicional"/>
+                <field name="resumen_busqueda" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="cotizaciones_form" model="ir.ui.view">
+        <field name="name">abatar.cotizaciones.form</field>
+        <field name="model">abatar.cotizaciones</field>
+        <field name="arch" type="xml">
+            <form string="Form de Cotizaciones">
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <group>
+                    <field name="active" invisible="1"/>
+                    <field name="cliente"/>
+                    <field name="name"/>
+                    <field name="fecha"/>
+                    <field name="precio"/>
+                    <field name="texto_adicional"/>
+                    <field name="precio_adicional"/>
+                    <field name="crm"/>
+                    <field name="admin" invisible="1"/>
+                    <field name="resumen_busqueda" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="cotizaciones_search" model="ir.ui.view">
+        <field name="name">abatar.cotizaciones.search.view</field>
+        <field name="model">abatar.cotizaciones</field>
+        <field name="arch" type="xml">
+            <search string="Buscar:">
+                <field name="resumen_busqueda" />
+                <separator/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cotizaciones" model="ir.actions.act_window">
+            <field name="name">Cotizaciones</field>
+            <field name="res_model">abatar.cotizaciones</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Cotizacion</p>
+            </field>
+    </record>
+
+
+
+</odoo>

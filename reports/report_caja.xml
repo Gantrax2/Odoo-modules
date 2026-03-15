@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <template id="report_caja">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+
+                    <div class="page" >
+                        <table width="100%">
+                            <!--SEPARADOR DE HEADER-->
+                            <tr>
+                                <td style="padding-top: 5px"></td>
+                            </tr>
+                            <tr>
+                                <td width="100%">
+                                    <!--ORDEN-->
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="50%">
+                                                <span style="color:red">CAJA:</span>
+                                                <h3>
+                                                    <span t-field="doc.nombre_fecha"/>
+                                                </h3>
+                                            </td>
+                                            <td width="50%">
+                                                <t t-if="doc.saldo_ant">
+                                                    <span style="color:red">SALDO ANTERIOR:</span>
+                                                    <h3>
+                                                        $ <span t-field="doc.saldo_ant"/>
+                                                    </h3>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="60%" style="font-size:10pt">
+                                                <span class="text-center" >INGRESOS:</span>
+                                                <table style="margin-top: 5px" class="table table-sm o_main_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <!-- TODO: remove in master -->
+                                                            <th  width="70%" name="th_description" class="text-left">Descripción</th>
+                                                            <th  width="30%" name="th_priceunit" class="text-left">Cobro</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="sale_tbody">
+                                                        <t t-set="contador" t-value="0"/>
+                                                        <t t-foreach="doc.linea_ingresos" t-as="line">
+                                                            <t t-if="line.monto>0">
+                                                                <tr>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        <span t-field="line.texto"/>
+                                                                    </td>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        $<span t-esc="'{:,.2f}'.format(line.monto)"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                        </t>
+                                                        <t t-foreach="doc.linea_movimientos" t-as="line">
+                                                            <t t-if="line.tipo_name != 'Clientes' and 0>line.monto and line.pago_electronico">
+                                                                <tr>
+                                                                    <td  class="text-left" style="background-color: #FFFF00; border-bottom: 1px solid black">
+                                                                        <span t-field="line.tipo_name"/> <t t-if="line.tipo_name=='Proveedores'"> - <span t-field="line.deuda_id"/></t><t t-elif="line.tipo_name=='Empleados'"> - <span t-field="line.empleados_id"/></t><t t-elif="line.tipo_name=='Mensuales'"> - <span t-field="line.mensuales_id"/></t><t t-elif="line.tipo_name=='Insumos'"> - <span t-field="line.materiales_id"/></t> - <span t-field="line.texto"/>
+                                                                    </td>
+                                                                    <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                                        $<span t-esc="'{:,.2f}'.format(-line.monto)"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                            <t t-elif="line.tipo_name != 'Clientes' and 0>line.monto">
+                                                                <tr>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        <span t-field="line.tipo_name"/> <t t-if="line.tipo_name=='Proveedores'"> - <span t-field="line.deuda_id"/></t><t t-elif="line.tipo_name=='Empleados'"> - <span t-field="line.empleados_id"/></t><t t-elif="line.tipo_name=='Mensuales'"> - <span t-field="line.mensuales_id"/></t><t t-elif="line.tipo_name=='Insumos'"> - <span t-field="line.materiales_id"/></t> - <span t-field="line.texto"/>
+                                                                    </td>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        $<span t-esc="'{:,.2f}'.format(-line.monto)"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                            <t t-elif="line.tipo_name == 'Clientes' and line.monto>0 and line.pago_electronico">
+                                                                <tr>
+                                                                    <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                                        <span t-field="line.tipo_name"/> - <span t-field="line.texto"/>
+                                                                    </td>
+                                                                    <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                                        $<span t-esc="'{:,.2f}'.format(line.monto+line.retenciones)"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                            <t t-elif="line.tipo_name == 'Clientes' and line.monto>0">
+                                                                <tr>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        <span t-field="line.tipo_name"/> - <span t-field="line.texto"/>
+                                                                    </td>
+                                                                    <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                        $<span t-esc="'{:,.2f}'.format(line.monto+line.retenciones)"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </t>
+                                                        </t>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <strong>TOTAL COBROS</strong>
+                                                            </td>
+                                                            <td class="text-left" >
+                                                                $<span t-esc="'{:,.2f}'.format(doc.total_ingresos_bruto)"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <strong>TOTAL COBROS POR BANCO</strong>
+                                                            </td>
+                                                            <td class="text-left" >
+                                                                - $ <span t-esc="'{:,.2f}'.format(doc.total_ingresos_banco)"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-right">
+                                                                <strong>TOTAL COBROS EFECTIVO</strong>
+                                                            </td>
+                                                            <td class="text-left" >
+                                                                $ <span t-esc="'{:,.2f}'.format(doc.total_ingresos)"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+
+                                            <td width="5%" style="font-size:10pt">
+
+                                            </td>
+                                            <td width="35%" style="font-size:10pt">
+
+                                                <span class="text-center" >BILLETERA:</span>
+                                                <table style="margin-top: 5px" class="table table-sm o_main_table">
+                                                    <thead>
+                                                        <tr>
+                                                            <!-- TODO: remove in master -->
+                                                            <th name="th_description" class="text-left">Billete</th>
+                                                            <th name="th_quantity" class="text-left">Cantidad</th>
+                                                            <th name="th_priceunit" class="text-left">Total</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody class="sale_tbody">
+                                                        <t t-set="contador" t-value="0"/>
+                                                        <t t-foreach="doc.billetes" t-as="line">
+                                                            <tr>
+                                                                <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                    <span t-field="line.name"/>
+                                                                </td>
+                                                                <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                    <span t-field="line.cant"/>
+                                                                </td>
+                                                                <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                                    $<span t-esc="'{:,.2f}'.format(line.total)"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                        <tr>
+                                                            <td width="50%" style=" border-bottom: 2px solid black">
+                                                                <strong></strong>
+                                                            </td>
+                                                            <td class="text-right" width="25%" style=" border-bottom: 2px solid black">
+                                                                <strong>Monedas</strong>
+                                                            </td>
+                                                            <td class="text-right" width="25%" style=" border-bottom: 2px solid black">
+                                                                $<span t-esc="'{:,.2f}'.format(doc.monedas)"></span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td width="50%" >
+                                                                <strong></strong>
+                                                            </td>
+                                                            <td class="text-right" width="25%" >
+                                                                <strong>TOTAL</strong>
+                                                            </td>
+                                                            <td class="text-left" width="25%" >
+                                                                $<span t-esc="'{:,.2f}'.format(doc.total_efectivo)"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+
+
+                                    <span class="text-center" >SALIDAS:</span>
+                                    <table style="margin-top: 5px ; font-size:10pt" class="table table-sm o_main_table">
+                                        <thead>
+                                            <tr>
+                                                <!-- TODO: remove in master -->
+                                                <th width="15%" name="th_description" class="text-left">Tipo</th>
+                                                <th name="th_description" class="text-left">Sujeto de Pago</th>
+                                                <th name="th_description" class="text-left">Observaciones</th>
+                                                <th width="25%" name="th_priceunit" class="text-left">Pago</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="sale_tbody">
+                                            <t t-set="contador" t-value="0"/>
+                                            <t t-foreach="doc.linea_ingresos" t-as="line">
+                                                <t t-if="0>line.monto">
+                                                    <tr>
+                                                        <td class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span>Ingreso Manual</span>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span></span>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.texto"/>
+                                                        </td>
+                                                        <td class="text-left" style=" border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(-line.monto)"></span>
+                                                        </td>
+                                                    </tr>
+
+                                                </t>
+                                            </t>
+
+                                            <t t-foreach="doc.linea_movimientos" t-as="line">
+                                                <t t-if="line.tipo_name == 'Clientes' and line.monto>0 and line.retenciones and line.pago_electronico">
+
+                                                    <tr>
+                                                        <td class="text-left" style="background-color: #FFFF00; border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            <span t-field="line.pagos_id"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">  <!-- esto tenia text-decoration: line-through -->
+                                                             <span>RETENCIONES :</span><span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.retenciones)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-elif="line.tipo_name == 'Clientes' and line.monto>0 and line.retenciones">
+
+                                                    <tr>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.pagos_id"/>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                             <span>RETENCIONES :</span><span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.retenciones)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-elif="line.tipo_name == 'Clientes' and 0>line.monto and line.pago_electronico">
+
+                                                    <tr>
+                                                        <td  class="text-left" style="background-color: #FFFF00; border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            <span t-field="line.pagos_id"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                             <span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.monto)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-elif="line.tipo_name == 'Clientes' and 0>line.monto">
+
+                                                    <tr>
+                                                        <td class="text-left" style="border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style="border-bottom: 1px solid black">
+                                                            <span t-field="line.pagos_id"/>
+                                                        </td>
+                                                        <td  class="text-left" style="border-bottom: 1px solid black">
+                                                             <span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style="border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.monto)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-elif="line.tipo_name != 'Clientes' and line.monto>0 and line.pago_electronico">
+
+                                                    <tr>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            <t t-if="line.tipo_name=='Proveedores'">
+                                                                <span t-field="line.deuda_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Empleados'">
+                                                                <span t-field="line.empleados_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Mensuales'">
+                                                                <span t-field="line.mensuales_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Insumos'">
+                                                                <span t-field="line.materiales_id"/>
+                                                            </t>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            <span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style="background-color: #FFFF00;  border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.monto)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-elif="line.tipo_name != 'Clientes' and line.monto>0">
+
+                                                    <tr>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.tipo_name"/>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <t t-if="line.tipo_name=='Proveedores'">
+                                                                <span t-field="line.deuda_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Empleados'">
+                                                                <span t-field="line.empleados_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Mensuales'">
+                                                                <span t-field="line.mensuales_id"/>
+                                                            </t>
+                                                            <t t-if="line.tipo_name=='Insumos'">
+                                                                <span t-field="line.materiales_id"/>
+                                                            </t>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            <span t-field="line.texto"/>
+                                                        </td>
+                                                        <td  class="text-left" style=" border-bottom: 1px solid black">
+                                                            $<span t-esc="'{:,.2f}'.format(line.monto)"></span>
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </t>
+
+
+                                            <tr>
+                                                <td  >
+                                                    <strong></strong>
+                                                </td>
+                                                <td >
+                                                    <strong></strong>
+                                                </td>
+                                                <td class="text-right" >
+                                                    <strong>TOTAL PAGOS</strong>
+                                                </td>
+                                                <td class="text-left" >
+                                                    $<span t-esc="'{:,.2f}'.format(doc.total_movimientos_bruto)"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td  >
+                                                    <strong></strong>
+                                                </td>
+                                                <td >
+                                                    <strong></strong>
+                                                </td>
+                                                <td class="text-right" >
+                                                    <strong>TOTAL PAGOS POR BANCO</strong>
+                                                </td>
+                                                <td class="text-left" >
+                                                    - $ <span t-esc="'{:,.2f}'.format(doc.total_movimientos_banco)"></span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td  >
+                                                    <strong></strong>
+                                                </td>
+                                                <td >
+                                                    <strong></strong>
+                                                </td>
+                                                <td class="text-right" >
+                                                    <strong>TOTAL PAGOS EFECTIVO</strong>
+                                                </td>
+                                                <td class="text-left" >
+                                                    $ <span t-esc="'{:,.2f}'.format(doc.total_movimientos)"></span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table width="100%">
+                                        <tr>
+                                            <td width="60%"></td>
+                                            <td width="40%" class="text-right">
+                                               <span >SALDO TOTAL: $ </span><span t-esc="'{:,.2f}'.format(doc.saldo)"></span> <br/>
+                                                <span>BILLETERA: $ </span><span t-esc="'{:,.2f}'.format(doc.total_efectivo)"></span><br/><br/>
+                                                <t t-if="float(doc.total_efectivo)-float(doc.saldo)==0">
+                                                    <span style="background-color:#28a745">DIFERENCIA: $ </span><span  style="background-color:#28a745" t-esc="'{:,.2f}'.format(float(doc.total_efectivo)-float(doc.saldo))"></span>
+                                                </t>
+                                                <t t-elif="float(doc.total_efectivo)-float(doc.saldo)>0">
+                                                    <span style="background-color:#ffc107">DIFERENCIA: $ </span><span  style="background-color:#ffc107" t-esc="'{:,.2f}'.format(float(doc.total_efectivo)-float(doc.saldo))"></span>
+                                                </t>
+                                                <t t-elif="float(doc.saldo)-float(doc.total_efectivo)>0">
+                                                    <span style="background-color:#dc3545">DIFERENCIA: $ </span><span  style="background-color:#dc3545" t-esc="'{:,.2f}'.format(float(doc.total_efectivo)-float(doc.saldo))"></span>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

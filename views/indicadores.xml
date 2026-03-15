@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="indicadores_tree" model="ir.ui.view">
+        <field name="name">abatar.indicadores.tree</field>
+        <field name="model">abatar.indicadores</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Indicadores">
+                <field name="name0"/>
+                <field name="capa_orden"/>
+                <field name="name"/>
+                <field name="modelo"/>
+                <field name="campo_x"/>
+                <field name="dominio"/>
+                <field name="salida"/>
+
+                <field name="x_f" invisible="1"/>
+                <field name="x_i" invisible="1"/>
+                <field name="x_c" invisible="1"/>
+                <field name="x_d"/>
+                <field name="value_f"/>
+                <field name="value_i" invisible="1"/>
+                <field name="value_c" invisible="1"/>
+                <field name="resumen_busqueda" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="indicadores_form" model="ir.ui.view">
+        <field name="name">abatar.indicadores.form</field>
+        <field name="model">abatar.indicadores</field>
+        <field name="arch" type="xml">
+            <form>
+                <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                </button>
+                <sheet>
+                    <group>
+                        <field name="name0"/>
+                        <field name="name"/>
+                        <field name="modelo"/>
+                        <field name="campo_x"/>
+                        <field name="dominio"/>
+                        <field name="fecha_indicador"/>
+                        <field name="multiplicador"/>
+                        <field name="salida"/>
+                    </group>
+                    <group>
+                        <field name="final_tablero"/>
+                    </group>
+                    <group>
+                        <field name="formula"/>
+                        <field name="capa_orden"/>
+                    </group>
+                    <group>
+                        <field name="x_d"/>
+                        <field name="value_f"/>
+                    </group>
+                    <group>
+                        <field name="admin" invisible="1"/>
+                        <field name="resumen_busqueda" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="indicadores_graph" model="ir.ui.view">
+        <field name="name">abatar.indicadores.graph</field>
+        <field name="model">abatar.indicadores</field>
+        <field name="arch" type="xml">
+            <graph>
+                <field name="name0"/>
+                <field name="name"/>
+                <field name="campo_x"/>
+                <field name="value_f"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="indicadores_search" model="ir.ui.view">
+        <field name="name">abatar.indicadores.search.view</field>
+        <field name="model">abatar.indicadores</field>
+        <field name="arch" type="xml">
+            <search string="Buscar:">
+                <field name="resumen_busqueda" />
+                <separator/>
+                <filter string="Nombre grupo" name="name0" context="{'group_by': 'name0'}"/>
+                <filter string="Nombre" name="name" context="{'group_by': 'name'}"/>
+
+            </search>
+        </field>
+    </record>
+    <record id="view_kanban_indicadores" model="ir.ui.view">
+    <field name="name">abatar.indicadores.kanban</field>
+    <field name="model">abatar.indicadores</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <field name="name0"/>
+            <field name="name"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <div class="oe_kanban_card" style="padding: 10px; border-radius: 10px; background-color: #f5f5f5;">
+                        <h4><field name="name"/></h4>
+                        <div style="font-size: 72px; font-weight: bold;">
+                            <field name="value_f"/>
+                        </div>
+                        <div style="font-size: 12px; color: gray;">
+                            Actualizado: <field name="ult_act"/>
+                        </div>
+                    </div>
+                </t>
+            </templates>
+        </kanban>
+    </field>
+    </record>
+    <record id="action_indicadores" model="ir.actions.act_window">
+            <field name="name">Indicadores</field>
+            <field name="res_model">abatar.indicadores</field>
+            <field name="view_mode">kanban,tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+
+    <record id="tableros_tree" model="ir.ui.view">
+        <field name="name">abatar.tableros.tree</field>
+        <field name="model">abatar.tableros</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Indicadores">
+                <field name="name"/>
+                <field name="ult_act"/>
+                <field name="act_value"/>
+                <field name="prom_value"/>
+                <field name="esp_value"/>
+                <field name="color"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="tableros_form" model="ir.ui.view">
+        <field name="name">abatar.tableros.form</field>
+        <field name="model">abatar.tableros</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="ult_act"/>
+                        <field name="act_value"/>
+                        <field name="prom_value"/>
+                        <field name="esp_value"/>
+                        <field name="color"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_kanban_tableros" model="ir.ui.view">
+    <field name="name">abatar.tableros.kanban</field>
+    <field name="model">abatar.tableros</field>
+    <field name="arch" type="xml">
+        <kanban>
+            <field name="name"/>
+            <field name="act_value"/>
+            <field name="prom_value"/>
+            <field name="esp_value"/>
+            <field name="ult_act"/>
+            <field name="color"/>
+            <templates>
+                <t t-name="kanban-box">
+                    <!-- Evaluar condiciones -->
+                    <t t-set="act" t-value="record.act_value.value"/>
+                    <t t-set="prom" t-value="record.prom_value.value"/>
+                    <t t-set="esp" t-value="record.esp_value.value"/>
+                    <t t-set="color" t-value="record.color.value"/>
+
+                    <!-- Determinar color -->
+                    <t t-if="color=='Verde'"><!--act &gt;= prom and act &gt;= esp">-->
+                        <div style="background-color: #d4edda; padding: 10px; border-radius: 10px;">
+
+                            <!-- Contenido visual del indicador -->
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                <field name="name"/>
+                            </div>
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                (Ult. Act:<field name="ult_act"/>)
+                            </div>
+
+                            <div style="display: flex; align-items: center;">
+                                <!-- Valor Actual (grande a la izquierda) -->
+                                <div style="flex: 1; font-size: 52px; font-weight: bold; text-align: center; color: #333;">
+                                    <field name="act_value"/>
+                                </div>
+
+                                <!-- Promedio y Esperado (derecha, uno arriba del otro) -->
+                                <div style="flex: 1; font-size: 14px; color: #555;">
+                                    <div><strong>Promedio:</strong> <field name="prom_value"/></div>
+                                    <div><strong>Esperado:</strong> <field name="esp_value"/></div>
+                                </div>
+                            </div>
+                        </div> <!-- VERDE -->
+                    </t>
+
+                    <t t-elif="color=='Rojo'"><!--act &lt; esp and act &lt; prom">-->
+                        <div style="background-color: #f8d7da; padding: 10px; border-radius: 10px;">
+
+                            <!-- Contenido visual del indicador -->
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                <field name="name"/>
+                            </div>
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                (Ult. Act:<field name="ult_act"/>)
+                            </div>
+
+                            <div style="display: flex; align-items: center;">
+                                <!-- Valor Actual (grande a la izquierda) -->
+                                <div style="flex: 1; font-size: 52px; font-weight: bold; text-align: center; color: #333;">
+                                    <field name="act_value"/>
+                                </div>
+
+                                <!-- Promedio y Esperado (derecha, uno arriba del otro) -->
+                                <div style="flex: 1; font-size: 14px; color: #555;">
+                                    <div><strong>Promedio:</strong> <field name="prom_value"/></div>
+                                    <div><strong>Esperado:</strong> <field name="esp_value"/></div>
+                                </div>
+                            </div>
+                        </div> <!-- ROJO -->
+                    </t>
+                    <t t-else="">
+                        <div style="background-color: #fff3cd; padding: 10px; border-radius: 10px;">
+
+                            <!-- Contenido visual del indicador -->
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                <field name="name"/>
+                            </div>
+                            <div style="font-weight: bold; font-size: 16px; margin-bottom: 8px;">
+                                (Ult. Act:<field name="ult_act"/>)
+                            </div>
+
+                            <div style="display: flex; align-items: center;">
+                                <!-- Valor Actual (grande a la izquierda) -->
+                                <div style="flex: 1; font-size: 52px; font-weight: bold; text-align: center; color: #333;">
+                                    <field name="act_value"/>
+                                </div>
+
+                                <!-- Promedio y Esperado (derecha, uno arriba del otro) -->
+                                <div style="flex: 1; font-size: 14px; color: #555;">
+                                    <div><strong>Promedio:</strong> <field name="prom_value"/></div>
+                                    <div><strong>Esperado:</strong> <field name="esp_value"/></div>
+                                </div>
+                            </div>
+                        </div> <!-- AMARILLO -->
+                    </t>
+
+
+                </t>
+            </templates>
+        </kanban>
+    </field>
+    </record>
+    <record id="action_tableros" model="ir.actions.act_window">
+            <field name="name">tableros</field>
+            <field name="res_model">abatar.tableros</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+</odoo>

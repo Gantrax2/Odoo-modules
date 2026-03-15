@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- data/ir_cron.xml -->
+
+        <record id="ir_cron_recalcular_indicadores" model="ir.cron">
+            <field name="name">Recalcular Indicadores</field>
+            <field name="model_id" ref="model_abatar_indicadores"/>
+            <field name="state">code</field>
+            <field name="code">model.refresh_indicadores()</field>
+            <field name="interval_number">4</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="active" eval="True"/>
+        </record>
+        <!-- Sequences for sale.order -->
+        <record id="seq_abatar_dolar3" model="abatar.dolar3">
+            <field name="NOMBRE_IMPOSIBLE">Gaston1</field>
+        </record>
+        <record id="seq_abatar_visor" model="abatar.visor">
+            <field name="NOMBRE_IMPOSIBLE">Gaston1</field>
+        </record>
+        <record id="seq_abatar_servicios1" model="abatar.servicios">
+            <field name="name">Flete</field>
+        </record>
+        <record id="seq_abatar_servicios2" model="abatar.servicios">
+            <field name="name">Mudanza</field>
+        </record>
+        <record id="seq_abatar_servicios3" model="abatar.servicios">
+            <field name="name">Reparto</field>
+        </record>
+        <record id="seq_abatar_servicios_estados1" model="abatar.servicios.estados">
+            <field name="name">Pendiente</field>
+        </record>
+        <record id="seq_abatar_servicios_estados2" model="abatar.servicios.estados">
+            <field name="name">Presupuesto</field>
+        </record>
+        <record id="seq_abatar_servicios_estados3" model="abatar.servicios.estados">
+            <field name="name">Confirmado</field>
+        </record>
+        <record id="seq_abatar_servicios_estados4" model="abatar.servicios.estados">
+            <field name="name">Rechazado</field>
+        </record>
+        <record id="seq_abatar_servicios_estados5" model="abatar.servicios.estados">
+            <field name="name">Cancelado</field>
+        </record>
+        <!-- <record id="seq_abatar_servicios_estados5" model="abatar.servicios.estados">
+            <field name="name">Finalizado</field>
+        </record> -->
+        <record id="seq_abatar_servicios_tipo1" model="abatar.servicios.tipo">
+            <field name="name">Operativo</field>
+        </record>
+        <record id="seq_abatar_servicios_tipo2" model="abatar.servicios.tipo">
+            <field name="name">CRM</field>
+        </record>
+        <record id="seq_abatar_servicios_tipo3" model="abatar.servicios.tipo">
+            <field name="name">Pagos</field>
+        </record>
+        <record id="seq_abatar_servicios_calendario1" model="abatar.servicios.calendario">
+            <field name="name">Visita Tecnica</field>
+            <field name="accion">1</field>
+        </record>
+        <record id="seq_abatar_servicios_calendario2" model="abatar.servicios.calendario">
+            <field name="name">Entrega de Materiales</field>
+            <field name="accion">1</field>
+        </record>
+        <record id="seq_abatar_servicios_calendario4" model="abatar.servicios.calendario">
+            <field name="name">Previa</field>
+            <field name="accion">1</field>
+        </record>
+        <record id="seq_abatar_servicios_calendario3" model="abatar.servicios.calendario">
+            <field name="name">Mudanza</field>
+            <field name="accion">1</field>
+        </record>
+        <!-- <record id="seq_abatar_servicios_calendario6" model="abatar.servicios.calendario">
+            <field name="name">Presupuesto</field>
+            <field name="accion">2</field>
+        </record> -->
+        <record id="seq_abatar_servicios_calendario5" model="abatar.servicios.calendario">
+            <field name="name">Pagos</field>
+            <field name="accion">3</field>
+        </record>
+        <!--<record id="seq_abatar_servicios_calendario5" model="abatar.servicios.calendario">
+            <field name="name">Flete</field>
+            <field name="accion">1</field>
+        </record>
+        <record id="seq_abatar_servicios_calendario6" model="abatar.servicios.calendario">
+            <field name="name">Operarios</field>
+            <field name="accion">1</field>
+        </record> -->
+        <record id="seq_abatar_servicios_presupuesto1" model="abatar.estados.presupuesto">
+            <field name="name">Vigente</field>
+        </record>
+        <record id="seq_abatar_servicios_presupuesto2" model="abatar.estados.presupuesto">
+            <field name="name">Pausado</field>
+        </record>
+
+        <record id="seq_abatar_relacion_institu_1" model="abatar.relacion.institu">
+            <field name="name">Mudanza Estandar</field>
+            <field name="numero">1</field>
+        </record>
+        <record id="seq_abatar_relacion_institu_2" model="abatar.relacion.institu">
+            <field name="name">Mudanza Mini</field>
+            <field name="numero">2</field>
+        </record>
+
+        <record id="seq_abatar_relacion_institu_3" model="abatar.relacion.institu">
+            <field name="name">Mudanza Clasica</field>
+            <field name="numero">3</field>
+        </record>
+
+        <record id="seq_abatar_relacion_institu_4" model="abatar.relacion.institu">
+            <field name="name">Mudanza Premium</field>
+            <field name="numero">4</field>
+        </record>
+
+        <record id="seq_abatar_tipo_productos1" model="abatar.tipo">
+            <field name="name">unidad</field>
+        </record>
+
+        <record id="seq_abatar_tipo_productos2" model="abatar.tipo">
+            <field name="name">operario</field>
+        </record>
+
+        <record id="seq_abatar_tipo_productos3" model="abatar.tipo">
+            <field name="name">embalaje</field>
+        </record>
+
+        <record id="seq_abatar_tipo_productos4" model="abatar.tipo">
+            <field name="name">varios</field>
+        </record>
+
+        <record id="seq_abatar_tipo_caja1" model="abatar.caja.tipo">
+            <field name="name">Proveedores</field>
+            <field name="desc">Deudas con Proveedores</field>
+        </record>
+
+        <record id="seq_abatar_tipo_caja2" model="abatar.caja.tipo">
+            <field name="name">Clientes</field>
+            <field name="desc">Facturas de Clientes</field>
+        </record>
+
+        <record id="seq_abatar_tipo_caja3" model="abatar.caja.tipo">
+            <field name="name">Empleados</field>
+            <field name="desc">Pagos a Empleados</field>
+        </record>
+
+        <record id="seq_abatar_tipo_caja4" model="abatar.caja.tipo">
+            <field name="name">Mensuales</field>
+            <field name="desc">Pago de Servicios</field>
+        </record>
+
+        <record id="seq_abatar_tipo_caja5" model="abatar.caja.tipo">
+            <field name="name">Insumos</field>
+            <field name="desc">Compra de Insumos</field>
+        </record>
+
+        <record id="seq_abatar_constantes1" model="abatar.constantes">
+            <field name="name">BASEA</field>
+            <field name="flotante">-38</field>
+            <field name="entero">-38</field>
+        </record>
+
+        <record id="seq_abatar_constantes2" model="abatar.constantes">
+            <field name="name">BASEAmyp</field>
+            <field name="flotante">5</field>
+            <field name="entero">5</field>
+        </record>
+
+        <record id="seq_abatar_constantes3" model="abatar.constantes">
+            <field name="name">BASEB</field>
+            <field name="flotante">135</field>
+            <field name="entero">135</field>
+        </record>
+
+        <record id="seq_abatar_constantes4" model="abatar.constantes">
+            <field name="name">BASEBmyp</field>
+            <field name="flotante">2</field>
+            <field name="entero">2</field>
+        </record>
+
+        <record id="seq_abatar_constantes5" model="abatar.constantes">
+            <field name="name">BASEC</field>
+            <field name="flotante">25</field>
+            <field name="entero">25</field>
+        </record>
+
+        <record id="seq_abatar_constantes6" model="abatar.constantes">
+            <field name="name">COTIZ_ESIVAINC</field>
+            <field name="booleano">True</field>
+        </record>
+
+        <record id="seq_abatar_constantes7" model="abatar.constantes">
+            <field name="name">MIN_AMB_NOTA_VT</field>
+            <field name="flotante">3</field>
+            <field name="entero">3</field>
+        </record>
+
+        <record id="seq_abatar_aumentos1" model="abatar.aumentos">
+            <field name="fecha">2018-12-15</field>
+            <field name="aumento">27</field>
+        </record>
+        <record id="seq_abatar_aumentos2" model="abatar.aumentos">
+            <field name="fecha">2019-04-15</field>
+            <field name="aumento">14.4</field>
+        </record>
+        <record id="seq_abatar_aumentos3" model="abatar.aumentos">
+            <field name="fecha">2019-12-15</field>
+            <field name="aumento">17</field>
+        </record>
+        <record id="seq_abatar_aumentos4" model="abatar.aumentos">
+            <field name="fecha">2020-12-15</field>
+            <field name="aumento">10</field>
+        </record>
+        <record id="seq_abatar_aumentos5" model="abatar.aumentos">
+            <field name="fecha">2020-04-15</field>
+            <field name="aumento">4.6</field>
+        </record>
+        <record id="seq_abatar_aumentos6" model="abatar.aumentos">
+            <field name="fecha">2021-01-15</field>
+            <field name="aumento">21</field>
+        </record>
+        <record id="seq_abatar_aumentos7" model="abatar.aumentos">
+            <field name="fecha">2021-05-15</field>
+            <field name="aumento">21.8</field>
+        </record>
+        <record id="seq_abatar_aumentos8" model="abatar.aumentos">
+            <field name="fecha">2021-09-15</field>
+            <field name="aumento">11.4</field>
+        </record>
+        <record id="seq_abatar_aumentos9" model="abatar.aumentos">
+            <field name="fecha">2022-01-15</field>
+            <field name="aumento">10</field>
+        </record>
+        <record id="seq_abatar_aumentos10" model="abatar.aumentos">
+            <field name="fecha">2022-05-15</field>
+            <field name="aumento">23.8</field>
+        </record>
+        <record id="seq_abatar_aumentos11" model="abatar.aumentos">
+            <field name="fecha">2022-07-15</field>
+            <field name="aumento">15</field>
+        </record>
+        <record id="seq_abatar_aumentos12" model="abatar.aumentos">
+            <field name="fecha">2022-10-15</field>
+            <field name="aumento">24</field>
+        </record>
+        <record id="seq_abatar_aumentos13" model="abatar.aumentos">
+            <field name="fecha">2022-12-15</field>
+            <field name="aumento">15</field>
+        </record>
+        <record id="seq_abatar_aumentos14" model="abatar.aumentos">
+            <field name="fecha">2023-02-15</field>
+            <field name="aumento">20</field>
+        </record>
+        <record id="seq_abatar_aumentos15" model="abatar.aumentos">
+            <field name="fecha">2023-04-15</field>
+            <field name="aumento">14</field>
+        </record>
+        <record id="seq_abatar_aumentos16" model="abatar.aumentos">
+            <field name="fecha">2023-06-15</field>
+            <field name="aumento">20</field>
+        </record>
+        <record id="seq_abatar_aumentos17" model="abatar.aumentos">
+            <field name="fecha">2023-08-15</field>
+            <field name="aumento">10.6</field>
+        </record>
+        <record id="seq_abatar_aumentos18" model="abatar.aumentos">
+            <field name="fecha">2023-10-15</field>
+            <field name="aumento">33.65</field>
+        </record>
+        <record id="seq_abatar_aumentos19" model="abatar.aumentos">
+            <field name="fecha">2023-12-15</field>
+            <field name="aumento">30</field>
+        </record>
+        <record id="seq_abatar_tiposcaja1" model="abatar.tiposcaja">
+            <field name="name">furgon</field>
+        </record>
+        <record id="seq_abatar_tiposcaja2" model="abatar.tiposcaja">
+            <field name="name">T/puertas</field>
+        </record>
+        <record id="seq_abatar_tiposcaja3" model="abatar.tiposcaja">
+            <field name="name">Baranda c/arco y lona</field>
+        </record>
+        <record id="seq_abatar_tiposcaja4" model="abatar.tiposcaja">
+            <field name="name">Sider</field>
+        </record>
+        <record id="seq_abatar_tiposcaja5" model="abatar.tiposcaja">
+            <field name="name">Frio</field>
+        </record>
+        <record id="seq_abatar_tiposcaja6" model="abatar.tiposcaja">
+            <field name="name">Paquetero</field>
+        </record>
+        <record id="seq_abatar_tiposcaja7" model="abatar.tiposcaja">
+            <field name="name">Playo</field>
+        </record>
+        <record id="seq_abatar_tiposcaja8" model="abatar.tiposcaja">
+            <field name="name">Balancin - Baranda c/arco y lona</field>
+        </record>
+        <record id="seq_abatar_tiposcaja9" model="abatar.tiposcaja">
+            <field name="name">Semi - Baranda c/arco y lona</field>
+        </record>
+        <record id="seq_abatar_tiposcaja9" model="abatar.tiposcaja">
+            <field name="name">Semi - Furgon c/ Equipo</field>
+        </record>
+
+        <record id="seq_abatar_rechazado1" model="abatar.rechazado.presupuesto">
+            <field name="name">Sin Registro</field>
+            <field name="hizo">False</field>
+        </record>
+        <record id="seq_abatar_rechazado2" model="abatar.rechazado.presupuesto">
+            <field name="name">Realizó a Menor Precio</field>
+            <field name="hizo">True</field>
+        </record>
+        <record id="seq_abatar_rechazado3" model="abatar.rechazado.presupuesto">
+            <field name="name">Realizó Conocido/Recomendado</field>
+            <field name="hizo">True</field>
+        </record>
+        <record id="seq_abatar_rechazado4" model="abatar.rechazado.presupuesto">
+            <field name="name">No Conforme con el Servicio ofrecido</field>
+            <field name="hizo">True</field>
+        </record>
+
+        <!--ACOMODAR EL NUMERO DE TIPO, al momento de reiniciar el server lo voy a tener que corregir-->
+        <record id="abatar_productos_crea15" model="abatar.productos">
+            <field name="name">Operario</field>
+            <field name="minimo">2</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">2</field>
+            <field name="precio">100</field>
+        </record>
+
+        <record id="abatar_productos_crea16" model="abatar.productos">
+            <field name="name">Supervisor</field>
+            <field name="minimo">2</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">2</field>
+            <field name="precio">100</field>
+        </record>
+
+        <record id="abatar_productos_crea3" model="abatar.productos">
+            <field name="name">Unidad "A"</field>
+            <field name="minimo">2</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">100</field>
+            <field name="tiempo_carga">0.5</field>
+            <field name="cant_op_carga">1</field>
+        </record>
+        <record id="abatar_productos_crea4" model="abatar.productos">
+            <field name="name">Unidad "B"</field>
+            <field name="minimo">3</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">200</field>
+            <field name="tiempo_carga">0.75</field>
+            <field name="cant_op_carga">1</field>
+        </record>
+        <record id="abatar_productos_crea5" model="abatar.productos">
+            <field name="name">Unidad "C"</field>
+            <field name="minimo">4</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">300</field>
+            <field name="tiempo_carga">1</field>
+            <field name="cant_op_carga">2</field>
+        </record>
+        <record id="abatar_productos_crea6" model="abatar.productos">
+            <field name="name">Unidad "D"</field>
+            <field name="minimo">5</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">400</field>
+            <field name="tiempo_carga">1.5</field>
+            <field name="cant_op_carga">2</field>
+        </record>
+        <record id="abatar_productos_crea7" model="abatar.productos">
+            <field name="name">Unidad "E"</field>
+            <field name="minimo">6</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">500</field>
+            <field name="tiempo_carga">2</field>
+            <field name="cant_op_carga">4</field>
+        </record>
+        <record id="abatar_productos_crea8" model="abatar.productos">
+            <field name="name">Unidad "F"</field>
+            <field name="minimo">7</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">600</field>
+            <field name="tiempo_carga">2.5</field>
+            <field name="cant_op_carga">6</field>
+        </record>
+        <!-- <record id="abatar_productos_crea19" model="abatar.productos">
+            <field name="name">Unidad "FF"</field>
+            <field name="minimo">7</field>
+            <field name="es_flete">True</field>
+            <field name="es_embalaje">False</field>
+            <field name="tipo">1</field>
+            <field name="precio">5000</field>
+            <field name="tiempo_carga">3</field>
+            <field name="cant_op_carga">6</field>
+        </record> -->
+        <record id="abatar_productos_crea1" model="abatar.productos">
+            <field name="name">Streech Grande</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">Protección de Muebles, Electrodomésticos y otros.</field>
+        </record>
+        <record id="abatar_productos_crea2" model="abatar.productos">
+            <field name="name">Streech Chico</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">Protección de Muebles, Electrodomésticos y otros.</field>
+        </record>
+        <record id="abatar_productos_crea9" model="abatar.productos">
+            <field name="name">Pluriboll</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">Audio y TV - Lámparas - Cuadros - Jarrones - Floreros - Adornos - etc.</field>
+        </record>
+        <record id="abatar_productos_crea10" model="abatar.productos">
+            <field name="name">Cintas de Embalar</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+        </record>
+        <record id="abatar_productos_crea11" model="abatar.productos">
+            <field name="name">Fragil</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+        </record>
+        <record id="abatar_productos_crea12" model="abatar.productos">
+            <field name="name">Papel Blanco</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+        </record>
+        <record id="abatar_productos_crea13" model="abatar.productos">
+            <field name="name">Cajas N°1</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">Vajilla - Cristaleria - Adornos - Ar.t Alacena - Libros - Discos - etc.</field>
+        </record>
+        <record id="abatar_productos_crea14" model="abatar.productos">
+            <field name="name">Cajas N°2</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">	Carga General - 1/2 Libros - Enseres - Juguetes - Electrodomésticos - etc.</field>
+        </record>
+        <record id="abatar_productos_crea17" model="abatar.productos">
+            <field name="name">Cajas N°3</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">Ropa de Percha - Blanco Mantelería - Cortinados - Zapatos - etc.</field>
+        </record>
+        <record id="abatar_productos_crea18" model="abatar.productos">
+            <field name="name">Bolsones</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">100</field>
+            <field name="precio">100</field>
+            <field name="desc">	Frazadas - Cubrecamas - Almohadas - Camperones - Ropa Soft - etc.</field>
+        </record>
+
+        <record id="abatar_keyusuario1" model="abatar.keyusuario">
+            <field name="name">Veolia</field>
+            <field name="keynum">76543</field>
+            <field name="tel">4018-0100</field>
+            <field name="empresa">VEOLIA ARG. S.A.</field>
+            <field name="fdp">cta cte</field>
+        </record>
+
+        <record id="abatar_keyusuario2" model="abatar.keyusuario">
+            <field name="name">Industrial</field>
+            <field name="keynum">54321</field>
+            <field name="tel">5238-0200</field>
+            <field name="empresa">BANCO INDUSTRIAL S.A.</field>
+            <field name="fdp">cta cte</field>
+        </record>
+
+
+        <record id="abatar_wapp_crea1" model="abatar.textos.wsp">
+            <field name="name">Mudanza</field>
+            <field name="texto">Estimado/a @name
+
+Envío Presupuesto @pedide por servicio de @TipoMdz "Easy-Pack".
+
+Servicio con Unidad Apta, Chofer y Operarios para tareas de @EmbFino@AcondMobCarga, Traslado, Descarga@HayDesemb@HayRoperito@HayEscalera@HayAcarreo@HayVacio
+
+@MatEmb
+
+@Direcc
+
+
+PRECIO @Orientacion:....................... $ @Precio@Masiva
+
+Forma de Pago: @FDP
+@Peajes@IVA@Orient2
+
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea2" model="abatar.textos.wsp">
+            <field name="name">Flete</field>
+            <field name="texto">Estimado/a @name
+
+Envío Presupuesto @pedide por servicio de Flete.
+
+Servicio con @UdOp de @AcondMob@UdOp2@HayEscalera@HayAcarreo@HayVacio
+
+@Direcc
+
+
+PRECIO @Orientacion:....................... $ @Precio@Masiva
+
+Forma de Pago: @FDP
+@Peajes@IVA@Orient2
+
+
+
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea3" model="abatar.textos.wsp">
+            <field name="name">Mudanza (mdz o flete?)</field>
+            <field name="texto">Estimado/a @name
+
+Buenos días, para poder brindarle el presupuesto requerido,
+
+A) Si su mudanza es para evacuar un domicilio por completo:
+    como primer paso necesitamos que usted complete el siguiente Formulario Boti (duración aprox. 5min).
+
+    http://abatartrucks.com.ar/boti.html
+
+    Una vez recibido, le informaremos el siguiente y último paso para obtener su presupuesto.
+
+B) Si solo traslada algunos muebles, envíenos imagenes de todo lo que debe trasladar y le tomaremos algunos datos más para ya realizar el presupuesto de flete.
+
+
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea4" model="abatar.textos.wsp">
+            <field name="name">Mudanza (pedir video)</field>
+            <field name="texto">Estimado/a @name
+
+Recibimos los “Datos Básicos de su Traslado”, según el Boti.
+Por último, para poder orientar su Presupuesto, debemos coordinar una VISITA TÉCNICA, la cual puede ser:
+
+- VIRTUAL, realizar un video como el que indica este link: https://www.youtube.com/watch?v=ZuKxLLxIRPA , el mismo podrán observarlos otras mudadoras y asi evitar visitas.
+
+- PRESENCIAL, indicar fecha y hora en que desea recibirnos.
+
+@nota
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea5" model="abatar.textos.wsp">
+            <field name="name">Mudanza (no recibi video)</field>
+            <field name="texto">Estimado/a @name
+
+ Buenos días, no recibimos respuesta sobre el último paso por la Visita Técnica, y queríamos saber si quizas ya pudo resolver su mudanza, o si querría coordinar una visita presencial / virtual.
+
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea6" model="abatar.textos.wsp">
+            <field name="name">Mudanza (todo ok, enviaremos)</field>
+            <field name="texto">Estimado/a @name
+
+ Buenos días, confirmamos la recepcion del presupuesto solicitado, le estaremos enviando en la brevedad.
+
+Aguardamos su Respuesta.
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+        <record id="abatar_wapp_crea7" model="abatar.textos.wsp">
+            <field name="name">Mudanza (resolvió?)</field>
+            <field name="texto">Estimado/a @name
+
+ Buenos días, me comunico para consultarle si el presupuesto enviado le resultó favorable, o si ya pudo resolver su necesidad.
+
+Aguardamos su Respuesta.
+Saludos cordiales
+Atte.
+@User
+(011) 7554-2528
+http://grupoabatar.com.ar</field>
+        </record>
+
+        <!-- <record id="abatar_productos_crea19" model="abatar.productos">
+            <field name="name">Flete Entrega</field>
+            <field name="tipo">3</field>
+            <field name="es_flete">False</field>
+            <field name="es_embalaje">True</field>
+            <field name="cantidad">0</field>
+            <field name="precio">100</field>
+        </record> -->
+    </data>
+</odoo>

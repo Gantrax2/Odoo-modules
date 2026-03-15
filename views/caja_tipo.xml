@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="caja_tipo_tree" model="ir.ui.view">
+        <field name="name">abatar.caja.tipo.tree</field>
+        <field name="model">abatar.caja.tipo</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de caja Tipos">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="caja_tipo_form" model="ir.ui.view">
+        <field name="name">abatar.caja.tipo.form</field>
+        <field name="model">abatar.caja.tipo</field>
+        <field name="arch" type="xml">
+            <form string="Lista de caja Tipos">
+                <group>
+                    <field name="name"/>
+                    <field name="desc"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="action_caja_tipo" model="ir.actions.act_window">
+            <field name="name">Caja Tipo</field>
+            <field name="res_model">abatar.caja.tipo</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create caja Tipo</p>
+            </field>
+    </record>
+
+
+</odoo>

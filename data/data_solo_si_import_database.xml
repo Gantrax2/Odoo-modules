@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="abatar_cotizaciones_crea1" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. ROSARIO (Ud. Tipo "C")</field>
+            <field name="cliente">552</field>
+            <field name="precio">99955</field>
+            <field name="precio_adicional">16945</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea2" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. CORDOBA (Ud. Tipo "C")</field>
+            <field name="cliente">552</field>
+            <field name="precio">202060</field>
+            <field name="precio_adicional">16945</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea3" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. ROSARIO (Ud. Tipo "D")</field>
+            <field name="cliente">552</field>
+            <field name="precio">131315</field>
+            <field name="precio_adicional">22410</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea4" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. CORDOBA (Ud. Tipo "D")</field>
+            <field name="cliente">552</field>
+            <field name="precio">232875</field>
+            <field name="precio_adicional">22410</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea5" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. ROSARIO (Ud. Tipo "E")</field>
+            <field name="cliente">552</field>
+            <field name="precio">165885</field>
+            <field name="precio_adicional">27370</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea6" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. CORDOBA (Ud. Tipo "E")</field>
+            <field name="cliente">552</field>
+            <field name="precio">300685</field>
+            <field name="precio_adicional">27370</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea7" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. ROSARIO (Ud. Tipo "F")</field>
+            <field name="cliente">552</field>
+            <field name="precio">207360</field>
+            <field name="precio_adicional">32860</field>
+        </record>
+
+        <record id="abatar_cotizaciones_crea8" model="abatar.cotizaciones">
+            <field name="name">VIAJE AL INT. CORDOBA (Ud. Tipo "F")</field>
+            <field name="cliente">552</field>
+            <field name="precio">375810</field>
+            <field name="precio_adicional">32860</field>
+        </record>
+
+
+    </data>
+</odoo>

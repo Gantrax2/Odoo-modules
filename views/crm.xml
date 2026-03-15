@@ -1,0 +1,1601 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="crm_tree" model="ir.ui.view">
+        <field name="name">abatar.crm.tree</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de crm">
+                <field name="id"/>
+                <field name="pedide"/>
+                <field name="name"/>
+                <field name="tel"/>
+                <field name="tel_search" invisible="1" />
+                <field name="state" readonly="1" invisible="1"/>
+                <field name="sin_atender" invisible="1"/>
+                <field name="estado"/>
+                <field name="generico"/>
+                <field name="fecha_inicial"/>
+                <field name="ult_fecha"/>
+                <field name="ult_accion"/>
+                <field name="estado_str_n8n"/>
+                <field name="recontactar" />
+                <field name="fecha_ejecucion2"/>
+                <field name="recontactar_days" readonly="1" />
+                <field name="vencido"/>
+                <field name="interes"  widget="priority" />
+                <field name="costos_total" />
+                <field name="precio_mas_iva" />
+                <field name="ganancia_bruto" />
+                <field name="ganancia_bruto_pc" widget="percentage"/>
+                <field name="costos_dolar" />
+                <field name="precio_dolar_bruto" />
+                <field name="ganancia_dolar_bruto" />
+                <field name="ganancia_dolar_bruto_pc" widget="percentage"/>
+                <field name="rechazado_hizo"/>
+                <field name="revisadas_restricciones" widget="boolean_toggle"/>
+                <field name="fechasv_proximo" invisible="1"/>
+                <field name="estado_mdz" invisible="1"/>
+                <field name="fecha_presupuesto" invisible="1"/>
+                <field name="resumen_busqueda"  invisible="1"/>
+                <field name="op_pres" invisible="1"/>
+                <field name="ud_pres" invisible="1"/>
+                <field name="kms_pres" invisible="1"/>
+                <field name="emb_pres" invisible="1"/>
+                <field name="hs_pres" invisible="1"/>
+                <field name="hay_int" invisible="1"/>
+                <field name="mdz_op_cyd" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="crm_kanban" model="ir.ui.view">
+        <field name="name">abatar.crm.kanban</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_project_kanban o_emphasize_colors" >
+                <field name="id" invisible="1"/>
+                <field name="name_seq" invisible="1"/>
+                <field name="pedide"/>
+                <field name="ult_accion"/>
+                <field name="name"/>
+                <field name="tel"/>
+                <field name="subtitulo" invisible="1"/>
+                <field name="state" readonly="1" invisible="1"/>
+                <field name="estado" />
+                <field name="recontactar" />
+                <field name="vencido"  widget="image"  options="{'size': [20, 20]}"/>
+                <field name="fechasv_proximo"/>
+                <field name="generico" invisible="1"/>
+                <field name="servicio" invisible="1"/>
+                <field name="ult_fecha" invisible="1"/>
+                <field name="fecha_ejecucion2" invisible="1" readonly="1"/>
+                <field name="sin_atender" invisible="1"/>
+                <field name="estado_str_n8n" invisible="1"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click #{record.state.raw_value == 'pendiente' ? 'oe_kanban_color_3' : ''} #{record.state.raw_value == 'presupuesto' ? 'oe_kanban_color_1' : ''} #{record.state.raw_value == 'confirmado' ? 'oe_kanban_color_10' : ''} #{record.state.raw_value == 'finalizado' ? 'oe_kanban_color_4' : ''}  #{record.state.raw_value == 'rechazado' ? 'oe_kanban_color_5' : ''}" >
+                            <table style="width: 100%">
+                                <tr>
+                                    <td style="text-align: left">
+                                        <span>Pedido: <strong><field name="pedide"/></strong> (<field name="servicio_name"/>)</span><t t-if="record.generico.raw_value"><span style="margin-left:20px;"><strong>-Pto Generico-</strong></span></t><br/>
+                                        <span>Nombre: <strong><field name="name"/></strong> (<field name="tel"/>)</span><br/>
+                                        <span>Ultima Acción: <strong><t t-if="moment(record.ult_fecha.raw_value).isValid()">(<t t-esc="moment(record.ult_fecha.raw_value).utc().format('DD/MM')"/>)</t><field name="ult_accion"/></strong></span><br/>
+                                        <span>Fecha SV: </span><t t-if="record.fechasv_proximo.value == 0"><span><field name="fecha_ejecucion"/></span></t><strong><t t-if="record.fechasv_proximo.value > 0"><span style="color:green"><field name="fecha_ejecucion"/></span></t></strong><br/>
+                                        <t t-if="record.sin_atender.raw_value"><span style="background-color: red; color: white; padding: 4px 6px; border-radius: 3px;"><strong><t t-if="record.estado_str_n8n.raw_value"><field name="estado_str_n8n"/></t><t t-else="">SIN ATENDER BOTI</t></strong></span><br /></t>
+                                        <t t-if="record.recontactar"><span>Recontactar:<strong><field name="recontactar"/></strong></span><br /></t>
+                                        <t t-if="record.precio"><span style="border-top:1px solid #e1e1e1">Precio: <strong><field name="precio"/></strong></span><br /></t>
+                                        <t t-if="record.total_pagos and record.state.raw_value in ['confirmado', 'finalizado']"><span style="border-top:1px solid #e1e1e1">(Cobrado: <strong><field name="total_pagos"/></strong> / Restante: <strong><field name="total_saldo"/></strong> )</span><br /></t>
+                                        <t t-if="record.codigo"><span>Codigo: <strong><field name="codigo"/></strong></span><br/></t>
+                                        <t t-if="record.interes"><span>Interes: <strong><field name="interes" widget="priority" /></strong></span></t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="crm_form" model="ir.ui.view">
+        <field name="name">abatar.crm.form</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <form string="Form de crm">
+                <header>
+                    <button name="state_reactivar" string="Reactivar" states="cancelado" type="object" class="oe_highlight" confirm="¿Estas seguro?"/>
+                    <button name = "state_pendiente" string="Pendiente" states="presupuesto,confirmado,rechazado" confirm="Volver a Pendiente? (Se BORRARAN todas las ordenes que no sean Visitas Técnicas)"  type = "object" class="oe_highlight" />
+                    <button name="state_cancelado_p" string="Cancelar" states="pendiente" type="object" class="oe_highlight" confirm="¿Estas seguro?"/>
+
+                    <button name="state_presupuesto" string="Presupuesto" states="pendiente" type="object" class="oe_highlight" confirm="¿Estas seguro?"/>
+                    <button name="state_confirmado" string="Confirmar" states="presupuesto" type="object" class="oe_highlight" confirm="¿Estas seguro?"/>
+                    <button name = "%(crm_rechazado_wizard)d" string = "Rechazar" states="presupuesto" type = "action" class="oe_highlight" />
+                    <button name="state_finalizado" string="Finalizar" states="confirmado" type="object" class="oe_highlight" confirm="¿Estas seguro que el importe del campo PRECIO es el PRECIO FINAL cobrado al Cliente?"/>
+
+                    <button name="state_cancelado_f" string="Cancelar" states="finalizado" type="object" class="oe_highlight" confirm="¿Estas seguro (se borrara la factura que tenga y
+                    se volverá a Confirmado para seguir trabajando en el pedido antes de facturar)?"/>
+
+                    <button name = "%(wsp_wizard)d" string = "Enviar por whatsapp" type = "action"/>
+                    <!-- <button name = "%(calendar_wizard)d" string = "Agendar" type = "action" class="oe_highlight"/> -->
+                    <button name = "%(charla_wizard)d" string = "Ingresar dialogo" type = "action"/>
+
+                    <field name="state" widget="statusbar" statusbar_visible="pendiente,cancelado,presupuesto,confirmado,rechazado,finalizado" confirm="¿Estas seguro?"/>
+
+                </header>
+
+                <sheet>
+
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="object" name="set_sin_atender" icon="fa-archive">
+                            <span attrs="{'invisible': [('sin_atender', '=', False)]}" style="color:red">SIN ATENDER!</span>
+                            <span attrs="{'invisible': [('sin_atender', '=', True)]}"  style="color:gray">Atendido</span>
+                            <!--<field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>-->
+                        </button>
+                        <button class="oe_stat_button" type="object" name="toggle_active" icon="fa-archive">
+                            <span attrs="{'invisible': [('active', '=', False)]}" style="color:green">Activo</span>
+                            <span attrs="{'invisible': [('active', '=', True)]}"  style="color:red">Archivado</span>
+                            <!--<field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>-->
+                        </button>
+                    </div>
+                    <div class="oe_button_box" name="button_box" style="width: 100%">
+
+                        <div class="row">
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                            </div>
+                            <div class="col" >
+                                <button name="toggle_revisar" type="object" class="oe_stat_button" icon="fa-check-circle"
+                                        attrs="{'invisible': [('revisadas_restricciones', '=', False)]}">
+                                    <div class="o_stat_info">
+                                        <span class="o_stat_text text-success">Revisado</span>
+                                    </div>
+                                </button>
+
+                                <button name="toggle_revisar" type="object" class="oe_stat_button" icon="fa-times-circle"
+                                        attrs="{'invisible': [('revisadas_restricciones', '=', True)]}">
+                                    <div class="o_stat_info">
+                                        <span class="o_stat_text text-danger">Pendiente</span>
+                                    </div>
+                                </button>
+                            </div>
+                            <div class="col" >
+                                <!--<button string="Ver Coordenadas"  name="mapa_wizard" class="oe_stat_button" type="object" icon="fa-calendar" />-->
+                                <button name = "%(mapa_wizard)d"
+                                string = "Ver Mapa y Exportar Proveedores"
+                                type = "action"
+                                class="oe_stat_button"
+                                icon="fa-pencil-square-o"/>
+                            </div>
+                            <div class="col">
+                                <button name="ordenes_cl" class="oe_stat_button" type="object" icon="fa-calendar" attrs="{'invisible': [('ordenes_r', '=', 0)]}">
+
+                                    <field name="ordenes_r" string="Ordenes" widget="statinfo"/>
+                                </button>
+
+                            </div>
+                            <div class="col">
+                                <button name="action_crea_orden"
+                                    type="object"
+                                    string="Crear Orden"
+                                    class="oe_stat_button"
+                                    icon="fa-book"
+                                    attrs="{'invisible': [('state', '=', 'finalizado')]}">
+                                </button>
+                            </div>
+
+                            <div class="col">
+
+                                <button name="action_crea_calculadora"
+                                    type="object"
+                                    string="Crear Cotizador"
+                                    class="oe_stat_button"
+                                    icon="fa-book"
+                                    attrs="{'invisible': ['|',('cotizador', '!=', False),('state', '=', 'finalizado')]}">
+                                </button>
+                                <div class="row">
+                                    <div class="col">
+                                        <button name="action_view_cotizador"
+                                            type="object"
+                                            string="Cotizador"
+                                            class="oe_stat_button"
+                                            icon="fa-pencil-square-o"
+                                            attrs="{'invisible': [('cotizador', '=', False)]}">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <span style="color:#D3D3D3">____</span>
+                                                    <span>$
+                                                        <field name="cotizador_total" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col">
+
+                                            <button name="action_view_cotizador_unlink"
+                                                    class="oe_stat_button"
+                                                    type="object"
+                                                    string="Borrar Cotiz."
+                                                    confirm="¿Estas seguro que deseas ELIMINAR la Cotización?"
+                                                    attrs="{'invisible': ['|',('cotizador', '=', False),('state', '=', 'finalizado')]}"
+                                                    icon="fa-close"/>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="col">
+                                <button name="action_crea_factura"
+                                    type="object"
+                                    string="Crear Factura"
+                                    confirm="Crear la Factura asignará el monto que indica el campo PRECIO. ¿Estas seguro que el monto es Correcto?"
+                                    class="oe_stat_button"
+                                    icon="fa-book"
+                                    attrs="{'invisible': ['|',('state', '!=', 'finalizado'), ('factura', '!=', False)]}">
+                                </button>
+                                <button name="action_view_factura"
+                                    type="object"
+                                    string="Factura"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    attrs="{'invisible': [('factura', '=', False)]}">
+                                    <div class="row">
+                                        <div class="col">
+                                            <span style="color:#D3D3D3">____</span>
+                                            <span>F N°
+                                                <field name="factura_num"/>
+                                            </span>
+                                        </div>
+                                        <div class="col">
+                                            <button name="action_view_factura_unlink"
+                                                    class="oe_stat_button"
+                                                    type="object"
+                                                    string="Borrar Fact."
+                                                    confirm="¿Estas seguro que deseas ELIMINAR la Factura?"
+                                                    attrs="{'invisible': ['|',('factura', '=', False), ('factura_line_ppal', '=', False)]}"
+                                                    icon="fa-close"/>
+                                        </div>
+                                    </div>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <group>
+                        <div class="oe_title">
+                            <!--
+                            DARLE UN POCO DE COLOR
+                            <h1>
+                                <field name="tipo_servicio" style="color:orange" attrs="{'invisible': ['|',['tipo_servicio','=','Flete'],['tipo_servicio','=','Mudanza']]}"/>
+                                <field name="tipo_servicio" style="color:green" attrs="{'invisible': ['|',['tipo_servicio','=','Reparto'],['tipo_servicio','=','Mudanza']]}"/>
+                                <field name="tipo_servicio" style="color:red" attrs="{'invisible': ['|',['tipo_servicio','=','Flete'],['tipo_servicio','=','Reparto']]}"/>
+                            </h1>
+                            -->
+                            <h1>
+                                <field name="pedide"  attrs="{'readonly': [('admin', '!=', True)]}" />
+                            </h1>
+                            <group>
+                                <group>
+                                    <field name="name_seq" readonly="1"/>
+                                    <field name="servicio"/>
+                                    <field name="revisadas_restricciones" invisible="1"/>
+                                    <field name="confirmado_para_resumen"  attrs="{'invisible': [('admin', '!=', True)]}" />
+                                    <field name="factura"  attrs="{'invisible': [('state', '!=', 'finalizado')]}"  domain="[('active', 'in', (True, False))]"/>
+                                    <field name="facturado"  invisible="1"/>
+                                    <field name="factura_line_ppal"  invisible="1"/>
+                                    <field name="factura_num" invisible="1"/>
+                                    <field name="servicio_name" invisible="1"/>
+                                    <field name="estado_n8n"/>
+                                    <field name="estado_str_n8n" readonly="1"/>
+                                    <field name="key_usuario"/>
+                                    <field name="vencido"  widget="image"  options="{'size': [20, 20]}"/>
+                                    <field name="estado" invisible="1"/>
+                                    <field name="admin" invisible="1"/>
+                                    <field name="resumen_busqueda" invisible="1"/>
+                                    <field name="fecha_ejecucion_name" invisible="1"/>
+                                    <field name="rechazado" attrs="{'invisible': [('state', 'not in', ('rechazado', 'cancelado'))]}"/>
+                                    <field name="rechazado_desc" attrs="{'invisible': [('state', 'not in', ('rechazado', 'cancelado'))]}"/>
+                                    <field name="rechazado_hizo" invisible="1"/>
+                                </group>
+                                <group string="Estado"> <!--attrs="{'invisible': [('desc_state', '=', '')]}">-->
+                                    <field name="desc_state" readonly="1" nolabel="1" style="color:red"/>
+                                    <field name="prov_int_label"/>
+                                    <field name="hay_int"/>
+
+                                </group>
+                            </group>
+                        </div>
+                    </group>
+
+                    <group>
+                        <group string="Fecha"  width="50%">
+                            <field name="user_id"/>
+                            <field name="fecha_inicial" autocomplete="off"/>
+                            <field name="fecha_ejecucion" autocomplete="off"/>
+                            <field name="fecha_ejecucion_name" invisible="1"/>
+                            <field name="fecha_previa_name" invisible="1"/>
+                            <field name="recontactar2" invisible="1"/>
+                            <field name="fechasv_proximo" invisible="1"/>
+                            <field name="recontactar" style="color:orange" autocomplete="off"/>
+                            <field name="fecha_confirmacion" invisible="1"/>
+
+                            <field name="ult_accion" invisible="1" readonly="1"/>
+
+                            <field name="cotizador" invisible="1"/>
+                            <field name="cotizador_total2" invisible="1"/>
+                            <field name="estado_mdz" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                            <field name="pauta_gral" invisible="1"/>
+                        </group>
+                        <group string="Datos de contacto" width="50%">
+                            <field name="esnuevo" invisible="1"/>
+                            <field name="es_conocido"/>
+
+                            <field name="cliente" attrs="{'invisible': [('es_conocido', '=', 'no')]}"/>
+                            <field name="contacto" attrs="{'invisible': [('es_conocido', '=', 'no')]}" domain="[('clientes_id', '=', cliente)]"/>
+                            <field name="tel_cliente" attrs="{'invisible': [('es_conocido', '=', 'no')]}"/>
+                            <field name="email_cliente" attrs="{'invisible': [('es_conocido', '=', 'no')]}"/>
+
+                            <field name="generico"/>
+                            <separator/>
+                            <field name="empresa" attrs="{'invisible': [('es_conocido', '=', 'si')]}"/>
+                            <field name="name" attrs="{'invisible': [('es_conocido', '=', 'si')]}"/>
+                            <field name="tel" attrs="{'invisible': [('es_conocido', '=', 'si')]}"/>
+                            <field name="tel_search"  invisible="1"/>
+                            <field name="email" attrs="{'invisible': [('es_conocido', '=', 'si')]}"/>
+                            <field name="interes"  widget="priority" />
+                            <field name="sin_atender" invisible="1"/>
+
+                        </group>
+                        <group>
+                            <field name="acciones_venta_lines" >
+                                <tree editable="bottom">
+                                    <field name="fecha"/>
+                                    <field name="venta_accion"/>
+                                    <field name="vto" invisible="1"/>
+                                    <field name="vto_f" invisible="1"/>
+                                    <field name="desc"/>
+                                    <field name="rta"  invisible="1"/>
+                                    <field name="vencido" widget="image"  options="{'size': [20, 20]}"  invisible="1"/>
+                                    <field name="crm_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="acciones_compra_lines" invisible="1">
+                                <tree editable="bottom">
+                                    <field name="fecha"/>
+                                    <field name="compra_accion"/>
+                                    <field name="vto"/>
+                                    <field name="desc"/>
+                                    <field name="rta" invisible="1"/>
+                                    <field name="vencido" widget="image"  options="{'size': [20, 20]}" invisible="1"/>
+                                    <field name="crm_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+
+                    <separator/>
+                    <div class="oe_edit_only">
+
+
+                        <group col="5">
+
+                            <group  attrs="{'invisible': [('servicio_name', 'not in', ('Flete', 'Reparto', 'Operarios','Mudanza'))]}" >
+                                <t>
+                                    <img src='/om_abatartrucks/static/src/img/flete.png' width="80" height="80"  alt="Pestañas"/>
+                                </t>
+                                <field  name="ver_flete"  attrs="{'invisible': [('servicio_name', 'not in', ('Flete', 'Reparto'))]}" style="width:10" />
+                                <field name="ver_mdz" attrs="{'invisible': [('servicio_name', 'not in', ('Mudanza', 'Operarios'))]}" style="width:10" />
+
+                            </group>
+                            <group>
+                                <t>
+                                    <img src='/om_abatartrucks/static/src/img/direc.png' width="80" height="80"  alt="Pestañas" />
+
+                                </t>
+                                <field name="ver_direc" style=";width:10"  />
+                            </group>
+                            <group>
+                                <t>
+                                    <img src='/om_abatartrucks/static/src/img/fact.png' width="80" height="80"  alt="Pestañas" />
+
+                                </t>
+
+                                <field name="ver_fact" style=";width:10" />
+                            </group>
+                            <group>
+                                <t>
+                                    <img src='/om_abatartrucks/static/src/img/cobros.png' width="80" height="80"  alt="Pestañas" />
+
+                            </t>
+
+                                <field name="ver_cobros" style=";width:10" />
+                            </group>
+                            <group>
+                                <t>
+                                    <img src='/om_abatartrucks/static/src/img/otros.png' width="80" height="80"  alt="Pestañas" />
+
+                                </t>
+
+                                <field name="ver_otros" style=";width:10" />
+                            </group>
+
+                        </group>
+
+                        <group string="Datos Cotizador: Fletes/Repartos" attrs="{'invisible': ['|',('servicio_name', 'not in', ('Flete', 'Reparto')),('ver_flete', '=', False)]}">
+                            <group>
+                                <field name="m3_flete"/>
+                                <field name="kgs_flete"/>
+                                <field name="fdp_flete" invisible="1"/>
+                                <field name="cyd_flete"/>
+                                <field name="cyd_autoelev" attrs="{'invisible': [('cyd_minop', 'not in', (0,False))]}"/>
+                                <field name="cyd_minop" attrs="{'invisible': ['|',('cyd_autoelev', '!=', False),('cyd_forcop', '!=', 0)]}"/>
+                                <field name="cyd_forcop" attrs="{'invisible': ['|',('cyd_autoelev', '!=', False),('cyd_minop', '!=', 0)]}"/>
+                                <field name="cyd_solo_cod" attrs="{'invisible': [('cyd_autoelev', '!=', False)]}"/>
+                                <field name="cyd_emb_grueso" attrs="{'invisible': [('cyd_autoelev', '!=', False)]}"/>
+                            </group>
+                            <group string="Uso HS/KMS Manual">
+                                <field name="mdz_tiempo_rec"/>
+                                <field name="mdz_kms_rec"/>
+                            </group>
+                        </group>
+
+                        <group string="Datos Cotizador: Mudanza"  attrs="{'invisible': ['|',('servicio_name', '!=', 'Mudanza'),('ver_mdz', '=', False)]}">
+                            <table>
+                                <tr>
+                                    <td width="28%">
+
+                                        <group string="Volumen del Servicio">
+                                            <field name="mdz_amb"/>
+                                            <field name="mdz_pers"/>
+                                            <field name="mdz_carga"/>
+                                            <field name="mdz_m3_auto"/>
+                                            <field name="mdz_categ"/>
+                                            <field name="mdz_ascensor_origen"/>
+                                            <field name="mdz_ascensor_destino"/>
+                                            <field name="mdz_op_cyd"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="28%">
+                                        <group string="Servicios Incluidos">
+                                            <field name="mdz_hay_mg"/>
+                                            <field name="mdz_hay_mf"/>
+                                            <field name="mdz_hay_emb_g"/>
+                                            <field name="mdz_hay_emb_f"/>
+                                            <field name="mdz_hay_vacio"/>
+                                            <field name="mdz_monto_cobro_vacio" attrs="{'invisible': [('mdz_hay_vacio', '!=', True)]}"/>
+                                            <field name="mdz_monto_costo_vacio" attrs="{'invisible': [('mdz_hay_vacio', '!=', True)]}"/>
+                                            <field name="mdz_mucho_esc"/>
+                                            <field name="mdz_mucho_emb"/>
+                                            <field name="mdz_esc_ori"/>
+                                            <field name="mdz_acarreo_ori"/>
+                                            <field name="mdz_acarreo2_ori"/>
+                                            <field name="mdz_esc_des"/>
+                                            <field name="mdz_acarreo_des"/>
+                                            <field name="mdz_acarreo2_des"/>
+                                            <field name="mdz_roperitos"/>
+                                            <field name="mdz_roperitos_cant" attrs="{'invisible': [('mdz_roperitos', '=', False)]}"/>
+                                            <field name="mdz_desembalaje"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="31%">
+                                        <group string="Uso HS/KMS Manual">
+                                            <field name="mdz_kms_ori"/>
+                                            <field name="mdz_kms_rec"/>
+                                            <field name="mdz_tiempo_rec"/>
+                                        </group>
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                        <group string="Datos Cotizador: Operarios"  attrs="{'invisible': ['|',('servicio_name', '!=', 'Operarios'),('ver_mdz', '=', False)]}">
+                            <table>
+                                <tr>
+                                    <td width="28%">
+
+                                        <group string="Servicio">
+                                            <field name="mdz_op_cyd"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="28%">
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="31%">
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                        <group string="Direcciones"  attrs="{'invisible': [('ver_direc', '=', False)]}" >
+                            <notebook>
+                                <page string="Direcciones" attrs="{'invisible': [('es_conocido', '=', 'no')]}">
+                                    <button name="maps_direcciones"
+                                        type="object"
+                                        string="Abrir en Maps"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas Abrir el Mapa con las direcciones?"/>
+                                    <field name="destinos_lines">
+                                        <tree editable="bottom">
+                                            <field name="zorden_id" />
+                                            <field name="pauta" />
+                                            <field name="destino_id"  context="{'default_cliente': cliente}"/>
+                                            <field name="destino_contacto"/>
+                                            <field name="orden_id_x" invisible="1"/>
+                                            <field name="orden_id_x_sv" invisible="1"/>
+                                            <field name="cliente" readonly="1"  invisible="1"/>
+                                            <field name="autoelev"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_c"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_d"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="destino_tipo"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page attrs="{'invisible': [('es_conocido', '=', 'no')]}" string="Lista de Restricciones">
+
+                                    <field name="list_restricciones">
+                                        <tree editable="bottom" >
+                                            <field name="fecha_op" readonly="1"/>
+                                            <field name="desc_restricciones" readonly="1"/>
+                                            <field name="bool_restricciones" widget="toggle_button"/>
+                                            <field name="crm_id" invisible="1"/>
+                                            <field name="orden_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page attrs="{'invisible': [('es_conocido', '=', 'si')]}">
+                                    <button name="maps_direcciones"
+                                        type="object"
+                                        string="Abrir en Maps"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas Abrir el Mapa con las direcciones?"/>
+                                    <field name="destinos_lines2">
+                                        <tree>
+                                            <field name="zorden_id" />
+                                            <field name="pauta" />
+                                            <field name="name_gral" readonly="1"/>
+                                            <field name="destino_contacto"/>
+                                            <field name="orden_id_x" invisible="1"/>
+                                            <field name="autoelev"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_c"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_d"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="destino_tipo"/>
+                                        </tree>
+                                        <form>
+                                            <group string="Direccion">
+                                                <field name="zorden_id" />
+                                                <field name="pauta" />
+                                                <field name="destino"/>
+                                                <field name="piso"/>
+                                                <field name="dto"/>
+                                                <field name="localidad"/>
+                                                <field name="provincia"/>
+                                                <field name="alias"/>
+                                                <field name="orden_id_x" invisible="1"/>
+                                                <field name="orden_id_x_sv" invisible="1"/>
+                                            </group>
+                                            <group string="Datos para Cotizador Flete/Reparto" attrs="{'invisible': [('orden_id_x_sv', 'not in', ('Flete', 'Reparto'))]}">
+                                                <field name="autoelev"/>
+                                                <field name="m3_escalera_c"/>
+                                                <field name="m3_escalera_d"/>
+                                            </group>
+                                            <group string="Observaciones">
+                                                <field name="obs"/>
+                                                <field name="destino_contacto"/>
+                                                <field name="destino_tipo"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                        <separator/>
+                        <group string="Datos del Servicio"  attrs="{'invisible': [('ver_fact', '=', False)]}">
+                            <group string="Forma de Pago / Precio Convenido">
+                                <field name="precio"/>
+                                <field name="precio_mas_iva" attrs="{'invisible': [('mas_iva', '=', False)]}"/>
+                                <field name="mas_iva"/>
+                                <field name="orientacion"/>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <strong>Convenio:</strong><field name="convenio" class="oe_inline"/>
+                                            <!--<strong><label for="convenio" string="Convenio:"/></strong>
+                                            <field name="convenio" class="oe_inline"/> -->
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <strong >Forz Días para cobro:</strong><field name="convenio_dias" class="oe_inline"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <field name="tipo_fc"/>
+                                <field name="seguro"/>
+                                <field name="codigo"/>
+                                <field name="estado_presupuesto" invisible="1"/>
+                                <field name="calendario" invisible="1"/>
+                                <field name="costos_total"/>
+                                <field name="total_pagos"/>
+                                <field name="total_saldo"/>
+                            </group>
+                            <group string="Edicion del Presupuesto PDF" style="width 30%">
+                                <field name="exced_presup"/>
+                                <field name="texto_ppal_presup"/>
+                                <field name="nota_al_pie_presup"/>
+                            </group>
+                        </group>
+                        <group attrs="{'invisible': [('ver_cobros', '=', False)]}">
+                            <field name="registro_pagos" >
+                                <tree editable="bottom">
+                                    <field name="fecha"/>
+                                    <field name="monto"/>
+                                    <field name="pago_electronico" />
+                                    <field name="factura_id" />
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="total_pagos" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_saldo" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <separator/>
+
+                        <group string="Descripcion"  attrs="{'invisible': [('ver_otros', '=', False)]}">
+                            <field name="desc1" />
+                            <field name="adjuntos">
+                                <tree>
+                                    <field name="fecha_op" autocomplete="off"/>
+                                    <field name="desc"/>
+                                    <field name="name_adjunto"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="fecha_op" autocomplete="off"/>
+                                        <field name="adjunto" widget="binary" filename="name_adjunto"/>
+                                        <field name="desc"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <field name="ocultar_cuerpo_pres"/>
+                            <field name="ocultar_cuerpo_pres2"/>
+                            <field name="ocultar_cuerpo_pres3"/>
+                            <field name="bool_desc_html" />
+                            <field name="desc_html"  widget="html"/>
+                            <field name="bool_desc2_pie_html" />
+                            <field name="desc2_html"  widget="html"/>
+                            <field name="bool_desc_pie_html" />
+                            <field name="desc_pie_html"  widget="html"/>
+                            <field name="firma" />
+                        </group>
+                        <group string="Presupuetos recibidos Registrados" attrs="{'invisible': [('ver_otros', '=', False)]}">
+                            <field name="registro_presupuestos" >
+                                <tree editable="bottom">
+                                    <field name="fecha" autocomplete="off"/>
+                                    <field name="proveedor_id"/>
+                                    <field name="productos"/>
+                                    <field name="forma_de_pago"/>
+                                    <field name="requisitos"/>
+                                    <field name="pago_electronico"/>
+                                    <field name="desc"/>
+                                    <field name="m3_incluye"/>
+                                    <field name="hs_incluye"/>
+                                    <field name="kms_incluye"/>
+                                    <field name="monto"/>
+                                    <field name="dolar_uso" invisible="1"/>
+                                    <field name="dolar2_uso" invisible="1"/>
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>
+                            <!--<field name="registro_charla" readonly="1">
+                                <tree editable="bottom">
+                                    <field name="fecha" autocomplete="off"/>
+                                    <field name="texto"/>
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>-->
+                        </group>
+
+                    </div>
+                    <div class="oe_read_only">
+
+                        <group string="Datos Cotizador: Fletes/Repartos" attrs="{'invisible': [('servicio_name', 'not in', ('Flete', 'Reparto'))]}">
+                            <group>
+                                <field name="m3_flete"/>
+                                <field name="kgs_flete"/>
+                                <field name="fdp_flete" invisible="1"/>
+                                <field name="cyd_flete"/>
+                                <field name="cyd_autoelev" attrs="{'invisible': [('cyd_minop', '!=', False)]}"/>
+                                <field name="cyd_minop" attrs="{'invisible': ['|',('cyd_autoelev', '!=', False),('cyd_forcop', '!=', 0)]}"/>
+                                <field name="cyd_forcop" attrs="{'invisible': ['|',('cyd_autoelev', '!=', False),('cyd_minop', '!=', 0)]}"/>
+                                <field name="cyd_solo_cod" attrs="{'invisible': [('cyd_autoelev', '!=', False)]}"/>
+                                <field name="cyd_emb_grueso" attrs="{'invisible': [('cyd_autoelev', '!=', False)]}"/>
+                            </group>
+                            <group string="Uso HS/KMS Manual">
+                                <field name="mdz_tiempo_rec"/>
+                                <field name="mdz_kms_rec"/>
+                            </group>
+                        </group>
+
+                        <group string="Datos Cotizador: Mudanza"  attrs="{'invisible': [('servicio_name', '!=', 'Mudanza')]}">
+                            <table>
+                                <tr>
+                                    <td width="28%">
+
+                                        <group string="Volumen del Servicio">
+                                            <field name="mdz_amb"/>
+                                            <field name="mdz_pers"/>
+                                            <field name="mdz_carga"/>
+                                            <field name="mdz_m3_auto"/>
+                                            <field name="mdz_categ"/>
+                                            <field name="mdz_ascensor_origen"/>
+                                            <field name="mdz_ascensor_destino"/>
+                                            <field name="mdz_op_cyd"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="28%">
+                                        <group string="Servicios Incluidos">
+                                            <field name="mdz_hay_mg"/>
+                                            <field name="mdz_hay_mf"/>
+                                            <field name="mdz_hay_emb_g"/>
+                                            <field name="mdz_hay_emb_f"/>
+                                            <field name="mdz_hay_vacio"/>
+                                            <field name="mdz_monto_cobro_vacio" attrs="{'invisible': [('mdz_hay_vacio', '!=', True)]}"/>
+                                            <field name="mdz_monto_costo_vacio" attrs="{'invisible': [('mdz_hay_vacio', '!=', True)]}"/>
+                                            <field name="mdz_esc_ori"/>
+                                            <field name="mdz_acarreo_ori"/>
+                                            <field name="mdz_acarreo2_ori"/>
+                                            <field name="mdz_esc_des"/>
+                                            <field name="mdz_acarreo_des"/>
+                                            <field name="mdz_acarreo2_des"/>
+                                            <field name="mdz_roperitos"/>
+                                            <field name="mdz_roperitos_cant" attrs="{'invisible': [('mdz_roperitos', '=', False)]}"/>
+                                            <field name="mdz_desembalaje"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="31%">
+                                        <group string="Uso HS/KMS Manual">
+                                            <field name="mdz_kms_ori"/>
+                                            <field name="mdz_kms_rec"/>
+                                            <field name="mdz_tiempo_rec"/>
+                                        </group>
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                        <group string="Datos Cotizador: Operarios"  attrs="{'invisible': [('servicio_name', '!=', 'Operarios')]}">
+                            <table>
+                                <tr>
+                                    <td width="28%">
+
+                                        <group string="Servicio">
+                                            <field name="mdz_op_cyd"/>
+                                        </group>
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="28%">
+                                    </td>
+                                    <td width="5%">
+                                    </td>
+                                    <td width="31%">
+                                    </td>
+                                </tr>
+                            </table>
+                        </group>
+                        <group string="Direcciones" >
+                            <notebook>
+                                <page attrs="{'invisible': [('es_conocido', '=', 'no')]}">
+
+                                    <button name="maps_direcciones"
+                                        type="object"
+                                        string="Abrir en Maps"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas Abrir el Mapa con las direcciones?"/>
+                                    <field name="destinos_lines">
+                                        <tree editable="bottom">
+                                            <field name="zorden_id" />
+                                            <field name="pauta" />
+                                            <field name="destino_id"  context="{'default_cliente': cliente}"/>
+                                            <field name="destino_contacto"/>
+                                            <field name="orden_id_x" invisible="1"/>
+                                            <field name="orden_id_x_sv" invisible="1"/>
+                                            <field name="cliente" readonly="1"  invisible="1"/>
+                                            <field name="autoelev"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_c"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_d"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="destino_tipo"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page attrs="{'invisible': [('es_conocido', '=', 'no')]}">
+
+                                    <field name="list_restricciones">
+                                        <tree editable="bottom">
+                                            <field name="fecha_op" readonly="1"/>
+                                            <field name="desc_restricciones" readonly="1"/>
+                                            <field name="bool_restricciones" widget="toggle_button"/>
+                                            <field name="crm_id" invisible="1"/>
+                                            <field name="orden_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                                <page attrs="{'invisible': [('es_conocido', '=', 'si')]}">
+                                    <button name="maps_direcciones"
+                                        type="object"
+                                        string="Abrir en Maps"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas Abrir el Mapa con las direcciones?"/>
+                                    <field name="destinos_lines2">
+                                        <tree>
+                                            <field name="zorden_id" />
+                                            <field name="pauta" />
+                                            <field name="name_gral" readonly="1"/>
+                                            <field name="destino_contacto"/>
+                                            <field name="orden_id_x" invisible="1"/>
+                                            <field name="autoelev"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_c"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="m3_escalera_d"  attrs="{'column_invisible': [('parent.servicio_name', 'not in', ('Flete', 'Reparto'))]}"/>
+                                            <field name="destino_tipo"/>
+                                        </tree>
+                                        <form>
+                                            <group string="Direccion">
+                                                <field name="zorden_id" />
+                                                <field name="pauta" />
+                                                <field name="destino"/>
+                                                <field name="piso"/>
+                                                <field name="dto"/>
+                                                <field name="localidad"/>
+                                                <field name="provincia"/>
+                                                <field name="alias"/>
+                                                <field name="orden_id_x" invisible="1"/>
+                                                <field name="orden_id_x_sv" invisible="1"/>
+                                            </group>
+                                            <group string="Datos para Cotizador Flete/Reparto" attrs="{'invisible': [('orden_id_x_sv', 'not in', ('Flete', 'Reparto'))]}">
+                                                <field name="autoelev"/>
+                                                <field name="m3_escalera_c"/>
+                                                <field name="m3_escalera_d"/>
+                                            </group>
+                                            <group string="Observaciones">
+                                                <field name="obs"/>
+                                                <field name="destino_contacto"/>
+                                                <field name="destino_tipo"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </page>
+                            </notebook>
+                        </group>
+                        <separator/>
+                        <group string="Datos del Servicio">
+                            <group string="Forma de Pago / Precio Convenido">
+                                <field name="precio"/>
+                                <field name="precio_mas_iva" attrs="{'invisible': [('mas_iva', '=', False)]}"/>
+                                <field name="mas_iva"/>
+                                <field name="orientacion"/>
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <strong>Convenio:</strong><field name="convenio" class="oe_inline"/>
+                                            <!--<strong><label for="convenio" string="Convenio:"/></strong>
+                                            <field name="convenio" class="oe_inline"/> -->
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>
+                                            <strong>Forz Días para cobro:</strong><field name="convenio_dias" class="oe_inline"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <field name="tipo_fc"/>
+                                <field name="seguro"/>
+                                <field name="codigo"/>
+                                <field name="estado_presupuesto" invisible="1"/>
+                                <field name="calendario" invisible="1"/>
+                                <field name="costos_total"/>
+                                <field name="total_pagos"/>
+                                <field name="total_saldo"/>
+                            </group>
+                            <group string="Edicion del Presupuesto PDF" style="width 30%">
+                                <field name="exced_presup"/>
+                                <field name="texto_ppal_presup"/>
+                                <field name="nota_al_pie_presup"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="registro_pagos" >
+                                <tree editable="bottom">
+                                    <field name="fecha"/>
+                                    <field name="monto"/>
+                                    <field name="pago_electronico" />
+                                    <field name="factura_id" />
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>
+                            <field name="total_pagos" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="total_saldo" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                        </group>
+                        <separator/>
+
+                        <group string="Descripcion" >
+                            <field name="desc1" />
+                            <field name="adjuntos">
+                                <tree>
+                                    <field name="fecha_op" autocomplete="off"/>
+                                    <field name="desc"/>
+                                    <field name="name_adjunto"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="fecha_op" autocomplete="off"/>
+                                        <field name="adjunto" widget="binary" filename="name_adjunto"/>
+                                        <field name="desc"/>
+                                    </group>
+                                </form>
+                            </field>
+                            <field name="ocultar_cuerpo_pres"/>
+                            <field name="ocultar_cuerpo_pres2"/>
+                            <field name="ocultar_cuerpo_pres3"/>
+                            <field name="bool_desc_html" />
+                            <field name="desc_html" widget="html"/>
+                            <field name="bool_desc2_pie_html" />
+                            <field name="desc2_html" widget="html"/>
+                            <field name="bool_desc_pie_html" />
+                            <field name="desc_pie_html"  widget="html"/>
+                            <field name="firma" />
+                        </group>
+                        <group string="Presupuetos recibidos Registrados" >
+                            <field name="registro_presupuestos">
+                                <tree editable="bottom">
+                                    <field name="fecha" autocomplete="off"/>
+                                    <field name="proveedor_id"/>
+                                    <field name="productos"/>
+                                    <field name="forma_de_pago"/>
+                                    <field name="requisitos"/>
+                                    <field name="pago_electronico"/>
+                                    <field name="desc"/>
+                                    <field name="m3_incluye"/>
+                                    <field name="hs_incluye"/>
+                                    <field name="kms_incluye"/>
+                                    <field name="monto"/>
+                                    <field name="mas_iva"/>
+                                    <field name="dolar_uso" invisible="1"/>
+                                    <field name="dolar2_uso" invisible="1"/>
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>
+                            <!--<field name="registro_charla" readonly="1">
+                                <tree editable="bottom">
+                                    <field name="fecha" autocomplete="off"/>
+                                    <field name="texto"/>
+                                    <field name="orden_id_x" invisible="1"/>
+                                </tree>
+                            </field>-->
+                        </group>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="desactivar_n8n"/>
+                            <field name="ver_presup"/>
+                            <field name="presupuesto"/>
+                        </group>
+                    </group>
+                </sheet>
+
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_crm_search" model="ir.ui.view">
+        <field name="name">abatar.crm.search</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Crm">
+                <field name="resumen_busqueda" />
+
+                <separator/>
+                <filter string="Estado" name="estado" context="{'group_by': 'estado'}"/>
+                <filter string="Servicio" name="servicio" context="{'group_by': 'servicio'}"/>
+                <filter string="Acción Ultima" name="estado_mdz" context="{'group_by': 'estado_mdz'}"/>
+                <separator/>
+                <filter string="Fecha Ingreso" name="fecha_inicial" context="{'group_by': 'fecha_inicial'}"/>
+                <filter string="Fecha Servicio" name="fecha_ejecucion" context="{'group_by': 'fecha_ejecucion'}"/>
+                <filter string="Fecha Confirmacion" name="fecha_confirmacion" context="{'group_by': 'fecha_confirmacion'}"/>
+                <filter string="Ambientes" name="mdz_amb" context="{'group_by': 'mdz_amb'}"/>
+                <filter string="M3" name="mdz_m3_auto" context="{'group_by': 'mdz_m3_auto'}"/>
+                <filter string="Pendientes" name="estado" domain="[('state' , '=', 'pendiente')]"/>
+                <filter string="Presupuesto" name="estado" domain="[('state' , '=', 'presupuesto'),('active' , 'in',(True, False))]"/>
+                <filter string="Confirmados" name="estado" domain="[('state' , '=', 'confirmado'),('active' , 'in',(True, False))]"/>
+                <filter string="Finalizados" name="estado" domain="[('state' , '=', 'finalizado'),('active' , 'in',(True, False))]"/>
+                <filter string="Rechazados" name="estado" domain="[('state' , '=', 'rechazado'),('active' , 'in',(True, False))]"/>
+                <separator/>
+                <filter string="Facturados" name="factura" domain="[('factura' , '!=', False),('active' , 'in',(True, False))]"/>
+                <filter string="Sin Facturar" name="factura" domain="[('factura' , '=', False)]"/>
+                <filter string="Todos" name="active" domain="[('active' , 'in',(True, False))]"  context="{'group_by': 'fecha_ejecucion'}"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="board_pivot_crm" model="ir.ui.view">
+        <field name="name">abatar.crm.pivot</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <pivot string="crm">
+                <field name="name_seq"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="board_graph_crm" model="ir.ui.view">
+        <field name="name">abatar.crm.graph</field>
+        <field name="model">abatar.crm</field>
+        <field name="arch" type="xml">
+            <graph string="CRM">
+                <field name="name"/>
+                <field name="cliente"/>
+                <field name="contacto"/>
+                <field name="estado" />
+            </graph>
+        </field>
+    </record>
+    <record id="action_crm" model="ir.actions.act_window">
+        <field name="name">CRM</field>
+        <field name="res_model">abatar.crm</field>
+        <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aquí verás los Presupuestos Activos!</p>
+        </field>
+    </record>
+
+
+
+    <record id="servicios_calendario_tree" model="ir.ui.view">
+        <field name="name">abatar.servicios.calendario.tree</field>
+        <field name="model">abatar.servicios.calendario</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de servicios estados">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="acciones_venta_tree" model="ir.ui.view">
+        <field name="name">abatar.crm.acciones.tree</field>
+        <field name="model">abatar.crm.acciones</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Acciones de Venta">
+                <field name="fecha"/>
+                <field name="venta_accion"/>
+                <field name="vto"/>
+                <field name="vto_f"/>
+                <field name="desc"/>
+                <field name="rta"/>
+                <field name="vencido" widget="image"  options="{'size': [20, 20]}"/>
+                <field name="crm_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_tipo_tree" model="ir.ui.view">
+        <field name="name">abatar.servicios.tipo.tree</field>
+        <field name="model">abatar.servicios.tipo</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de servicios estados">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_estados_tree" model="ir.ui.view">
+        <field name="name">abatar.servicios.estados.tree</field>
+        <field name="model">abatar.servicios.estados</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de servicios estados">
+                <field name="name"/>
+                <field name="orden_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_estados_presupuesto_tree" model="ir.ui.view">
+        <field name="name">abatar.estados.presupuesto.tree</field>
+        <field name="model">abatar.estados.presupuesto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de estados presupuesto">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_acciones_presupuesto_tree" model="ir.ui.view">
+        <field name="name">abatar.acciones.presupuesto.tree</field>
+        <field name="model">abatar.acciones.presupuesto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de acciones presupuesto">
+                <field name="name"/>
+                <field name="vto"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_accionesc_presupuesto_tree" model="ir.ui.view">
+        <field name="name">abatar.accionesc.presupuesto.tree</field>
+        <field name="model">abatar.accionesc.presupuesto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de acciones presupuesto">
+                <field name="name"/>
+                <field name="vto"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="abatar_textos_wsp_tree" model="ir.ui.view">
+        <field name="name">abatar.textos.wsp.tree</field>
+        <field name="model">abatar.textos.wsp</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de textos wsp">
+                <field name="name"/>
+                <field name="accion_in"/>
+                <field name="texto"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="abatar_restricciones_list_tree" model="ir.ui.view">
+        <field name="name">abatar.restricciones.list.tree</field>
+        <field name="model">abatar.restricciones.list</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de restricciones">
+                <field name="fecha_op"/>
+                <field name="desc_restricciones"/>
+                <field name="bool_restricciones"/>
+                <field name="crm_id"/>
+                <field name="orden_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="abatar_textos_chat_auto" model="ir.ui.view">
+        <field name="name">abatar.chat.auto.tree</field>
+        <field name="model">abatar.chat.auto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de textos chat">
+                <field name="nombre"/>
+                <field name="channel_ids"/>
+                <field name="crm_ids"/>
+                <field name="telefono"/>
+                <field name="ambientes"/>
+                <field name="habitantes"/>
+                <field name="origen"/>
+                <field name="tipo_origen"/>
+                <field name="piso_origen"/>
+                <field name="ascensor_origen"/>
+                <field name="destino"/>
+                <field name="tipo_destino"/>
+                <field name="piso_destino"/>
+                <field name="ascensor_destino"/>
+                <field name="ascensor_destino"/>
+                <field name="kms_recorrido"/>
+                <field name="tiempo_viaje"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="acciones_venta_form" model="ir.ui.view">
+        <field name="name">abatar.crm.acciones.form</field>
+        <field name="model">abatar.crm.acciones</field>
+        <field name="arch" type="xml">
+            <tree string="Form de Acciones de Venta">
+                <field name="fecha"/>
+                <field name="venta_accion"/>
+                <field name="vto"/>
+                <field name="vto_f"/>
+                <field name="desc"/>
+                <field name="rta"/>
+                <field name="vencido" widget="image"  options="{'size': [20, 20]}"/>
+                <field name="crm_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_estados_form" model="ir.ui.view">
+        <field name="name">abatar.servicios.estados.form</field>
+        <field name="model">abatar.servicios.estados</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <group>
+                    <field name="name"/>
+                    <field name="orden_name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicios_calendario_form" model="ir.ui.view">
+        <field name="name">abatar.servicios.calendario.form</field>
+        <field name="model">abatar.servicios.calendario</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <group>
+                    <field name="name"/>
+                    <field name="accion"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicios_tipo_form" model="ir.ui.view">
+        <field name="name">abatar.servicios.tipo.form</field>
+        <field name="model">abatar.servicios.tipo</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="abatar_textos_wsp_form" model="ir.ui.view">
+        <field name="name">abatar.textos.wsp.form</field>
+        <field name="model">abatar.textos.wsp</field>
+        <field name="arch" type="xml">
+            <form string="Form de wsp">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="accion_in"/>
+                        <field name="texto"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="abatar_restricciones_list_form" model="ir.ui.view">
+        <field name="name">abatar.restricciones.list.form</field>
+        <field name="model">abatar.restricciones.list</field>
+        <field name="arch" type="xml">
+            <form string="Form de wsp">
+                <group>
+                    <group>
+                        <field name="fecha_op"/>
+                        <field name="desc_restricciones"/>
+                        <field name="bool_restricciones"/>
+                        <field name="crm_id"/>
+                        <field name="orden_id"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="abatar_chat_auto_form" model="ir.ui.view">
+        <field name="name">abatar.chat.auto.form</field>
+        <field name="model">abatar.chat.auto</field>
+        <field name="arch" type="xml">
+            <form string="Form de wsp">
+                <field name="nombre"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicios_estados_presupuesto_form" model="ir.ui.view">
+        <field name="name">abatar.estados.presupuesto.form</field>
+        <field name="model">abatar.estados.presupuesto</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="servicios_acciones_presupuesto_form" model="ir.ui.view">
+        <field name="name">abatar.acciones.presupuesto.form</field>
+        <field name="model">abatar.acciones.presupuesto</field>
+        <field name="arch" type="xml">
+            <form string="Form de acciones">
+                <field name="name"/>
+                <field name="vto"/>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="servicios_accionesc_presupuesto_form" model="ir.ui.view">
+        <field name="name">abatar.accionesc.presupuesto.form</field>
+        <field name="model">abatar.accionesc.presupuesto</field>
+        <field name="arch" type="xml">
+            <form string="Form de acciones">
+                <field name="name"/>
+                <field name="vto"/>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="servicios_tree" model="ir.ui.view">
+        <field name="name">abatar.servicios.tree</field>
+        <field name="model">abatar.servicios</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de servicios">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="servicios_form" model="ir.ui.view">
+        <field name="name">abatar.servicios.form</field>
+        <field name="model">abatar.servicios</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <field name="name"/>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_servicios" model="ir.actions.act_window">
+        <field name="name">Servicios</field>
+        <field name="res_model">abatar.servicios</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="rechazado_crm_tree" model="ir.ui.view">
+        <field name="name">abatar.rechazado.presupuesto.tree</field>
+        <field name="model">abatar.rechazado.presupuesto</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Motivos de Rechazo">
+                <field name="name"/>
+                <field name="hizo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="rechazado_crm_form" model="ir.ui.view">
+        <field name="name">abatar.rechazado.presupuesto.form</field>
+        <field name="model">abatar.rechazado.presupuesto</field>
+        <field name="arch" type="xml">
+            <form string="Form de Motivos de Rechazo">
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="hizo"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_rechazado_crm" model="ir.actions.act_window">
+        <field name="name">Motivos de Rechazo CRM</field>
+        <field name="res_model">abatar.rechazado.presupuesto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_acciones_venta" model="ir.actions.act_window">
+        <field name="name">Acciones Venta Lines</field>
+        <field name="res_model">abatar.crm.acciones</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="crm_presupuestos_tree" model="ir.ui.view">
+        <field name="name">abatar.crm.presupuestos.tree</field>
+        <field name="model">abatar.crm.presupuestos</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de presupuestos para crm recibidos">
+                <field name="fecha"/>
+                <field name="proveedor_id"/>
+                <field name="productos"/>
+                <field name="forma_de_pago"/>
+                <field name="requisitos"/>
+                <field name="pago_electronico"/>
+                <field name="desc"/>
+                <field name="m3_incluye"/>
+                <field name="hs_incluye"/>
+                <field name="kms_incluye"/>
+                <field name="monto"/>
+                <field name="mas_iva"/>
+                <field name="dolar_uso" invisible="1"/>
+                <field name="dolar2_uso" invisible="1"/>
+                <field name="monto_dolar"/>
+                <field name="orden_id_x"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="crm_presupuestos_form" model="ir.ui.view">
+        <field name="name">abatar.crm.presupuestos.form</field>
+        <field name="model">abatar.crm.presupuestos</field>
+        <field name="arch" type="xml">
+            <form string="Form de servicios">
+                <group>
+                    <group>
+                        <field name="orden_id_x"/>
+                        <field name="fecha"/>
+                        <field name="proveedor_id"/>
+                        <field name="productos"/>
+                        <field name="forma_de_pago"/>
+                        <field name="requisitos"/>
+                        <field name="pago_electronico"/>
+                        <field name="desc"/>
+
+                    </group>
+                    <group>
+                        <field name="m3_incluye"/>
+                        <field name="hs_incluye"/>
+                        <field name="kms_incluye"/>
+                        <field name="monto"/>
+                        <field name="mas_iva"/>
+                        <field name="dolar_uso" />
+                        <field name="dolar2_uso" />
+                        <field name="monto_dolar"/>
+                    </group>
+
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_crm_presupuestos_search" model="ir.ui.view">
+        <field name="name">abatar.crm.presupuestos.search</field>
+        <field name="model">abatar.crm.presupuestos</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Crm Presupuestos">
+                <field name="proveedor_id" />
+                <field name="productos"/>
+                <field name="desc"/>
+                <field name="fecha"/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_crm_presupuestos" model="ir.actions.act_window">
+        <field name="name">Crm Presupuestos</field>
+        <field name="res_model">abatar.crm.presupuestos</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_servicios_estados" model="ir.actions.act_window">
+        <field name="name">Servicios Estados</field>
+        <field name="res_model">abatar.servicios.estados</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_servicios_tipo" model="ir.actions.act_window">
+        <field name="name">Servicios Tipo</field>
+        <field name="res_model">abatar.servicios.tipo</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_servicios_calendario" model="ir.actions.act_window">
+        <field name="name">Servicios calendario</field>
+        <field name="res_model">abatar.servicios.calendario</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_estados_presupuesto" model="ir.actions.act_window">
+        <field name="name">Servicios Estados presupuesto</field>
+        <field name="res_model">abatar.estados.presupuesto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_acciones_presupuesto" model="ir.actions.act_window">
+        <field name="name">Servicios Acciones presupuesto</field>
+        <field name="res_model">abatar.acciones.presupuesto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first Action</p>
+        </field>
+    </record>
+    <record id="action_accionesc_presupuesto" model="ir.actions.act_window">
+        <field name="name">Servicios Acciones Compra presupuesto</field>
+        <field name="res_model">abatar.accionesc.presupuesto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first Action</p>
+        </field>
+    </record>
+
+    <record id="action_textos_wsp" model="ir.actions.act_window">
+        <field name="name">Abatar Textos WSP</field>
+        <field name="res_model">abatar.textos.wsp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_abatar_restricciones_list" model="ir.actions.act_window">
+        <field name="name">Abatar Restricciones List</field>
+        <field name="res_model">abatar.restricciones.list</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_chat_auto" model="ir.actions.act_window">
+        <field name="name">Abatar Textos WSP</field>
+        <field name="res_model">abatar.chat.auto</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+    <record id="action_arbol_invisi" model="ir.actions.act_window">
+        <field name="name">Abatar Textos WSP</field>
+        <field name="res_model">abatar.textos.wsp</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+        </field>
+    </record>
+
+
+</odoo>

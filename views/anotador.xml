@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="anotador_tree" model="ir.ui.view">
+        <field name="name">abatar.anotador.tree</field>
+        <field name="model">abatar.anotador</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="anotador"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="anotador_form" model="ir.ui.view">
+        <field name="name">abatar.anotador.form</field>
+        <field name="model">abatar.anotador</field>
+        <field name="arch" type="xml">
+            <form string="Form de productos">
+                <group>
+                    <field name="name"/>
+                    <field name="anotador"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_anotador" model="ir.actions.act_window">
+            <field name="name">anotador</field>
+            <field name="res_model">abatar.anotador</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first boolean item</p>
+            </field>
+    </record>
+
+
+</odoo>

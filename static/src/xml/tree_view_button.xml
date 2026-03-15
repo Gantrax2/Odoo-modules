@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates>
+
+    <t t-extend="ListView.buttons">
+        <t t-jquery="div.o_list_buttons" t-operation="append">
+            <t t-if='widget.modelName == "abatar.deudas"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Pasar a Pagadas
+                </button>
+
+            </t>
+            <t t-elif='widget.modelName == "abatar.crm" or widget.modelName == "abatar.proveedores"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Export. Tel.
+                </button>
+
+            </t>
+            <!-- <t t-elif='widget.modelName == "abatar.ordenes"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Dividir Subtotal
+                </button>
+
+            </t> -->
+            <t t-elif='widget.modelName == "abatar.factura"'>
+                <button type="button"
+                        class="oe_new_custom_button_factura btn btn-primary">
+                    Pasar a Cobradas
+                </button>
+                <button type="button"
+                        class="oe_new_custom_button_factura_extra btn btn-secondary">
+                    Generar Reporte
+                </button>
+            </t>
+            <t t-elif='widget.modelName == "abatar.cotizaciones"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Actualizar precios
+                </button>
+
+            </t>
+            <t t-elif='widget.modelName and widget.modelName.startsWith("abatar.visor")'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">
+                    Cargar Función
+                </button>
+            </t>
+            <t t-elif='widget.modelName == "abatar.indicadores"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Refresh Indicadores
+                </button>
+
+            </t>
+            <t t-elif='widget.modelName == "abatar.proveedoresvisor"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Cargar Presupuestos Prov.
+                </button>
+
+            </t>
+            <t t-elif='widget.modelName == "abatar.savevisor"'>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Cargar en Visor
+                </button>
+
+            </t>
+            <t t-else=''>
+                <button type="button"
+                        class="oe_new_custom_button btn btn-primary">Exportar Datos
+                </button>
+
+            </t>
+        </t>
+    </t>
+    <!-- <t t-extend="ListView.buttons">
+        <t t-jquery="div.o_list_buttons" t-operation="append">
+            <t t-if='widget.modelName == "abatar.ordenes"'>
+                <button type="button"
+                        class="oe_new_custom_button2 btn btn-primary">Actualizar Valores
+                </button>
+            </t>
+        </t>
+    </t> -->
+
+</templates>

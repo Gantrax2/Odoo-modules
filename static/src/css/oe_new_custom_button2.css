@@ -1,0 +1,62 @@
+.openerp .oe_new_custom_button2 {
+  font-weight: normal;
+  width: 132px !important;
+  height: 40px;
+  color: #666;
+  margin: 0px -1px -1px 0px;
+  padding: 0;
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  box-shadow: none;
+  background: white;
+}.openerp .oe_new_custom_button3 {
+  font-weight: normal;
+  width: 132px !important;
+  height: 40px;
+  color: #666;
+  margin: 0px -1px -1px 0px;
+  padding: 0;
+  border: 1px solid #dddddd;
+  border-radius: 0;
+  box-shadow: none;
+  background: white;
+}
+
+
+.oe_stat_button:hover {
+    opacity: 0.85; /* leve efecto */
+    transform: scale(1.05); /* lo agranda un poquito */
+    transition: all 0.2s ease-in-out;
+}
+
+/* Opcional: cambiar color de texto/ícono en hover */
+.oe_stat_button.text-success:hover {
+    color: #28a745 !important;  /* verde más fuerte */
+}
+.oe_stat_button.text-danger:hover {
+    color: #dc3545 !important;  /* rojo más fuerte */
+}
+.oe_stat_button.text-success:hover {
+    background-color: #d4edda !important; /* verde suave */
+}
+.oe_stat_button.text-danger:hover {
+    background-color: #f8d7da !important; /* rojo suave */
+}
+
+.o_list_view .text-info {
+    color: #000000 !important;          /* texto negro */
+    background-color: #7eec7e !important; /* verde claro */
+}
+.o_list_view .text-warning {
+    color: #000000 !important;           /* texto negro */
+    background-color: #ffff99 !important; /* amarillo claro */
+}
+
+.o_list_view .o_data_row.decoration-customized1 {
+    background-color: #ffe4b5 !important; /* ejemplo: un beige suave */
+    color: #000000 !important; /* texto rojo oscuro */
+}
+.o_list_view .o_data_row.text-customized1 {
+    background-color: #ffe4b5 !important; /* ejemplo: un beige suave */
+    color: #000000 !important; /* texto rojo oscuro */
+}

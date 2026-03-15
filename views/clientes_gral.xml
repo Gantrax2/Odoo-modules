@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="clientes_gral_tree" model="ir.ui.view">
+        <field name="name">abatar.clientes_gral.tree</field>
+        <field name="model">abatar.clientes_gral</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="razon_social"/>
+                <field name="tel"/>
+                <field name="email"/>
+                <field name="desc"/>
+                <field name="sv_count" readonly="1"/>
+                <field name="costos" readonly="1"/>
+                <field name="subtotal" readonly="1"/>
+                <field name="ganancia" readonly="1"/>
+                <field name="costos_dolar" readonly="1"/>
+                <field name="subtotal_dolar" readonly="1"/>
+                <field name="ganancia_dolar" readonly="1"/>
+                <field name="costos_dolar2" readonly="1"/>
+                <field name="subtotal_dolar2" readonly="1"/>
+                <field name="ganancia_dolar2" readonly="1"/>
+                <field name="resumen_busqueda"  invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="clientes_gral_form" model="ir.ui.view">
+        <field name="name">abatar.clientes_gral.form</field>
+        <field name="model">abatar.clientes_gral</field>
+        <field name="arch" type="xml">
+            <form string="Form de Clientes Gral">
+
+                <div class="oe_button_box" name="button_box">
+                    <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                        <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                    </button>
+                </div>
+                <group>
+                    <field name="active" invisible="1"/>
+                    <field name="name"/>
+                    <field name="razon_social"/>
+                    <field name="vto"/>
+                    <field name="tel"/>
+                    <field name="email"/>
+                    <field name="email_vto"/>
+                    <field name="email_vto2"/>
+                    <field name="email_vto3"/>
+                    <field name="email_pagos"/>
+                    <field name="dto"/>
+                    <field name="desc"/>
+                    <field name="admin" invisible="1"/>
+                    <field name="resumen_busqueda" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="board_graph_clientes_gral" model="ir.ui.view">
+        <field name="name">abatar.clientes_gral.graph</field>
+        <field name="model">abatar.clientes_gral</field>
+        <field name="arch" type="xml">
+            <graph string="Clientes">
+                <field name="name"/>
+                <field name="sv_count" readonly="1"/>
+                <field name="subtotal_dolar" readonly="1"/>
+                <field name="costos_dolar" readonly="1"/>
+                <field name="ganancia_dolar" readonly="1"/>
+                <field name="subtotal_dolar2" readonly="1"/>
+                <field name="costos_dolar2" readonly="1"/>
+                <field name="ganancia_dolar2" readonly="1"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_clientes_gral_search" model="ir.ui.view">
+        <field name="name">abatar.clientes_gral.search</field>
+        <field name="model">abatar.clientes_gral</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en clientes">
+                <field name="resumen_busqueda" />
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_clientes_gral" model="ir.actions.act_window">
+            <field name="name">Clientes Gral</field>
+            <field name="res_model">abatar.clientes_gral</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Crea el primer Cliente General</p>
+            </field>
+    </record>
+
+</odoo>

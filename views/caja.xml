@@ -1,0 +1,443 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="caja_tree" model="ir.ui.view">
+        <field name="name">abatar.caja.tree</field>
+        <field name="model">abatar.caja</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de caja">
+                <field name="nombre_fecha"/>
+                <field name="saldo_ant"/>
+                <field name="total_ingresos_bruto"/>
+                <field name="total_movimientos_bruto"/>
+                <field name="saldo"/>
+                <field name="total_pesos"/>
+                <field name="balance"/>
+                <field name="balance_neto"/>
+                <field name="balance_ant" invisible="1"/>
+                <field name="balance_acum"/>
+                <field name="difer"/>
+                <field name="difer_bancos"/>
+                <field name="resumen_busqueda" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="caja_form" model="ir.ui.view">
+        <field name="name">abatar.caja.form</field>
+        <field name="model">abatar.caja</field>
+        <field name="arch" type="xml">
+            <form string="Form de caja">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="nombre_fecha"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="fecha_de_caja" autocomplete="off"/>
+                        <field name="fecha_ant" autocomplete="off"/>
+                        <field name="saldo_ant" />
+                        <field name="saldo_bancos_ant" />
+                    </group>
+                    <group>
+                        <group>
+                            <field name="saldo_ant2"/>
+                            <field name="total_ingresos"/>
+                            <field name="total_movimientos"/>
+                            <field name="saldo"/>
+                            <separator/>
+                            <field name="saldo_bancos_ant" />
+                            <field name="total_ingresos_banco"/>
+                            <field name="total_movimientos_banco"/>
+                            <field name="saldo_bancos"/>
+                            <separator/>
+                            <field name="total_efectivo"/>
+                            <field name="total_bancos"/>
+                            <separator/>
+                            <field name="total_pesos"/>
+                            <field name="total_dolar"/>
+                            <separator/>
+                            <field name="difer" />
+                            <field name="difer_bancos" />
+                        </group>
+                        <group>
+
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Movimientos">
+                            <field name="linea_movimientos">
+                                <tree editable="bottom"  decoration-success="(tipo_name=='Clientes' and monto>=0) or (tipo_name!='Clientes' and 0>monto)" decoration-danger="(tipo_name!='Clientes' and monto>=0) or (tipo_name=='Clientes' and 0>monto)">
+                                    <field name="tipo"/>
+                                    <field name="tipo_name" invisible="1"/>
+                                    <field name="deuda_id" attrs="{'invisible': [('tipo_name', '!=', 'Proveedores')]}" domain="[('saldo', 'not in', (0,False))]"/>
+                                    <field name="pagos_id" attrs="{'invisible': [('tipo_name', '!=', 'Clientes')]}" domain="[('caja', '=', False)]"/>
+                                    <field name="empleados_id" attrs="{'invisible': [('tipo_name', '!=', 'Empleados')]}"/>
+                                    <field name="mensuales_id" attrs="{'invisible': [('tipo_name', '!=', 'Mensuales')]}"/>
+                                    <field name="materiales_id" attrs="{'invisible': [('tipo_name', '!=', 'Insumos')]}" domain="[('caja', '=', False)]"/>
+                                    <field name="texto"/>
+                                    <field name="adjunto"/>
+                                    <field name="retenciones"  attrs="{'invisible': [('tipo_name', '!=', 'Clientes')]}"/>
+                                    <field name="monto"/>
+                                    <field name="caja_id" invisible="1"/>
+                                    <field name="se_pago2" invisible="1"/>
+                                    <field name="pago_electronico"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <field name="balance_ant" invisible="1"/>
+                                <field name="balance"/>
+                                <field name="balance_neto"/>
+                                <field name="dueños_neto"/>
+                                <field name="balance_acum"/>
+                            </group>
+                        </page>
+                        <page string="Mov. Internos (Entre Cajas)">
+                            <field name="linea_ingresos">
+                                <tree editable="bottom" >
+                                    <field name="tipo_salida"/>
+                                    <field name="selec_salida" attrs="{'readonly':[('tipo_salida','in',['efectivo','dolar'])]}"/>
+                                    <field name="monto_salida"/>
+                                    <field name="texto"/>
+                                    <field name="adjunto"/>
+                                    <field name="monto" invisible="1"/>
+                                    <field name="pago_electronico" invisible="1"/>
+                                    <field name="tipo_entrada"/>
+                                    <field name="selec_entrada" attrs="{'readonly':[('tipo_entrada','in',['efectivo','dolar'])]}"/>
+                                    <field name="monto_entrada"/>
+                                    <field name="caja_id" invisible="1"/>
+                                    <button name="aplicar_mov_interno"
+                                        type="object"
+                                        string="Aplicar"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas transferir los fondos según las cuentas y valores cargados?"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Billetera">
+                            <group>
+                                <group>
+                                    <button name="set_ant_billetes"
+                                        type="object"
+                                        string="Set Caja ant Billetes"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas cargar los billetes de la caja anterior?"/>
+                                    <button name="reset_billetes"
+                                        type="object"
+                                        string="Reset Billetes"
+                                        class="oe_stat_button"
+                                        icon="fa-pencil-square-o"
+                                        confirm="Estas seguro que deseas borrar los billetes cargados?"/>
+                                    <field name="billetes">
+                                        <tree editable="bottom">
+                                            <field name="dolar"/>
+                                            <field name="bancos"/>
+                                            <field name="name"/>
+                                            <field name="cant"/>
+                                            <field name="monto"/>
+                                            <field name="total"/>
+                                            <field name="caja_id" invisible="1"/>
+                                        </tree>
+                                    </field>
+                                    <field name="monedas"/>
+                                </group>
+                            </group>
+                            <group>
+                                <group>
+                                    <field name="total_efectivo"/>
+                                    <field name="total_bancos"/>
+                                    <field name="total_dolar"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                    <group>
+
+                        <field name="obs" invisible="1"/>
+                        <field name="admin" invisible="1"/>
+                        <field name="resumen_busqueda" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="caja_graph" model="ir.ui.view">
+        <field name="name">abatar.caja.graph</field>
+        <field name="model">abatar.caja</field>
+        <field name="arch" type="xml">
+            <graph string="Lista de caja">
+                <field name="fecha_de_caja"/>
+                <field name="balance"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="caja_pivot" model="ir.ui.view">
+        <field name="name">abatar.caja.pivot</field>
+        <field name="model">abatar.caja</field>
+        <field name="arch" type="xml">
+            <pivot string="Lista de caja">
+                <field name="fecha_de_caja"/>
+                <field name="balance"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_caja_search" model="ir.ui.view">
+        <field name="name">abatar.caja.search</field>
+        <field name="model">abatar.caja</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Caja">
+                <field name="resumen_busqueda" />
+                <filter string="Fecha de Caja" name="fecha_de_caja" context="{'group_by': 'fecha_de_caja'}"/>
+                <field string="Movimientos" name="movimientos_resumen" domain="[('movimientos_resumen' , 'ilike', 'self')]" />
+                <field string="Ingresos" name="ingresos_resumen" domain="[('ingresos_resumen' , 'ilike', 'self')]" />
+            </search>
+        </field>
+    </record>
+
+    <record id="action_caja" model="ir.actions.act_window">
+            <field name="name">Caja</field>
+            <field name="res_model">abatar.caja</field>
+            <field name="view_mode">tree,form,graph,pivot</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+
+    <record id="caja_movimientos_tree" model="ir.ui.view">
+        <field name="name">abatar.movimientos.lines.tree</field>
+        <field name="model">abatar.movimientos.lines</field>
+        <field name="arch" type="xml">
+            <tree string="Lineas de caja" decoration-success="(tipo_name=='Clientes' and monto>=0) or (tipo_name!='Clientes' and 0>monto)" decoration-danger="(tipo_name!='Clientes' and monto>=0) or (tipo_name=='Clientes' and 0>monto)">
+                <field name="caja_id"/>
+                <field name="tipo"/>
+                <field name="tipo_name" invisible="1"/>
+                <field name="deuda_id"/>
+                <field name="pagos_id"/>
+                <field name="empleados_id"/>
+                <field name="mensuales_id"/>
+                <field name="materiales_id"/>
+                <field name="texto"/>
+                <field name="adjunto"/>
+                <field name="retenciones"/>
+                <field name="monto" invisible="1"/>
+                <field name="monto_contable"/>
+                <field name="pago_electronico"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="caja_movimientos_form" model="ir.ui.view">
+        <field name="name">abatar.movimientos.lines.form</field>
+        <field name="model">abatar.movimientos.lines</field>
+        <field name="arch" type="xml">
+            <form string="Form de caja">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="caja_id"/>
+                            <field name="tipo"/>
+                            <field name="tipo_name" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="deuda_id" attrs="{'invisible': [('tipo_name', '!=', 'Proveedores')]}" domain="[('saldo', 'not in', (0,False))]"/>
+                            <field name="pagos_id" attrs="{'invisible': [('tipo_name', '!=', 'Clientes')]}" domain="[('caja', '=', False)]"/>
+                            <field name="empleados_id" attrs="{'invisible': [('tipo_name', '!=', 'Empleados')]}"/>
+                            <field name="mensuales_id" attrs="{'invisible': [('tipo_name', '!=', 'Mensuales')]}"/>
+                            <field name="materiales_id" attrs="{'invisible': [('tipo_name', '!=', 'Insumos')]}" domain="[('caja', '=', False)]"/>
+
+                        </group>
+                        <group>
+                            <field name="texto"/>
+                            <field name="adjunto"/>
+
+                        </group>
+                        <group>
+                            <field name="retenciones"  attrs="{'invisible': [('tipo_name', '!=', 'Clientes')]}"/>
+                            <field name="monto"/>
+                            <field name="monto_contable"/>
+                            <field name="se_pago2" invisible="1"/>
+                            <field name="pago_electronico"/>
+
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="caja_movimientos_graph" model="ir.ui.view">
+        <field name="name">abatar.movimientos.lines.graph</field>
+        <field name="model">abatar.movimientos.lines</field>
+        <field name="arch" type="xml">
+            <graph string="Lineas de caja">
+                <field name="caja_id"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="view_caja_movimientos_search" model="ir.ui.view">
+        <field name="name">abatar.movimientos.lines.search</field>
+        <field name="model">abatar.movimientos.lines</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Lineas de Caja">
+                <field name="caja_id" />
+                <field name="deuda_id" />
+                <field name="pagos_id" />
+                <field name="empleados_id" />
+                <field name="mensuales_id" />
+                <field name="materiales_id" />
+
+                <filter string="Fecha de Caja" name="caja_id" context="{'group_by': 'caja_id'}"/>
+                <filter string="Deudas" name="deuda_id" context="{'group_by': 'deuda_id'}"/>
+                <filter string="Pagos Clientes" name="pagos_id" context="{'group_by': 'pagos_id'}"/>
+                <filter string="Empleados" name="empleados_id" context="{'group_by': 'empleados_id'}"/>
+                <filter string="Mensuales" name="mensuales_id" context="{'group_by': 'mensuales_id'}"/>
+                <filter string="Insumos" name="materiales_id" context="{'group_by': 'materiales_id'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_caja_movimientos" model="ir.actions.act_window">
+            <field name="name">Movimientos de Caja</field>
+            <field name="res_model">abatar.movimientos.lines</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+    <record id="caja_ingresos_tree" model="ir.ui.view">
+        <field name="name">abatar.ingresos.lines.tree</field>
+        <field name="model">abatar.ingresos.lines</field>
+        <field name="arch" type="xml">
+            <tree string="Lineas de movs Internos caja" >
+                <field name="caja_id"/>
+                <field name="texto"/>
+                <field name="monto"/>
+                <field name="monto_salida"/>
+                <field name="tipo_salida"/>
+                <field name="selec_salida"/>
+                <field name="monto_entrada"/>
+                <field name="tipo_entrada"/>
+                <field name="selec_entrada"/>
+                <field name="pago_electronico"/>
+                <field name="adjunto"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="caja_ingresos_form" model="ir.ui.view">
+        <field name="name">abatar.ingresos.lines.form</field>
+        <field name="model">abatar.ingresos.lines</field>
+        <field name="arch" type="xml">
+            <form string="Form de Movs Internos de caja">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="caja_id"/>
+                            <field name="texto"/>
+                            <field name="monto"/>
+                            <field name="monto_salida"/>
+                            <field name="tipo_salida"/>
+                            <field name="selec_salida"/>
+                            <field name="monto_entrada"/>
+                            <field name="tipo_entrada"/>
+                            <field name="selec_entrada"/>
+                            <field name="pago_electronico"/>
+                            <field name="adjunto"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="caja_ingresos_graph" model="ir.ui.view">
+        <field name="name">abatar.ingresos.lines.graph</field>
+        <field name="model">abatar.ingresos.lines</field>
+        <field name="arch" type="xml">
+            <graph string="Lineas de caja">
+                <field name="caja_id"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="view_caja_ingresos_search" model="ir.ui.view">
+        <field name="name">abatar.ingresos.lines.search</field>
+        <field name="model">abatar.ingresos.lines</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Movs Internos de Caja">
+                <field name="caja_id" />
+                <field name="texto"/>
+                <field name="monto"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_caja_ingresos" model="ir.actions.act_window">
+            <field name="name">ingresos de Caja</field>
+            <field name="res_model">abatar.ingresos.lines</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+
+    <record id="bancos_tree" model="ir.ui.view">
+        <field name="name">abatar.bancos.tree</field>
+        <field name="model">abatar.bancos</field>
+        <field name="arch" type="xml">
+            <tree string="Cuentas de Bancos">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="bancos_form" model="ir.ui.view">
+        <field name="name">abatar.bancos.form</field>
+        <field name="model">abatar.bancos</field>
+        <field name="arch" type="xml">
+            <form string="Form de Cuentas de Banco">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_bancos" model="ir.actions.act_window">
+            <field name="name">Cuentas de Banco</field>
+            <field name="res_model">abatar.bancos</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first cash rounding</p>
+            </field>
+    </record>
+
+
+</odoo>

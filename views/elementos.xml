@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="elementos_tree" model="ir.ui.view">
+        <field name="name">abatar.elementos.tree</field>
+        <field name="model">abatar.elementos</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de elementos">
+                <field name="name"/>
+                <field name="cant_total"/>
+                <field name="cant_uso"/>
+                <field name="cant_disp" readonly="1"/>
+                <field name="resumen_busqueda" invisible="1"/>
+                <field name="active" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="elementos_form" model="ir.ui.view">
+        <field name="name">abatar.elementos.form</field>
+        <field name="model">abatar.elementos</field>
+        <field name="arch" type="xml">
+            <form string="Inventario de elementos">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <group>
+                        <field name="name"/>
+                        <field name="cant_total"/>
+                        <field name="cant_uso"/>
+                        <field name="cant_disp" readonly="1"/>
+                        <field name="mov_lines">
+                            <tree editable="bottom">
+                                <field name="elementos_id" invisible="1" />
+                                <field name="fecha_op" />
+                                <field name="cant" />
+                                <field name="desc" />
+                                <field name="ordenes_id" />
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="admin" invisible="1"/>
+                        <field name="resumen_busqueda" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="board_graph_elementos" model="ir.ui.view">
+        <field name="name">abatar.elementos.graph</field>
+        <field name="model">abatar.elementos</field>
+        <field name="arch" type="xml">
+            <graph string="Inventario Elementos">
+                <field name="name"/>
+                <field name="cant_total"/>
+                <field name="cant_disp" readonly="1"/>
+                <field name="cant_uso"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="elementos_search" model="ir.ui.view">
+        <field name="name">abatar.elementos.search.view</field>
+        <field name="model">abatar.elementos</field>
+        <field name="arch" type="xml">
+            <search string="Buscar:">
+                <field name="resumen_busqueda" />
+                <separator/>
+
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_elementos" model="ir.actions.act_window">
+            <field name="name">Elementos</field>
+            <field name="res_model">abatar.elementos</field>
+            <field name="view_mode">graph,tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create caja elementos</p>
+            </field>
+    </record>
+
+
+</odoo>

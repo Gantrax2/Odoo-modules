@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="keyusuario_tree" model="ir.ui.view">
+        <field name="name">abatar.keyusuario.tree</field>
+        <field name="model">abatar.keyusuario</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="fecha"/>
+                <field name="keynum"/>
+                <field name="fdp"/>
+                <field name="name"/>
+                <field name="tel"/>
+                <field name="empresa"/>
+                <field name="cliente"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="keyusuario_form" model="ir.ui.view">
+        <field name="name">abatar.keyusuario.form</field>
+        <field name="model">abatar.keyusuario</field>
+        <field name="arch" type="xml">
+            <form string="Form de dolar">
+                <group>
+                    <field name="fecha"/>
+                    <field name="keynum"/>
+                    <field name="fdp"/>
+                    <field name="name"/>
+                    <field name="tel"/>
+                    <field name="empresa"/>
+                    <field name="cliente"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_keyusuario" model="ir.actions.act_window">
+            <field name="name">key usuario</field>
+            <field name="res_model">abatar.keyusuario</field>
+            <field name="limit">100</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first keyusuario</p>
+            </field>
+    </record>
+
+
+
+
+</odoo>

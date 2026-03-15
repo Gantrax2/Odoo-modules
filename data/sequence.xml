@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Sequences for sale.order -->
+        <record id="seq_abatar_clientes" model="ir.sequence">
+            <field name="name">Numero de Clientes</field>
+            <field name="code">abatar.clientes.sequence</field>
+            <field name="prefix">CL</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_cotizador" model="ir.sequence">
+            <field name="name">Numero de Cotizador</field>
+            <field name="code">abatar.cotizador.sequence</field>
+            <field name="prefix">C</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_pedidos" model="ir.sequence">
+            <field name="name">Numero de Pedido</field>
+            <field name="code">abatar.pedido.sequence</field>
+            <field name="prefix">P</field>
+            <field name="padding">5</field>
+            <!--<field name="number_next">2000</field> -->
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_proveedores" model="ir.sequence">
+            <field name="name">Numero de Proveedores</field>
+            <field name="code">abatar.proveedores.sequence</field>
+            <field name="prefix">P</field>
+            <field name="padding">3</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_crm" model="ir.sequence">
+            <field name="name">Numero de CRM</field>
+            <field name="code">abatar.crm.sequence</field>
+            <field name="prefix">CC</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_ordenes" model="ir.sequence">
+            <field name="name">Numero de Ordenes</field>
+            <field name="code">abatar.ordenes.sequence</field>
+            <field name="prefix">OT</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_deudas" model="ir.sequence">
+            <field name="name">Numero de Deuda</field>
+            <field name="code">abatar.deudas.sequence</field>
+            <field name="prefix">DP</field>
+            <field name="padding">7</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_tarifas" model="ir.sequence">
+            <field name="name">Numero de Tarifas</field>
+            <field name="code">abatar.tarifas.sequence</field>
+            <field name="prefix">TA</field>
+            <field name="padding">2</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="seq_abatar_productos" model="ir.sequence">
+            <field name="name">Numero de Productos</field>
+            <field name="code">abatar.productos.sequence</field>
+            <field name="prefix">PR</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_pagos" model="ir.sequence">
+            <field name="name">Numero de Ticket de pagos</field>
+            <field name="code">abatar.pagos.sequence</field>
+            <field name="prefix">CP</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_materiales" model="ir.sequence">
+            <field name="name">Numero de Ticket de Materiales</field>
+            <field name="code">abatar.materiales.sequence</field>
+            <field name="prefix">CM</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes0" model="ir.sequence">
+            <field name="name">Numero de Resumen</field>
+            <field name="code">abatar.resumenes.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes" model="ir.sequence">
+            <field name="name">Numero de Factura A</field>
+            <field name="code">abatar.facturaA.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes2" model="ir.sequence">
+            <field name="name">Numero de Factura B</field>
+            <field name="code">abatar.facturaB.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes3" model="ir.sequence">
+            <field name="name">Numero de Factura C</field>
+            <field name="code">abatar.facturaC.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes4" model="ir.sequence">
+            <field name="name">Numero de Factura A (MyPyme)</field>
+            <field name="code">abatar.facturaAmyp.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes5" model="ir.sequence">
+            <field name="name">Numero de Factura B (MyPyme)</field>
+            <field name="code">abatar.facturaBmyp.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="seq_abatar_resumenes6" model="ir.sequence">
+            <field name="name">Numero de Factura S/F</field>
+            <field name="code">abatar.facturaSF.sequence</field>
+            <field name="padding">5</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

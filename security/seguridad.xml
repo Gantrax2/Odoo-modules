@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="category_abatar" model="ir.module.category">
+            <field name="name">Abatar2</field>
+        </record>
+        <record id="group_abatar_user" model="res.groups">
+            <field name="name">Abatar User</field>
+            <field name="comment">Usuario habitual de trabajo.</field>
+            <field name="category_id" ref="om_abatartrucks.category_abatar"/>
+
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+        <record id="group_abatar_manager" model="res.groups">
+            <field name="name">Abatar Manager</field>
+            <field name="comment">Usuario Administrador.</field>
+            <field name="category_id" ref="om_abatartrucks.category_abatar"/>
+            <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+        </record>
+</odoo>

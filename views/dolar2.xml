@@ -1,0 +1,794 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="dolar2_tree" model="ir.ui.view">
+        <field name="name">abatar.dolar2.tree</field>
+        <field name="model">abatar.dolar2</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="fecha" />
+                <field name="pesos"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dolar2_form" model="ir.ui.view">
+        <field name="name">abatar.dolar2.form</field>
+        <field name="model">abatar.dolar2</field>
+        <field name="arch" type="xml">
+            <form string="Form de dolar2">
+                <group>
+                    <field name="fecha" autocomplete="off"/>
+                    <field name="pesos"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="board_graph_clientes" model="ir.ui.view">
+        <field name="name">abatar.dolar2.graph</field>
+        <field name="model">abatar.dolar2</field>
+        <field name="arch" type="xml">
+            <graph string="Dolar2">
+                <field name="fecha"/>
+                <field name="pesos"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_dolar2" model="ir.actions.act_window">
+            <field name="name">dolar2</field>
+            <field name="res_model">abatar.dolar2</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+
+    <record id="dolar3_tree" model="ir.ui.view">
+        <field name="name">abatar.dolar3.tree</field>
+        <field name="model">abatar.dolar3</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="NOMBRE_IMPOSIBLE"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="dolar3_form" model="ir.ui.view">
+        <field name="name">abatar.dolar3.form</field>
+        <field name="model">abatar.dolar3</field>
+        <field name="arch" type="xml">
+            <form string="Form de dolar3">
+                <group>
+                    <field name="NOMBRE_IMPOSIBLE"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_dolar3" model="ir.actions.act_window">
+            <field name="name">dolar3</field>
+            <field name="res_model">abatar.dolar3</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+
+
+    <record id="funcionesvisor_tree" model="ir.ui.view">
+        <field name="name">abatar.funcionesvisor.tree</field>
+        <field name="model">abatar.funcionesvisor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="forc_name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="funcionesvisor_form" model="ir.ui.view">
+        <field name="name">abatar.funcionesvisor.form</field>
+        <field name="model">abatar.funcionesvisor</field>
+        <field name="arch" type="xml">
+            <form string="Form de funciones visor">
+                <group>
+                    <field name="name"/>
+                    <field name="grupot"/>
+                    <field name="grupoN"/>
+                    <field name="valorA"/>
+                    <field name="valorB"/>
+                    <field name="valorC"/>
+                    <field name="valorD"/>
+                    <field name="valorE"/>
+                    <field name="valorF"/>
+                    <field name="valorG"/>
+                    <field name="forc_name"/>
+                    <field name="texto"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_funcionesvisor" model="ir.actions.act_window">
+            <field name="name">funcionesvisor</field>
+            <field name="res_model">abatar.funcionesvisor</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+
+<!--
+    <record id="resumenbusqueda_tree" model="ir.ui.view">
+        <field name="name">abatar.resumenbusqueda.tree</field>
+        <field name="model">abatar.resumenbusqueda</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="resumen_busqueda"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="resumenbusqueda_form" model="ir.ui.view">
+        <field name="name">abatar.resumenbusqueda.form</field>
+        <field name="model">abatar.resumenbusqueda</field>
+        <field name="arch" type="xml">
+            <form string="Form de resumenbusqueda">
+                <group>
+                    <field name="resumen_busqueda"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_resumenbusqueda" model="ir.actions.act_window">
+            <field name="name">resumenbusqueda</field>
+            <field name="res_model">abatar.resumenbusqueda</field>
+            <field name="limit">100</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+-->
+
+
+
+
+    <record id="pedidosreg_tree" model="ir.ui.view">
+        <field name="name">abatar.pedidosreg.tree</field>
+        <field name="model">abatar.pedidosreg</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="fecha"/>
+                <field name="tipo"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="pedidosreg_form" model="ir.ui.view">
+        <field name="name">abatar.pedidosreg.form</field>
+        <field name="model">abatar.pedidosreg</field>
+        <field name="arch" type="xml">
+            <form string="Form de Pedidos">
+                <group>
+                    <field name="fecha"/>
+                    <field name="tipo"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_pedidosreg" model="ir.actions.act_window">
+            <field name="name">pedidosreg</field>
+            <field name="res_model">abatar.pedidosreg</field>
+            <field name="limit">200</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+
+
+    <record id="abatar_trends_tree" model="ir.ui.view">
+        <field name="name">abatar.trends.tree</field>
+        <field name="model">abatar.trends</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="palabra"/>
+                <field name="ultimo_valor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="abatar_trends_form" model="ir.ui.view">
+        <field name="name">abatar.trends.form</field>
+        <field name="model">abatar.trends</field>
+        <field name="arch" type="xml">
+            <form string="Form de Trends">
+                <group>
+                    <field name="palabra"/>
+                    <field name="ultimo_valor"/>
+                    <field name="busquedas_lines">
+                        <tree ediatble="bottom">
+                            <field name="fecha"/>
+                            <field name="valor"/>
+                            <field name="trends_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_abatar_trends" model="ir.actions.act_window">
+            <field name="name">trends</field>
+            <field name="res_model">abatar.trends</field>
+            <field name="limit">200</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Trend</p>
+            </field>
+    </record>
+
+    <record id="abatar_trends_lines_tree" model="ir.ui.view">
+        <field name="name">abatar.trends.lines.tree</field>
+        <field name="model">abatar.trends.lines</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="trends_id"/>
+                <field name="fecha"/>
+                <field name="valor"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="abatar_trends_lines_form" model="ir.ui.view">
+        <field name="name">abatar.trends.lines.form</field>
+        <field name="model">abatar.trends.lines</field>
+        <field name="arch" type="xml">
+            <form string="Form de Trends">
+                <group>
+                    <field name="trends_id"/>
+                    <field name="fecha"/>
+                    <field name="valor"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record id="abatar_trends_lines_graph" model="ir.ui.view">
+        <field name="name">abatar.trends.lines.graph</field>
+        <field name="model">abatar.trends.lines</field>
+        <field name="arch" type="xml">
+            <form string="Graph de Trends">
+                <group>
+                    <field name="trends_id"/>
+                    <field name="fecha"/>
+                    <field name="valor"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_abatar_trends_lines" model="ir.actions.act_window">
+            <field name="name">Trends lines</field>
+            <field name="res_model">abatar.trends.lines</field>
+            <field name="limit">200</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Trend</p>
+            </field>
+    </record>
+
+
+
+
+
+
+    <record id="visor_tree" model="ir.ui.view">
+        <field name="name">abatar.visor.tree</field>
+        <field name="model">abatar.visor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="NOMBRE_IMPOSIBLE"/>
+                <field name="name1"/>
+                <field name="name2"/>
+                <field name="x_num"/>
+                <field name="x_str"/>
+                <field name="x_date"/>
+                <field name="x_bool"/>
+                <field name="y_num"/>
+                <field name="y_dolar"/>
+                <field name="dolar_uso" invisible="1"/>
+                <field name="dolar2_uso" invisible="1"/>
+                <field name="y_integral0"/>
+                <field name="y_integral1"/>
+                <field name="y_integral2"/>
+                <field name="y_func"/>
+                <field name="y_str"/>
+                <field name="y_date"/>
+                <field name="y_bool"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="visor_form" model="ir.ui.view">
+        <field name="name">abatar.visor.form</field>
+        <field name="model">abatar.visor</field>
+        <field name="arch" type="xml">
+            <form string="Form de visor">
+                <group>
+                    <field name="NOMBRE_IMPOSIBLE"/>
+                    <field name="name1"/>
+                    <field name="name2"/>
+                    <field name="x_num"/>
+                    <field name="x_str"/>
+                    <field name="x_date"/>
+                    <field name="x_bool"/>
+                    <field name="y_num"/>
+                    <field name="y_dolar"/>
+                    <field name="dolar_uso"/>
+                    <field name="dolar2_uso"/>
+                    <field name="y_integral0"/>
+                    <field name="y_integral1"/>
+                    <field name="y_integral2"/>
+                    <field name="y_func"/>
+                    <field name="y_str"/>
+                    <field name="y_date"/>
+                    <field name="y_bool"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="visor_graph" model="ir.ui.view">
+        <field name="name">abatar.visor.graph</field>
+        <field name="model">abatar.visor</field>
+        <field name="arch" type="xml">
+            <form string="Form de visor">
+                <group>
+                    <field name="NOMBRE_IMPOSIBLE"/>
+                    <field name="name1"/>
+                    <field name="name2"/>
+                    <field name="x_num"/>
+                    <field name="x_str"/>
+                    <field name="x_date"/>
+                    <field name="x_bool"/>
+                    <field name="y_num"/>
+                    <field name="y_dolar"/>
+                    <field name="y_integral0"/>
+                    <field name="y_integral1"/>
+                    <field name="y_integral2"/>
+                    <field name="y_func"/>
+                    <field name="y_str"/>
+                    <field name="y_date"/>
+                    <field name="y_bool"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_visor_search" model="ir.ui.view">
+        <field name="name">abatar.visor.search</field>
+        <field name="model">abatar.visor</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Visor">
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" domain="[('NOMBRE_IMPOSIBLE' , 'ilike', 'self')]"/>
+                <filter string="Nombre2" name="name2" domain="[('name2' , 'ilike', 'self')]"/>
+                <filter string="Nombre1" name="name1" domain="[('name1' , 'ilike', 'self')]"/>
+                <separator/>
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" context="{'group_by': 'NOMBRE_IMPOSIBLE'}"/>
+                <filter string="Nombre1" name="name1" context="{'group_by': 'name1'}"/>
+                <filter string="Nombre2" name="name2" context="{'group_by': 'name2'}"/>
+                <filter string="X (num)" name="x_num" context="{'group_by': 'x_num'}"/>
+                <filter string="X (text)" name="x_str" context="{'group_by': 'x_str'}"/>
+                <filter string="X (fecha)" name="x_date" context="{'group_by': 'x_date'}"/>
+                <filter string="X (V/F)" name="x_bool" context="{'group_by': 'x_bool'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_visor" model="ir.actions.act_window">
+            <field name="name">visor</field>
+            <field name="res_model">abatar.visor</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+    <!-- ========== VISOR 2 ========== -->
+
+    <record id="view_abatar_visor2_form" model="ir.ui.view">
+        <field name="name">abatar.visor2.form</field>
+        <field name="model">abatar.visor2</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 2</attribute>
+        </xpath>
+        </field>
+    </record>
+
+
+    <record id="visor2_tree" model="ir.ui.view">
+        <field name="name">abatar.visor2.tree</field>
+        <field name="model">abatar.visor2</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="NOMBRE_IMPOSIBLE"/>
+                <field name="name1"/>
+                <field name="name2"/>
+                <field name="x_num"/>
+                <field name="x_str"/>
+                <field name="x_date"/>
+                <field name="x_bool"/>
+                <field name="y_num"/>
+                <field name="y_dolar"/>
+                <field name="dolar_uso" invisible="1"/>
+                <field name="dolar2_uso" invisible="1"/>
+                <field name="y_integral0"/>
+                <field name="y_integral1"/>
+                <field name="y_integral2"/>
+                <field name="y_func"/>
+                <field name="y_str"/>
+                <field name="y_date"/>
+                <field name="y_bool"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_abatar_visor2_graph" model="ir.ui.view">
+        <field name="name">abatar.visor2.graph</field>
+        <field name="model">abatar.visor2</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_graph"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 2</attribute>
+        </xpath>
+        </field>
+    </record>
+
+
+    <record id="view_visor2_search" model="ir.ui.view">
+        <field name="name">abatar.visor2.search</field>
+        <field name="model">abatar.visor2</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Visor">
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" domain="[('NOMBRE_IMPOSIBLE' , 'ilike', 'self')]"/>
+                <filter string="Nombre2" name="name2" domain="[('name2' , 'ilike', 'self')]"/>
+                <filter string="Nombre1" name="name1" domain="[('name1' , 'ilike', 'self')]"/>
+                <separator/>
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" context="{'group_by': 'NOMBRE_IMPOSIBLE'}"/>
+                <filter string="Nombre1" name="name1" context="{'group_by': 'name1'}"/>
+                <filter string="Nombre2" name="name2" context="{'group_by': 'name2'}"/>
+                <filter string="X (num)" name="x_num" context="{'group_by': 'x_num'}"/>
+                <filter string="X (text)" name="x_str" context="{'group_by': 'x_str'}"/>
+                <filter string="X (fecha)" name="x_date" context="{'group_by': 'x_date'}"/>
+                <filter string="X (V/F)" name="x_bool" context="{'group_by': 'x_bool'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_visor2" model="ir.actions.act_window">
+            <field name="name">visor2</field>
+            <field name="res_model">abatar.visor2</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+    <!-- ========== VISOR 3 ========== -->
+
+    <record id="view_abatar_visor3_form" model="ir.ui.view">
+        <field name="name">abatar.visor3.form</field>
+        <field name="model">abatar.visor3</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 3</attribute>
+        </xpath>
+        </field>
+    </record>
+
+
+    <record id="visor3_tree" model="ir.ui.view">
+        <field name="name">abatar.visor3.tree</field>
+        <field name="model">abatar.visor3</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="NOMBRE_IMPOSIBLE"/>
+                <field name="name1"/>
+                <field name="name2"/>
+                <field name="x_num"/>
+                <field name="x_str"/>
+                <field name="x_date"/>
+                <field name="x_bool"/>
+                <field name="y_num"/>
+                <field name="y_dolar"/>
+                <field name="dolar_uso" invisible="1"/>
+                <field name="dolar2_uso" invisible="1"/>
+                <field name="y_integral0"/>
+                <field name="y_integral1"/>
+                <field name="y_integral2"/>
+                <field name="y_func"/>
+                <field name="y_str"/>
+                <field name="y_date"/>
+                <field name="y_bool"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_abatar_visor3_graph" model="ir.ui.view">
+        <field name="name">abatar.visor3.graph</field>
+        <field name="model">abatar.visor3</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_graph"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 3</attribute>
+        </xpath>
+        </field>
+    </record>
+
+    <record id="view_visor3_search" model="ir.ui.view">
+        <field name="name">abatar.visor3.search</field>
+        <field name="model">abatar.visor3</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Visor">
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" domain="[('NOMBRE_IMPOSIBLE' , 'ilike', 'self')]"/>
+                <filter string="Nombre2" name="name2" domain="[('name2' , 'ilike', 'self')]"/>
+                <filter string="Nombre1" name="name1" domain="[('name1' , 'ilike', 'self')]"/>
+                <separator/>
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" context="{'group_by': 'NOMBRE_IMPOSIBLE'}"/>
+                <filter string="Nombre1" name="name1" context="{'group_by': 'name1'}"/>
+                <filter string="Nombre2" name="name2" context="{'group_by': 'name2'}"/>
+                <filter string="X (num)" name="x_num" context="{'group_by': 'x_num'}"/>
+                <filter string="X (text)" name="x_str" context="{'group_by': 'x_str'}"/>
+                <filter string="X (fecha)" name="x_date" context="{'group_by': 'x_date'}"/>
+                <filter string="X (V/F)" name="x_bool" context="{'group_by': 'x_bool'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_visor3" model="ir.actions.act_window">
+            <field name="name">visor3</field>
+            <field name="res_model">abatar.visor3</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+    <!-- ========== VISOR 4 ========== -->
+
+    <record id="view_abatar_visor4_form" model="ir.ui.view">
+        <field name="name">abatar.visor4.form</field>
+        <field name="model">abatar.visor4</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_form"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 4</attribute>
+        </xpath>
+        </field>
+    </record>
+
+
+    <record id="visor_tree" model="ir.ui.view">
+        <field name="name">abatar.visor.tree</field>
+        <field name="model">abatar.visor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="NOMBRE_IMPOSIBLE"/>
+                <field name="name1"/>
+                <field name="name2"/>
+                <field name="x_num"/>
+                <field name="x_str"/>
+                <field name="x_date"/>
+                <field name="x_bool"/>
+                <field name="y_num"/>
+                <field name="y_dolar"/>
+                <field name="dolar_uso" invisible="1"/>
+                <field name="dolar2_uso" invisible="1"/>
+                <field name="y_integral0"/>
+                <field name="y_integral1"/>
+                <field name="y_integral2"/>
+                <field name="y_func"/>
+                <field name="y_str"/>
+                <field name="y_date"/>
+                <field name="y_bool"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="view_abatar_visor4_graph" model="ir.ui.view">
+        <field name="name">abatar.visor4.graph</field>
+        <field name="model">abatar.visor4</field>
+        <field name="inherit_id" ref="om_abatartrucks.visor_graph"/>
+        <field name="arch" type="xml">
+        <xpath expr="//form" position="attributes">
+            <attribute name="string">Visor 4</attribute>
+        </xpath>
+        </field>
+    </record>
+
+    <record id="view_visor3_search" model="ir.ui.view">
+        <field name="name">abatar.visor3.search</field>
+        <field name="model">abatar.visor3</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Visor">
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" domain="[('NOMBRE_IMPOSIBLE' , 'ilike', 'self')]"/>
+                <filter string="Nombre2" name="name2" domain="[('name2' , 'ilike', 'self')]"/>
+                <filter string="Nombre1" name="name1" domain="[('name1' , 'ilike', 'self')]"/>
+                <separator/>
+                <filter string="Nombre" name="NOMBRE_IMPOSIBLE" context="{'group_by': 'NOMBRE_IMPOSIBLE'}"/>
+                <filter string="Nombre1" name="name1" context="{'group_by': 'name1'}"/>
+                <filter string="Nombre2" name="name2" context="{'group_by': 'name2'}"/>
+                <filter string="X (num)" name="x_num" context="{'group_by': 'x_num'}"/>
+                <filter string="X (text)" name="x_str" context="{'group_by': 'x_str'}"/>
+                <filter string="X (fecha)" name="x_date" context="{'group_by': 'x_date'}"/>
+                <filter string="X (V/F)" name="x_bool" context="{'group_by': 'x_bool'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_visor4" model="ir.actions.act_window">
+            <field name="name">visor4</field>
+            <field name="res_model">abatar.visor4</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+    <record id="proveedoresvisor_tree" model="ir.ui.view">
+        <field name="name">abatar.proveedoresvisor.tree</field>
+        <field name="model">abatar.proveedoresvisor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name_gral" invisible="1"/>
+                <field name="fecha"/>
+                <field name="proveedor_id"/>
+                <field name="proveedor_producto"/>
+                <field name="horas"/>
+                <field name="kms"/>
+                <field name="precio"/>
+                <field name="preciousd"/>
+                <field name="dolaruso"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="proveedoresvisor_form" model="ir.ui.view">
+        <field name="name">abatar.proveedoresvisor.form</field>
+        <field name="model">abatar.proveedoresvisor</field>
+        <field name="arch" type="xml">
+            <form string="Form de visor">
+                <group>
+                    <field name="fecha"/>
+                    <field name="proveedor_id"/>
+                    <field name="proveedor_producto"/>
+                    <field name="horas"/>
+                    <field name="kms"/>
+                    <field name="precio"/>
+                    <field name="preciousd"/>
+                    <field name="dolaruso"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="view_proveedoresvisor_search" model="ir.ui.view">
+        <field name="name">abatar.proveedoresvisor.search</field>
+        <field name="model">abatar.proveedoresvisor</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Visor">
+                <filter string="Nombre" name="name_gral" domain="[('name_gral' , 'ilike', 'self')]"/>
+                <separator/>
+                <filter string="Proveedor" name="proveedor_id" context="{'group_by': 'proveedor_id'}"/>
+                <filter string="Tipo unidad" name="proveedor_producto" context="{'group_by': 'proveedor_producto'}"/>
+                <filter string="Fecha" name="fecha" context="{'group_by': 'fecha'}"/>
+                <filter string="Horas" name="horas" context="{'group_by': 'horas'}"/>
+                <filter string="Kms" name="kms" context="{'group_by': 'kms'}"/>
+                <filter string="Precio $" name="precio" context="{'group_by': 'precio'}"/>
+                <filter string="Precio U$d" name="preciousd" context="{'group_by': 'preciousd'}"/>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_proveedoresvisor" model="ir.actions.act_window">
+            <field name="name">proveedoresvisor</field>
+            <field name="res_model">abatar.proveedoresvisor</field>
+            <field name="limit">600</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Proveedor presup. Oficial</p>
+            </field>
+    </record>
+
+
+    <record id="savevisor_tree" model="ir.ui.view">
+        <field name="name">abatar.savevisor.tree</field>
+        <field name="model">abatar.savevisor</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="carpeta2" />
+                <field name="carpeta" />
+                <field name="name" />
+                <field name="name2" />
+                <field name="modelo" />
+                <field name="campo_x" />
+                <field name="campo_y" />
+                <field name="dolarizar" />
+                <field name="ids_list" />
+                <field name="dominio" />
+                <field name="orden" />
+                <field name="comparacion" />
+                <field name="salida" />
+                <field name="tipo" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="savevisor_form" model="ir.ui.view">
+        <field name="name">abatar.savevisor.form</field>
+        <field name="model">abatar.savevisor</field>
+        <field name="arch" type="xml">
+            <form string="Form de savevisor">
+                <group>
+                    <field name="carpeta2" />
+                    <field name="carpeta" />
+                    <field name="name" />
+                    <field name="name2" />
+                    <field name="modelo" />
+                    <field name="campo_x" />
+                    <field name="campo_y" />
+                    <field name="dolarizar" />
+                    <field name="ids_list" />
+                    <field name="dominio" />
+                    <field name="orden" />
+                    <field name="comparacion" />
+                    <field name="salida" />
+                    <field name="tipo" />
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_savevisor" model="ir.actions.act_window">
+            <field name="name">savevisor</field>
+            <field name="res_model">abatar.savevisor</field>
+            <field name="limit">200</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Dolar Oficial</p>
+            </field>
+    </record>
+
+
+
+</odoo>

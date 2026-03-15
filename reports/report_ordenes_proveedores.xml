@@ -1,0 +1,1412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--<template id="report_ordenes_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <h2>Orden de Trabajo</h2>
+            </t>
+        </t>
+    </template>-->
+
+    <template id="report_ordenes_proveedores" >
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <link rel="stylesheet" href="om_abatartrucks/static/src/css/style.css"/>
+                <t t-if="doc.servicio.name != 'Entrega de Materiales'">
+                    <!--ESTADOS ORDEN NUEVA-->
+                    <t t-if="doc.state in 'orden'">
+                        <t t-call="web.external_layout">
+                            <!-- <div class="backgroundimage" style="position:absolute;opacity:0.85;font-size:3em;width:100%;height:100%;z-index:0;">
+                                <img src="/om_abatartrucks/static/src/img/images2.jpg"/>
+                            </div> -->
+                            <div class="page">
+                                <div>
+                                    <table width="100%" height="100%">
+                                        <tr width="100%">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td width="100%">
+
+                                                        <!--ORDEN-->
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td  class="text-center"  width="100%">
+                                                                    <strong> <t t-if="doc.servicio.name=='Mudanza'"><t t-if="doc.crm"><t t-if="doc.crm.mdz_m3_auto>20"><span style="font-size: 28px"> Mudanza Clásica "Easy-Pack"</span></t><t t-elif="doc.crm.mdz_m3_auto>15"><span style="font-size: 28px">Mudanza Estándar "Easy-Pack"</span></t><t t-else=""><span style="font-size: 28px">Mudanza Mini "Easy-Pack"</span></t></t></t><t t-else=""><span style="font-size: 27px" t-field="doc.servicio.name"/> </t> </strong>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <table width="100%" style="margin-top: 15px">
+                                                            <tr>
+                                                                <td width="20%">
+                                                                    <h4>
+                                                                        Pedido: <br/> <span t-field="doc.pedide"/>
+                                                                    </h4>
+                                                                </td>
+                                                                <td width="20%">
+                                                                    <h4>
+                                                                        Orden: <br/> <span t-field="doc.name_seq"/>
+                                                                    </h4>
+
+                                                                </td>
+                                                                <td width="30%" class="text-right">
+                                                                    <strong>Cliente: </strong><br />
+                                                                    <div t-if="doc.es_conocido=='si'">
+                                                                        <span t-field="doc.cliente.name_gral"/><br />
+                                                                        <span t-field="doc.contacto.name"/><br />
+
+                                                                    </div>
+                                                                    <div t-else="">
+                                                                        <div t-if="doc.empresa">
+                                                                            <span t-field="doc.empresa"/><br />
+                                                                        </div>
+                                                                        <span t-field="doc.name"/><br />
+
+                                                                    </div>
+                                                                </td>
+                                                                <td width="30%" class="text-right">
+                                                                    <div t-if="doc.user_id">
+                                                                        <strong>Fecha de Pedido:</strong><br />
+                                                                        <span t-field="doc.fecha_pedido" t-options='{"hide_seconds":"True"}'/>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                        <!--FECHA EJECU-->
+                                                        <table style="margin-top: 15px" width="100%">
+                                                            <tr>
+                                                                <td class="text-left" width="30%">
+                                                                    Fecha de Ejecucion:<br/>
+                                                                    <strong><span style="font-size: 18px" t-field="doc.fecha_ejecucion_name"/></strong>
+                                                                </td>
+
+                                                                <t t-if="doc.oculta_desc==False">
+
+                                                                    <td class="text-right" style="font-size: 16px" width="70%">
+                                                                        <t t-if="doc.ud_ppal not in ['' , False]">
+
+                                                                            <strong style="font-size: 16px">Tipo Unidad:</strong>
+                                                                            <strong><span style="font-size: 16px" t-field="doc.ud_ppal"/> </strong>
+                                                                            <t  t-if="doc.op_sv">
+                                                                            <strong  style="font-size: 16px"> | OPERARIOS:</strong>
+                                                                            <strong><span style="font-size: 16px"  t-field="doc.op_sv"/></strong>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <t  t-if="doc.op_sv">
+                                                                                <strong style="font-size: 16px">OPERARIOS:</strong>
+                                                                                <strong><span style="font-size: 16px" t-field="doc.op_sv"/></strong>
+                                                                            </t>
+                                                                        </t>
+                                                                        <t t-if="doc.pauta not in  ('',' ', False)">
+                                                                            <br /><strong style="font-size:16pt" >Pauta: </strong><span style="font-size:16pt" t-field="doc.pauta"/>
+                                                                        </t>
+                                                                    </td>
+                                                                </t>
+                                                                <t t-elif="doc.servicio.name!='Visita Tecnica'">
+
+                                                                    <td class="text-right" style="font-size: 20px" width="72%">
+                                                                        <t t-if="doc.ud_ppal not in ('' , False , 0)">
+
+                                                                            <strong style="font-size: 20px">Tarifa UD:</strong>
+                                                                            <strong><span style="font-size: 20px" t-field="doc.ud_ppal"/></strong>
+
+                                                                        </t>
+                                                                        <t t-if="doc.op_sv not in ('' , False , 0)">
+                                                                            <t t-if="doc.ud_ppal  not in ('' , False , 0)">
+                                                                                <strong style="font-size: 20px"> | OPERARIOS:</strong>
+                                                                                <strong><span style="font-size: 20px" t-field="doc.op_sv"/></strong>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <strong style="font-size: 20px"> OPERARIOS:</strong>
+                                                                                <strong><span style="font-size: 20px" t-field="doc.op_sv"/></strong>
+                                                                            </t>
+                                                                        </t>
+                                                                    </td>
+                                                                </t>
+                                                            </tr>
+                                                        </table>
+
+                                                        <!--DIRECCIONES-->
+                                                        <table style="margin-top: 20px" class="table table-sm o_main_table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <!-- TODO: remove in master -->
+                                                                    <th name="th_num" class="text-left"></th>
+                                                                    <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                        <th name="th_description" class="text-left" width="25%">Pauta</th>
+                                                                    </t>
+                                                                    <th name="th_description" class="text-left">Direccion</th>
+                                                                    <th name="th_quantity" class="text-right">Contacto</th>
+                                                                    <t t-if="doc.cont_tipos>0">
+                                                                        <th name="th_priceunit" class="text-right">Tipo</th>
+                                                                    </t>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody class="sale_tbody">
+                                                                <t t-set="contadorA" t-value="0"/>
+                                                                <t t-if="doc.es_conocido == 'si'">
+                                                                    <t t-foreach="doc.destinos_lines" t-as="line">
+
+                                                                        <t t-set="contadorA" t-value="contadorA+1"/>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span t-esc="contadorA" />
+                                                                            </td>
+                                                                            <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                                <td class="text-left" width="25%">
+                                                                                    <span  style="font-size: 12px" t-field="line.pauta"/>
+                                                                                </td>
+                                                                            </t>
+                                                                            <td class="text-left">
+                                                                                <strong><span  style="font-size: 14px" t-field="line.destino_id"/></strong>
+                                                                            </td>
+                                                                            <td class="text-right">
+                                                                                <span  style="font-size: 12px" t-field="line.destino_contacto"/>
+                                                                            </td>
+                                                                            <t t-if="doc.cont_tipos>0">
+                                                                                <td class="text-right">
+                                                                                    <span  style="font-size: 12px" t-field="line.destino_tipo"/>
+                                                                                </td>
+                                                                            </t>
+                                                                        </tr>
+                                                                    </t>
+                                                                </t>
+                                                                <t t-if="doc.es_conocido == 'no'">
+                                                                    <t t-foreach="doc.destinos_lines2" t-as="line">
+
+                                                                        <t t-set="contadorA" t-value="contadorA+1"/>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span t-esc="contadorA" />
+                                                                            </td>
+                                                                            <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                                <td class="text-left" width="25%">
+                                                                                    <span style="font-size: 12px" t-field="line.pauta"/>
+                                                                                </td>
+                                                                            </t>
+                                                                            <td class="text-left">
+                                                                                <strong><span  style="font-size: 14px" t-field="line.name_gral"/></strong>
+                                                                            </td>
+                                                                            <td class="text-right">
+                                                                                <span  style="font-size: 12px" t-field="line.destino_contacto"/>
+                                                                            </td>
+                                                                            <t t-if="doc.cont_tipos>0">
+                                                                                <td class="text-right">
+                                                                                    <span  style="font-size: 12px" t-field="line.destino_tipo"/>
+                                                                                </td>
+                                                                            </t>
+                                                                        </tr>
+                                                                    </t>
+                                                                </t>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <!--PERSONAL-->
+                                                        <table style="margin-top: 25px" class="table table-sm o_main_table">
+                                                            <thead>
+                                                                <tr>
+                                                                    <!-- TODO: remove in master -->
+                                                                    <th name="th_num" class="text-left"></th>
+                                                                    <th name="th_description" class="text-left">Personal</th>
+                                                                    <t t-if="doc.servicio_name != 'Previa'">
+                                                                        <th name="th_description" class="text-right">Modelo</th>
+                                                                        <th name="th_description" class="text-right">Patente</th>
+                                                                    </t>
+                                                                    <th name="th_quantity" class="text-right">Telefono</th>
+                                                                    <th name="th_priceunit" class="text-right">DNI</th>
+                                                                    <th name="th_tipo" class="text-right">Tipo</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <t t-set="contador0B" t-value="0"/>
+                                                                <t t-foreach="doc.orden_lines" t-as="line">
+                                                                    <t t-set="contador0B" t-value="contador0B+1"/>
+                                                                </t>
+                                                            <tbody class="sale_tbody">
+                                                                <t t-set="contadorB" t-value="0"/>
+                                                                <t t-foreach="doc.orden_lines" t-as="line">
+                                                                    <t t-set="contadorB" t-value="contadorB+1"/>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <span t-esc="contadorB" />
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <t t-if="line.proveedor_producto.modelo">
+                                                                                (<span t-field="line.proveedor_id.name_seq"/>)
+                                                                            </t>
+                                                                            <span t-field="line.proveedor_personal.name"/>
+                                                                        </td>
+                                                                        <t t-if="doc.servicio_name != 'Previa'">
+                                                                            <td class="text-right">
+                                                                                <t t-if="line.proveedor_producto.modelo">
+                                                                                    <span t-field="line.proveedor_producto.modelo"/>
+                                                                                </t>
+                                                                            </td>
+                                                                            <td class="text-right">
+                                                                                <t t-if="line.proveedor_producto.patente">
+                                                                                    <span t-field="line.proveedor_producto.patente"/>
+                                                                                </t>
+                                                                            </td>
+                                                                        </t>
+                                                                        <td class="text-right">
+
+                                                                            <t t-if="line.proveedor_producto.tipo.name  in ('unidad','grua')">
+                                                                                <t t-if="line.proveedor_id.empleado">
+                                                                                    <span t-field="line.proveedor_personal.tel"/>
+                                                                                </t>
+                                                                                <t t-elif="contador0B==1">
+                                                                                    <span>11-4193-2237</span>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-if="line.proveedor_producto.tipo.name == 'operario'">
+                                                                                <t t-if="line.proveedor_producto.subtipo.name=='Supervisor'">
+                                                                                    <span t-field="line.proveedor_personal.tel"/>
+                                                                                </t>
+                                                                                <t t-elif="line.proveedor_id.empleado">
+                                                                                    <span t-field="line.proveedor_personal.tel"/>
+                                                                                </t>
+                                                                                <t t-elif="contador0B==1">
+                                                                                    <span>11-4193-2237</span>
+                                                                                </t>
+                                                                            </t>
+
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <span t-field="line.proveedor_personal.dni"/>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <t t-if="line.proveedor_producto.tipo.name in ('unidad','grua')">
+                                                                                <span>Chofer</span>
+                                                                            </t>
+                                                                            <t t-if="line.proveedor_producto.tipo.name == 'operario'">
+                                                                                <t t-if="line.proveedor_producto.subtipo.name">
+                                                                                    <span t-field="line.proveedor_producto.subtipo.name"></span>
+                                                                                </t>
+                                                                            </t>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+                                                            </tbody>
+                                                        </table>
+
+
+                                                        <!--COBRAR-->
+                                                        <t t-if="doc.cobro_convenido">
+                                                            <table style="margin-top: 25px ; font-size: 18px" width="70%">
+                                                                <tr>
+                                                                    <td width="50%">
+                                                                        <strong><span> - COBRAR AL FINALIZAR:</span></strong>
+                                                                    </td>
+                                                                    <td width="50%">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                                    </td>
+                                                                </tr>
+                                                                <t t-if="doc.solo_efectivo">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <strong><span> - SOLO EFECTIVO -</span></strong>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </t>
+                                                                <t t-if="doc.desc_imprimir">
+                                                                    <tr>
+                                                                        <td>
+                                                                            <strong><span t-field="doc.desc" style="font-size: 12px"/></strong>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </t>
+                                                            </table>
+                                                        </t>
+
+                                                        <t t-elif="doc.desc and doc.desc_imprimir">
+                                                            <table style="margin-top: 25px ; font-size: 18px" width="70%">
+                                                                <tr>
+                                                                    <td>
+                                                                        <strong><span t-field="doc.desc" style="font-size: 12px"/></strong>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </table>
+                                                        </t>
+
+
+                                                        <!--FIRMA margen-->
+                                                        <t t-if="5>contadorA+contadorB">
+                                                            <table style="margin-top: 25px" width="100%">
+                                                                <tr>
+                                                                    <td >
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </t>
+
+                                                        <!--FIRMA-->
+                                                        <t t-if="doc.servicio.name=='Visita Tecnica'">
+                                                            <table style="margin-top: 25px" width="100%">
+                                                                <tr>
+                                                                    <td width="70%">
+                                                                        <!-- <span t-field="doc.desc"/> -->
+                                                                    </td>
+                                                                    <td width="30%">
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td width="100%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid #D4D4D4"><strong>Firma: </strong></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid black"><strong>Aclaracion: </strong></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </t>
+                                                        <t t-else="">
+
+                                                            <table style="margin-top: 25px" width="100%">
+                                                                <tr>
+                                                                    <td width="70%">
+
+                                                                    </td>
+                                                                    <td width="30%">
+                                                                        <table width="100%">
+                                                                            <tr>
+                                                                                <td width="100%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid #D4D4D4"><strong>Firma: </strong></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid #D4D4D4"><strong>Aclaracion: </strong></td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid black"><strong>Hora Final: </strong></td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+                                                        </t>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <t t-if="doc.embalaje_lines">
+                                    <p style="page-break-after:always;">   </p>
+                                </t>
+                            </div>
+
+
+                            <t t-if="doc.embalaje_lines">
+                                <div class="page">
+                                    <div>
+                                        <table width="100%">
+                                            <tr>
+                                                <td  class="text-center"  width="100%">
+                                                    <strong style="padding-top: 15px ; font-size:28px">Entrega de Materiales</strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+
+                                                    <!--MATERIALES-->
+                                                    <table style="margin-top: 45px" class="table table-sm o_main_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- TODO: remove in master -->
+                                                                <th name="th_description" class="text-left">Nombre</th>
+                                                                <th name="th_quantity" class="text-left">Material</th>
+                                                                <th name="th_priceunit" style="border-bottom: 1px solid black" class="text-left">Cantidad</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="sale_tbody">
+                                                            <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                <t t-if="line.embalaje_id.desc">
+                                                                    <tr>
+                                                                        <td class="text-left">
+                                                                            <strong>
+                                                                                <span t-field="line.embalaje_id.name"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <span t-field="line.embalaje_id.desc"/>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+                                                            </t>
+                                                            <tr>
+                                                                <td class="text-left" style="boder-top: 1px solid" colspan="3">
+                                                                    <br />
+                                                                    <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                        <t t-if="not line.embalaje_id.desc">
+                                                                            <span t-field="line.embalaje_id.name"/>:
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-foreach="doc.uso_elem" t-as="line">
+                                                                        <t t-if="line.elem_id.name.upper().find('HERRAMIENTAS')>-1">
+                                                                            <span style="font-size: 15px">HERRAMIENTAS:</span>
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span style="font-size: 15px" t-field="line.elem_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+
+                                                    <!--INSTRUCCIONES-->
+                                                    <table style="margin-top: 35px" width="100%">
+                                                        <tr>
+                                                            <td width="70%">
+                                                                <strong><span style="font-size: 18px" t-field="doc.desc"/></strong>
+                                                                <img src='/om_abatartrucks/static/src/img/banner_bot.jpeg' style="max-height:100%;" alt="banner_bot"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+
+                        </t>
+                    </t>
+
+                    <t t-elif="doc.state in 'cancelo'">
+                        <t t-call="web.external_layout">
+                            <!-- <div class="backgroundimage" style="position:absolute;opacity:0.85;font-size:3em;width:100%;height:100%;z-index:0;">
+                                <img src="/om_abatartrucks/static/src/img/images2.jpg"/>
+                            </div> -->
+                            <div class="page">
+                                <div>
+                                    <table width="100%" height="100%">
+                                        <tr width="100%">
+                                            <table width="100%">
+                                                <tr>
+                                                    <td width="100%">
+
+                                                        <!--ORDEN-->
+                                                        <table width="100%">
+                                                            <tr>
+                                                                <td  class="text-center"  width="100%">
+                                                                    <strong> ORDEN SIN CONFIRMAR. ESTADO BORRADOR NO SE PUEDE IMPRIMIR . <t t-if="doc.servicio.name=='Mudanza'"><t t-if="doc.crm"><t t-if="doc.crm.mdz_m3_auto>20"><span style="font-size: 28px"> Mudanza Clásica "Easy-Pack"</span></t><t t-elif="doc.crm.mdz_m3_auto>15"><span style="font-size: 28px">Mudanza Estándar "Easy-Pack"</span></t><t t-else=""><span style="font-size: 28px">Mudanza Mini "Easy-Pack"</span></t></t></t><t t-else=""><span style="font-size: 27px" t-field="doc.servicio.name"/> </t> </strong>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </t>
+                    </t>
+
+                    <t t-elif="doc.state in 'finalizo'">
+                        <t t-call="web.external_layout">
+                            <!-- <div class="backgroundimage" style="position:absolute;opacity:0.85;font-size:3em;width:100%;height:100%;z-index:0;">
+                                <img src="/om_abatartrucks/static/src/img/images2.jpg"/>
+                            </div> -->
+                            <div class="page">
+                                <div>
+                                    <table width="100%" height="100%">
+                                        <tr>
+                                            <td width="100%">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="100%">
+
+                                                            <!--ORDEN-->
+                                                            <table width="100%">
+                                                                <tr>
+                                                                    <td  class="text-center"  width="100%">
+                                                                        <strong> <t t-if="doc.servicio.name=='Mudanza'"><t t-if="doc.crm"><t t-if="doc.crm.mdz_m3_auto>20"><span style="font-size: 28px"> Mudanza Clásica "Easy-Pack"</span></t><t t-elif="doc.crm.mdz_m3_auto>15"><span style="font-size: 28px">Mudanza Estándar "Easy-Pack"</span></t><t t-else=""><span style="font-size: 28px">Mudanza Mini "Easy-Pack"</span></t></t></t><t t-else=""><span style="font-size: 27px" t-field="doc.servicio.name"/> </t> </strong>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+
+                                                            <table width="100%" style="margin-top: 15px">
+                                                                <tr>
+                                                                    <td width="20%">
+                                                                        <h4>
+                                                                            Pedido: <br/> <span t-field="doc.pedide"/>
+                                                                        </h4>
+                                                                    </td>
+                                                                    <td width="20%">
+                                                                        <h4>
+                                                                            Orden: <br/> <span t-field="doc.name_seq"/>
+                                                                        </h4>
+
+                                                                    </td>
+                                                                    <td width="30%" class="text-right">
+                                                                        <strong>Cliente: </strong><br />
+                                                                        <div t-if="doc.es_conocido=='si'">
+                                                                            <span t-field="doc.cliente.name_gral"/><br />
+                                                                            <span t-field="doc.contacto.name"/><br />
+                                                                            <t t-if="doc.tel_cliente">
+                                                                                <span t-field="doc.tel_cliente"/>
+                                                                            </t>
+                                                                            <t t-elif="doc.email_cliente">
+                                                                                <span t-field="doc.email_cliente"/>
+                                                                            </t>
+                                                                        </div>
+                                                                        <div t-else="">
+                                                                            <div t-if="doc.empresa">
+                                                                                <span t-field="doc.empresa"/><br />
+                                                                            </div>
+                                                                            <span t-field="doc.name"/><br />
+                                                                            <t t-if="doc.tel">
+                                                                                <span t-field="doc.tel"/>
+                                                                            </t>
+                                                                            <t t-elif="doc.email">
+                                                                                <span t-field="doc.email"/>
+                                                                            </t>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td width="30%" class="text-right">
+                                                                        <div t-if="doc.user_id">
+                                                                            <strong>Fecha de Pedido:</strong><br />
+                                                                            <span t-field="doc.fecha_pedido" t-options='{"hide_seconds":"True"}'/>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </table>
+
+                                                            <!--FECHA EJECU-->
+                                                            <table style="margin-top: 15px" width="100%">
+                                                                <tr>
+                                                                    <td class="text-left" width="30%">
+                                                                        Fecha de Ejecucion:<br/>
+                                                                        <strong><span style="font-size: 18px" t-field="doc.fecha_ejecucion_name"/></strong>
+                                                                    </td>
+
+                                                                    <t t-if="doc.oculta_desc==False">
+
+                                                                        <td class="text-right" style="font-size: 16px" width="70%">
+                                                                            <t t-if="doc.ud_ppal not in ['' , False]">
+
+                                                                                <strong style="font-size: 16px">Tipo Unidad:</strong>
+                                                                                <strong><span style="font-size: 16px" t-field="doc.ud_ppal"/> </strong>
+                                                                                <t  t-if="doc.op_sv">
+                                                                                <strong  style="font-size: 16px"> | OPERARIOS:</strong>
+                                                                                <strong><span style="font-size: 16px"  t-field="doc.op_sv"/></strong>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-else="">
+                                                                                <t  t-if="doc.op_sv">
+                                                                                    <strong style="font-size: 16px">OPERARIOS:</strong>
+                                                                                    <strong><span style="font-size: 16px" t-field="doc.op_sv"/></strong>
+                                                                                </t>
+                                                                            </t>
+                                                                            <t t-if="doc.pauta not in  ('',' ', False)">
+                                                                                <br /><strong style="font-size:16pt" >Pauta: </strong><span style="font-size:16pt" t-field="doc.pauta"/>
+                                                                            </t>
+                                                                        </td>
+                                                                    </t>
+                                                                    <t t-elif="doc.servicio.name!='Visita Tecnica'">
+
+                                                                        <td class="text-right" style="font-size: 20px" width="72%">
+                                                                            <t t-if="doc.ud_ppal not in ('' , False , 0)">
+
+                                                                                <strong style="font-size: 20px">Tarifa UD:</strong>
+                                                                                <strong><span style="font-size: 20px" t-field="doc.ud_ppal"/></strong>
+
+                                                                            </t>
+                                                                            <t t-if="doc.op_sv not in ('' , False , 0)">
+                                                                                <t t-if="doc.ud_ppal  not in ('' , False , 0)">
+                                                                                    <strong style="font-size: 20px"> | OPERARIOS:</strong>
+                                                                                    <strong><span style="font-size: 20px" t-field="doc.op_sv"/></strong>
+                                                                                </t>
+                                                                                <t t-else="">
+                                                                                    <strong style="font-size: 20px"> OPERARIOS:</strong>
+                                                                                    <strong><span style="font-size: 20px" t-field="doc.op_sv"/></strong>
+                                                                                </t>
+                                                                            </t>
+                                                                        </td>
+                                                                    </t>
+                                                                </tr>
+                                                            </table>
+
+                                                            <!--DIRECCIONES-->
+                                                            <table style="margin-top: 20px" class="table table-sm o_main_table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!-- TODO: remove in master -->
+                                                                        <th name="th_num" class="text-left"></th>
+                                                                        <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                            <th name="th_description" class="text-left" width="25%">Pauta</th>
+                                                                        </t>
+                                                                        <th name="th_description" class="text-left">Direccion</th>
+                                                                        <th name="th_quantity" class="text-right">Contacto</th>
+                                                                        <t t-if="doc.cont_tipos>0">
+                                                                            <th name="th_priceunit" class="text-right">Tipo</th>
+                                                                        </t>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="sale_tbody">
+                                                                    <t t-set="contadorA" t-value="0"/>
+                                                                    <t t-if="doc.es_conocido == 'si'">
+                                                                        <t t-foreach="doc.destinos_lines" t-as="line">
+
+                                                                            <t t-set="contadorA" t-value="contadorA+1"/>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <span t-esc="contadorA" />
+                                                                                </td>
+                                                                                <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                                    <td class="text-left" width="25%">
+                                                                                        <span  style="font-size: 12px" t-field="line.pauta"/>
+                                                                                    </td>
+                                                                                </t>
+                                                                                <td class="text-left">
+                                                                                    <strong><span  style="font-size: 14px" t-field="line.destino_id"/></strong>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <span  style="font-size: 12px" t-field="line.destino_contacto"/>
+                                                                                </td>
+                                                                                <t t-if="doc.cont_tipos>0">
+                                                                                    <td class="text-right">
+                                                                                        <span  style="font-size: 12px" t-field="line.destino_tipo"/>
+                                                                                    </td>
+                                                                                </t>
+                                                                            </tr>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-if="doc.es_conocido == 'no'">
+                                                                        <t t-foreach="doc.destinos_lines2" t-as="line">
+
+                                                                            <t t-set="contadorA" t-value="contadorA+1"/>
+                                                                            <tr>
+                                                                                <td>
+                                                                                    <span t-esc="contadorA" />
+                                                                                </td>
+                                                                                <t t-if="doc.oculta_desc==True and doc.pauta not in [False, '']">
+                                                                                    <td class="text-left" width="25%">
+                                                                                        <span style="font-size: 12px" t-field="line.pauta"/>
+                                                                                    </td>
+                                                                                </t>
+                                                                                <td class="text-left">
+                                                                                    <strong><span  style="font-size: 14px" t-field="line.name_gral"/></strong>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <span  style="font-size: 12px" t-field="line.destino_contacto"/>
+                                                                                </td>
+                                                                                <t t-if="doc.cont_tipos>0">
+                                                                                    <td class="text-right">
+                                                                                        <span  style="font-size: 12px" t-field="line.destino_tipo"/>
+                                                                                    </td>
+                                                                                </t>
+                                                                            </tr>
+                                                                        </t>
+                                                                    </t>
+                                                                </tbody>
+                                                            </table>
+
+                                                            <!--PERSONAL-->
+                                                            <table style="margin-top: 25px" class="table table-sm o_main_table">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <!-- TODO: remove in master -->
+                                                                        <th name="th_num" class="text-left"></th>
+                                                                        <th name="th_description" class="text-left">Personal</th>
+                                                                        <t t-if="doc.servicio_name != 'Previa'">
+                                                                            <th name="th_description" class="text-right">Modelo</th>
+                                                                            <th name="th_description" class="text-right">Patente</th>
+                                                                        </t>
+                                                                        <th name="th_quantity" class="text-right">Telefono</th>
+                                                                        <th name="th_priceunit" class="text-right">DNI</th>
+                                                                        <th name="th_tipo" class="text-right">Tipo</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="sale_tbody">
+                                                                    <t t-set="contadorB" t-value="0"/>
+                                                                    <t t-foreach="doc.orden_lines" t-as="line">
+                                                                        <t t-set="contadorB" t-value="contadorB+1"/>
+                                                                        <tr>
+                                                                            <td>
+                                                                                <span t-esc="contadorB" />
+                                                                            </td>
+                                                                            <td class="text-left">
+                                                                                <t t-if="line.proveedor_producto.modelo">
+                                                                                    (<span t-field="line.proveedor_id.name_seq"/>)
+                                                                                </t>
+                                                                                <span t-field="line.proveedor_personal.name"/>
+                                                                            </td>
+                                                                            <t t-if="doc.servicio_name != 'Previa'">
+                                                                                <td class="text-right">
+                                                                                    <t t-if="line.proveedor_producto.modelo">
+                                                                                        <span t-field="line.proveedor_producto.modelo"/>
+                                                                                    </t>
+                                                                                </td>
+                                                                                <td class="text-right">
+                                                                                    <t t-if="line.proveedor_producto.patente">
+                                                                                        <span t-field="line.proveedor_producto.patente"/>
+                                                                                    </t>
+                                                                                </td>
+                                                                            </t>
+                                                                            <td class="text-right">
+                                                                                <span t-field="line.proveedor_personal.tel"/>
+                                                                            </td>
+                                                                            <td class="text-right">
+                                                                                <span t-field="line.proveedor_personal.dni"/>
+                                                                            </td>
+                                                                            <td class="text-right">
+                                                                                <t t-if="line.proveedor_producto.tipo.name in ('unidad','grua')">
+                                                                                    <span>Chofer</span>
+                                                                                </t>
+                                                                                <t t-if="line.proveedor_producto.tipo.name == 'operario'">
+                                                                                    <t t-if="line.proveedor_producto.subtipo.name">
+                                                                                        <span t-field="line.proveedor_producto.subtipo.name"></span>
+                                                                                    </t>
+                                                                                </t>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </t>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                                <!--COBRAR-->
+                                                <t t-if="doc.cobro_convenido">
+                                                    <table style="margin-top: 65px ; font-size: 18px" width="70%">
+                                                        <tr>
+                                                            <td width="50%">
+                                                                <strong><span> - COBRADO:</span></strong>
+                                                            </td>
+                                                            <td width="50%">
+                                                                <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+
+
+                                                <!--FIRMA margen-->
+                                                <t t-if="5>contadorA+contadorB">
+                                                    <table style="margin-top: 25px" width="100%">
+                                                        <tr>
+                                                            <td >
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+
+                                                <!--FIRMA-->
+                                                <table style="margin-top: 65px" width="100%">
+                                                    <tr>
+                                                        <td width="70%">
+                                                            <span t-field="doc.desc"/>
+                                                        </td>
+                                                        <td width="30%">
+                                                            <table width="100%">
+                                                                <t t-if="doc.precio_convenido">
+                                                                    <tr>
+                                                                        <td width="70%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid #D4D4D4"><strong>Horas Trabajadas: </strong></td>
+                                                                        <td width="30%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid #D4D4D4"><strong t-field="doc.horas_total"></strong></td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td width="50%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid black"><strong>Precio Total: </strong></td>
+                                                                        <td width="50%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid #D4D4D4; border-bottom: 1px solid black"><strong t-esc="'{:,.2f}'.format(doc.precio_convenido)"></strong></td>
+                                                                    </tr>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <tr>
+                                                                        <td width="70%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid black"><strong>Horas Trabajadas: </strong></td>
+                                                                        <td width="30%" style="padding-top: 8px; padding-bottom: 8px; padding-left: 3px; border-top: 1px solid black; border-bottom: 1px solid black"><strong t-field="doc.horas_total"></strong></td>
+                                                                    </tr>
+                                                                </t>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <t t-if="doc.embalaje_lines">
+                                    <p style="page-break-after:always;">   </p>
+                                </t>
+                            </div>
+
+
+                            <t t-if="doc.embalaje_lines">
+                                <div class="page">
+                                    <div>
+                                        <table width="100%">
+                                            <tr>
+                                                <td  class="text-center"  width="100%">
+                                                    <strong style="padding-top: 15px ; font-size:28px">Entrega de Materiales</strong>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <table width="100%">
+                                            <tr>
+                                                <td>
+
+                                                    <!--MATERIALES-->
+                                                    <table style="margin-top: 45px" class="table table-sm o_main_table">
+                                                        <thead>
+                                                            <tr>
+                                                                <!-- TODO: remove in master -->
+                                                                <th name="th_description" class="text-left">Nombre</th>
+                                                                <th name="th_quantity" class="text-left">Material</th>
+                                                                <th name="th_priceunit" style="border-bottom: 1px solid black" class="text-left">Cantidad</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="sale_tbody">
+                                                            <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                <t t-if="line.embalaje_id.desc">
+                                                                    <tr>
+                                                                        <td class="text-left">
+                                                                            <strong>
+                                                                                <span t-field="line.embalaje_id.name"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <span t-field="line.embalaje_id.desc"/>
+                                                                        </td>
+                                                                        <td class="text-right">
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+                                                            </t>
+                                                            <tr>
+                                                                <td class="text-left" style="boder-top: 1px solid" colspan="3">
+                                                                    <br />
+                                                                    <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                        <t t-if="not line.embalaje_id.desc">
+                                                                            <span t-field="line.embalaje_id.name"/>:
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-foreach="doc.uso_elem" t-as="line">
+                                                                        <t t-if="line.elem_id.name.upper().find('HERRAMIENTAS')>-1">
+                                                                            <span style="font-size: 15px">HERRAMIENTAS:</span>
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span style="font-size: 15px" t-field="line.elem_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+
+                                                    <!--INSTRUCCIONES-->
+                                                    <table style="margin-top: 35px" width="100%">
+                                                        <tr>
+                                                            <td width="70%">
+                                                                <strong><span style="font-size: 18px" t-field="doc.desc"/></strong>
+                                                                <img src='/om_abatartrucks/static/src/img/banner_bot.jpeg' style="max-height:100%;" alt="banner_bot"/>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </t>
+
+                        </t>
+                    </t>
+
+                </t>
+
+                <t t-elif="doc.servicio.name=='Entrega de Materiales'">
+                    <!--ENTREGA DE MATERIALES-->
+                    <t t-call="web.external_layout">
+                        <!-- <div class="backgroundimage" style="position:absolute;opacity:0.85;font-size:3em;width:100%;height:100%;z-index:0;">
+                            <img src="/om_abatartrucks/static/img/images2.jpg" alt="Logo"/>
+                        </div> -->
+                        <div class="page">
+                            <div>
+                                <t t-set="largo_page" t-value="118"/>
+                                <table width="100%">
+                                    <tr>
+                                        <td width="100%">
+
+                                            <!--TITULO-->
+                                            <table width="100%">
+                                                <tr > <!-- ; border-bottom: 2px solid #D4D4D4"> -->
+                                                    <td  width="30%">
+                                                    </td>
+                                                    <td  class="text-center"  width="40%">
+                                                        <t t-if="doc.embalaje_lines">
+                                                            <strong> <span style="font-size: 28px" t-field="doc.servicio.name"/> </strong>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <strong> <span style="font-size: 28px">Orden de Contratación</span> </strong>
+                                                        </t>
+                                                    </td>
+                                                    <td  class="text-right"   width="30%">
+                                                        <span style="font-size: 14px">(Ver presupuesto al dorso)</span>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <t t-set="largo_page" t-value="largo_page+28"/>
+
+                                            <!--PRIMER FILA-->
+                                            <table width="100%">
+                                                <tr style="border-bottom: 1px solid #D4D4D4">
+                                                    <td width="30%" class="text-left"  style="padding-top: 25px">
+                                                        <strong>Pedido:</strong> <br/> <span t-field="doc.pedide"/>  <br/>
+                                                        <strong>Orden:</strong> <br/> <span t-field="doc.name_seq"/>
+                                                    </td>
+                                                    <t t-set="largo_page" t-value="largo_page+25"/>
+                                                    <t t-set="largo_page1" t-value="12*4"/>
+                                                    <t t-set="largo_page2" t-value="0"/>
+                                                    <td class="text-right" width="10%">
+                                                    </td>
+                                                    <td width="30%" class="text-left">
+                                                        <strong>Cliente: </strong><br />
+                                                        <div t-if="doc.es_conocido=='si'">
+                                                            <span t-field="doc.cliente.name_gral"/><br />
+                                                            <span t-field="doc.contacto.name"/><br />
+                                                            Tel: <span t-field="doc.tel_cliente"/><br />
+                                                            <t t-set="largo_page2" t-value="largo_page2+12*4"/>
+                                                            <div t-if="doc.email_cliente">
+                                                                <span t-field="doc.email_cliente"/>
+                                                                <t t-set="largo_page2" t-value="largo_page2+12"/>
+                                                            </div>
+                                                        </div>
+                                                        <div t-else="">
+                                                            <div t-if="doc.empresa">
+                                                                <span t-field="doc.empresa"/><br />
+                                                                <t t-set="largo_page2" t-value="largo_page2+12"/>
+                                                            </div>
+                                                            <span t-field="doc.name"/><br />
+                                                            Tel: <span t-field="doc.tel"/><br />
+                                                            <t t-set="largo_page2" t-value="largo_page2+12*2"/>
+                                                            <div t-if="doc.email">
+                                                                <span t-field="doc.email"/><br />
+                                                                <t t-set="largo_page2" t-value="largo_page2+12"/>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <t t-set="largo_page3" t-value="0"/>
+                                                    <td width="30%" class="text-right">
+                                                        <div t-if="doc.user_id">
+                                                            <strong>Fecha de Pedido:</strong><br />
+                                                            <span t-field="doc.fecha_pedido" t-options='{"hide_seconds":"True"}'/>
+
+                                                            <t t-set="largo_page3" t-value="12*2"/>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <t t-set="largo_page" t-value="largo_page+max([largo_page1, largo_page2, largo_page3])"/>
+
+
+
+                                            <!--2DA FILA-->
+                                            <table width="100%" style="margin-top: 10px">
+                                                <t t-set="largo_page" t-value="largo_page+15"/>
+                                                <tr>
+
+                                                    <td width="25%">
+                                                        <t t-set="contador" t-value="0"/>
+                                                        <t t-foreach="doc.orden_lines" t-as="line">
+                                                            <t t-set="contador" t-value="contador+1"/>
+                                                            <t t-if="contador==1">
+                                                                <strong> Supervisor: </strong> <br/>
+
+                                                                <strong><span t-field="line.proveedor_personal.name"/></strong>  <br/>
+                                                                DNI: <span t-field="line.proveedor_personal.dni"/> <br/>
+                                                                Tel: <span t-field="line.proveedor_personal.tel"/> <br/>
+                                                                <t t-if="doc.crm.servicio_name!='Operarios'">
+                                                                    <span style="font-size: 14px" >m3: </span><span style="font-size: 14px" t-if="doc.crm.mdz_m3_auto" t-field="doc.crm.mdz_m3_auto"/><span style="font-size: 14px" t-if="doc.crm.m3_flete" t-field="doc.crm.m3_flete"/><span style="font-size: 14px" >/</span><span style="font-size: 14px" t-if="doc.crm.mdz_categ" t-field="doc.crm.mdz_categ"/> <span style="font-size: 14px" t-if="doc.crm.mdz_mucho_esc">-<span t-field="doc.crm.mdz_categ"></span></span><span style="font-size: 14px" t-if="doc.crm.mdz_mucho_emb">-<span t-field="doc.crm.mdz_categ"></span></span><span style="font-size: 14px" t-if="doc.crm.mdz_hay_vacio">-V</span>
+                                                                </t>
+
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                    <td width="5%">
+                                                    </td>
+                                                    <td class="text-left" width="40%" >
+                                                        <t t-set="contador" t-value="0"/>
+                                                        <t t-if="doc.es_conocido == 'si'">
+                                                            <t t-foreach="doc.destinos_lines" t-as="line">
+
+                                                                <t t-set="contador" t-value="contador+1"/>
+                                                                <t t-if="contador==1">
+                                                                    <strong> Origen: </strong> <br/>
+                                                                    <strong><span t-field="line.destino_id"/></strong> <br/>
+                                                                    <span t-field="line.destino_contacto"/>
+                                                                </t>
+                                                                <t t-elif="contador==2">
+                                                                    <strong style="font-size: 14px" > Destino: </strong> <br/>
+                                                                    <strong><span  style="font-size: 14px"  t-field="line.destino_id"/></strong> <br/>
+                                                                    <span  style="font-size: 14px" t-field="line.destino_contacto"/>
+                                                                </t>
+                                                                <t t-elif="contador==3">
+                                                                    <strong style="font-size: 14px" > Destino 2: </strong> <br/>
+                                                                    <strong><span style="font-size: 14px"  t-field="line.destino_id"/></strong> <br/>
+                                                                    <span style="font-size: 14px"  t-field="line.destino_contacto"/>
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                        <t t-if="doc.es_conocido == 'no'">
+                                                            <t t-foreach="doc.destinos_lines2" t-as="line">
+
+                                                                <t t-set="contador" t-value="contador+1"/>
+                                                                <t t-if="contador==1">
+                                                                    <strong> Origen: </strong> <br/>
+                                                                    <strong><span t-field="line.name_gral"/></strong> <br/>
+                                                                    <span t-field="line.destino_contacto"/>
+                                                                </t>
+                                                                <t t-elif="contador==2">
+                                                                    <strong style="font-size: 14px" > Destino: </strong> <br/>
+                                                                    <strong><span  style="font-size: 14px" t-field="line.name_gral"/></strong> <br/>
+                                                                    <span style="font-size: 14px"  t-field="line.destino_contacto"/>
+                                                                </t>
+                                                                <t t-elif="contador==3">
+                                                                    <strong style="font-size: 14px" > Destino 2: </strong> <br/>
+                                                                    <strong><span style="font-size: 14px"  t-field="line.name_gral"/></strong> <br/>
+                                                                    <span style="font-size: 14px"  t-field="line.destino_contacto"/>
+                                                                </t>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                    <td class="text-right" width="30%">
+                                                        <t t-if="doc.crm.servicio_name=='Mudanza'">
+                                                            <strong>MUDANZA:<br/></strong>
+                                                        </t>
+
+                                                        <t t-if="doc.embalaje_lines">
+                                                            <strong> Fecha Entrega Materiales:<br/></strong>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <strong> Fecha Contratación:<br/></strong>
+                                                        </t>
+                                                        <strong><span style="font-size: 18px" t-field="doc.fecha_ejecucion_name" /></strong><br/>
+                                                        <t t-if="doc.crm.convenio=='30'">
+                                                            <t t-if="doc.crm.mdz_hay_emb_f or doc.crm.mdz_hay_emb_g">
+                                                                <strong> Fecha de Previa:<br/>
+                                                                <span style="font-size: 18px" t-field="doc.crm.fecha_previa_name" /></strong><br/>
+                                                            </t>
+                                                            <strong> Fecha de Traslado:<br/>
+                                                            <span style="font-size: 18px" t-field="doc.crm.fecha_ejecucion_name" /></strong><br/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-if="doc.crm.mdz_hay_emb_f or doc.crm.mdz_hay_emb_g">
+                                                                <strong> Fecha de Previa y Traslado:<br/>
+                                                                <span style="font-size: 18px" t-field="doc.crm.fecha_ejecucion_name" /></strong><br/>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <strong> Fecha de Traslado:<br/>
+                                                                <span style="font-size: 18px" t-field="doc.crm.fecha_ejecucion_name" /></strong><br/>
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <!--3ERA FILA-->
+                                            <t t-if="doc.crm">
+                                                <t t-if="doc.crm.precio_mas_iva">
+                                                    <table style="margin-top: 15px ; font-size: 16px" width="100%">
+                                                        <tr style="border-bottom: 2px solid black">
+                                                            <td width="30%">
+                                                            </td>
+                                                            <td class="text-center" width="40%" style="border-left: 2px solid black;border-right: 2px solid black">
+                                                                <t t-if="doc.crm.orientacion">
+                                                                    <strong><span> PRECIO ORIENTACIÓN:</span></strong> <br/>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <strong><span> PRECIO DEL SERVICIO:</span></strong>  <br/>
+                                                                </t>
+                                                                <strong>$ <span t-esc="'{:,.2f}'.format(doc.crm.precio_mas_iva)"></span> -</strong>
+                                                            </td>
+                                                            <td width="30%">
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td style="border-right: 2px solid black ; text-align:center">
+                                                                <t t-if="doc.cobro1_pago">
+                                                                     <br/><strong> <span> - PAGADO - </span> </strong>
+                                                                </t>
+                                                            </td>
+                                                            <td style="text-align:center">
+                                                                <t t-if="doc.cobro2_pago">
+                                                                     <br/><strong> <span> - PAGADO - </span> </strong>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <br/><br/>
+                                                                </t>
+                                                            </td>
+                                                            <td  style="border-left: 2px solid black ; text-align:center">
+                                                                <t t-if="doc.cobro3_pago">
+                                                                     <br/><strong> <span> - PAGADO - </span> </strong>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="text-center" style="font-size: 16px;border-right: 2px solid black">
+                                                                <t t-if="doc.crm.convenio=='40'">
+                                                                    <strong><span> Adelanto 40% al Contratar:</span></strong><br/>
+                                                                    <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                                </t>
+                                                                <t t-elif="doc.crm.convenio=='30'">
+                                                                    <strong><span> Adelanto 30% al Contratar:</span></strong><br/>
+                                                                    <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                                </t>
+                                                                <t t-elif="doc.crm.convenio=='25'">
+                                                                    <strong><span> Adelanto 25% al Contratar:</span></strong><br/>
+                                                                    <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                                </t>
+                                                                <t t-elif="doc.crm.convenio=='20'">
+                                                                    <strong><span> Adelanto 20% al Contratar:</span></strong><br/>
+                                                                    <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                                                </t>
+                                                                <t t-else="">
+                                                                </t>
+                                                                <t t-if="doc.solo_efectivo">
+                                                                    <br/><strong><span> - SOLO EFECTIVO -</span></strong>
+                                                                </t>
+                                                            </td>
+                                                            <td class="text-center" style="font-size: 16px">
+                                                                <t t-if="doc.crm.convenio=='30'">
+                                                                    <strong><span> Adelanto 30% al Cierre de Emb.:</span></strong><br/>
+                                                                    <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido2)"></span> -</strong>
+                                                                </t>
+                                                                <t t-else="">
+                                                                </t>
+                                                                <t t-if="doc.solo_efectivo2">
+                                                                    <br/><strong><span> - SOLO EFECTIVO -</span></strong>
+                                                                </t>
+                                                            </td>
+                                                            <td  class="text-center" style="font-size: 16px; border-left: 2px solid black">
+                                                                <t t-if="doc.crm.convenio !='cc'">
+                                                                    <strong><span> Saldo Al Finalizar:</span></strong><br/>
+                                                                    <t t-if="doc.crm.convenio=='40'">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido3)"></span> -</strong>
+                                                                    </t>
+                                                                    <t t-elif="doc.crm.convenio=='30'">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido3)"></span> -</strong>
+                                                                    </t>
+                                                                    <t t-elif="doc.crm.convenio=='25'">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido3)"></span> -</strong>
+                                                                    </t>
+                                                                    <t t-elif="doc.crm.convenio=='20'">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido3)"></span> -</strong>
+                                                                    </t>
+                                                                    <t t-else="">
+                                                                        <strong>$ <span t-esc="'{:,.2f}'.format(doc.cobro_convenido3)"></span> -</strong>
+                                                                    </t>
+                                                                    <t t-if="doc.solo_efectivo3">
+                                                                        <br/><strong><span> - SOLO EFECTIVO -</span></strong>
+                                                                    </t>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </t>
+                                            </t>
+                                            <t t-else="">
+                                                <strong><span  class="text-center"> Monto a Cobrar:</span></strong>  <br/>
+                                                <strong>$ <span  class="text-center" t-esc="'{:,.2f}'.format(doc.cobro_convenido)"></span> -</strong>
+                                            </t>
+
+                                            <!--TABLA MATERIALES-->
+                                            <t t-if="doc.embalaje_lines">
+
+                                                <!--TITULO-->
+
+                                                <t t-if="doc.solo_efectivo">
+                                                    <table width="100%" style="margin-top: 15px; font-size: 12px" >
+                                                        <thead>
+                                                            <tr style="border-bottom: 1px solid black">
+                                                                <!-- TODO: remove in master -->
+                                                                <th name="th_description" class="text-left" style="padding-left: 5px" >Materiales</th>
+                                                                <th name="th_quantity" class="text-left" >Descripcion</th>
+                                                                <th name="th_priceunit" class="text-left">Cantidad</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="sale_tbody">
+                                                            <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                <t t-if="line.embalaje_id.desc">
+                                                                    <tr >
+                                                                        <td class="text-left" style="border-left: 2px solid black">
+                                                                            <strong>
+                                                                                <span style="padding-left: 5px" t-field="line.embalaje_id.name"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <span t-field="line.embalaje_id.desc"/>
+                                                                        </td>
+                                                                        <td class="text-center" style="border-right: 2px solid black" >
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+
+
+                                                            </t>
+                                                            <tr style="boder-bottom: 2px solid black" >
+                                                                <td style="boder-left: 2px solid black"/>
+                                                                <td  class="text-left" style="font-size: 12px" colspan="3">
+                                                                    <br/>
+                                                                    <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                        <t t-if="not line.embalaje_id.desc and line.embalaje_id.name!='Flete Entrega'">
+                                                                            <span style="font-size: 12px" t-field="line.embalaje_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 12px" t-field="line.cantidad"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-foreach="doc.uso_elem" t-as="line">
+                                                                        <t t-if="line.elem_id.name.upper().find('HERRAMIENTAS')>-1">
+                                                                            <span style="font-size: 12px">HERRAMIENTAS:</span>
+                                                                            <strong>
+                                                                                <span style="font-size: 12px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span style="font-size: 12px" t-field="line.elem_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 12px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                </td>
+                                                                <td  style="boder-right: 2px solid black"/>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </t>
+                                                <t t-else="">
+                                                    <table width="100%" style="margin-top: 45px ; font-size: 12px" >
+                                                        <thead>
+                                                            <tr style="border-bottom: 1px solid black">
+                                                                <!-- TODO: remove in master -->
+                                                                <th name="th_description" class="text-left" style="padding-left: 5px" >Materiales</th>
+                                                                <th name="th_quantity" class="text-left" >Descripcion</th>
+                                                                <th name="th_priceunit" class="text-left">Cantidad</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="sale_tbody">
+                                                            <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                <t t-if="line.embalaje_id.desc">
+                                                                    <tr >
+                                                                        <td class="text-left" style="border-left: 2px solid black">
+                                                                            <strong>
+                                                                                <span style="padding-left: 5px" t-field="line.embalaje_id.name"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                        <td class="text-left">
+                                                                            <span t-field="line.embalaje_id.desc"/>
+                                                                        </td>
+                                                                        <td class="text-center" style="border-right: 2px solid black" >
+                                                                            <strong>
+                                                                                <span t-field="line.cantidad"/>
+                                                                            </strong>
+                                                                        </td>
+                                                                    </tr>
+                                                                </t>
+
+
+                                                            </t>
+                                                            <tr style="boder-bottom: 2px solid black" >
+                                                                <td style="boder-left: 2px solid black"/>
+                                                                <td  class="text-left" style="font-size: 10px" colspan="3">
+                                                                    <br/>
+                                                                    <t t-foreach="doc.embalaje_lines" t-as="line">
+                                                                        <t t-if="not line.embalaje_id.desc and line.embalaje_id.name!='Flete Entrega'">
+                                                                            <span style="font-size: 15px" t-field="line.embalaje_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cantidad"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                    <t t-foreach="doc.uso_elem" t-as="line">
+                                                                        <t t-if="line.elem_id.name.upper().find('HERRAMIENTAS')>-1">
+                                                                            <span style="font-size: 15px">HERRAMIENTAS:</span>
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                        <t t-else="">
+                                                                            <span style="font-size: 15px" t-field="line.elem_id.name"/>:
+                                                                            <strong>
+                                                                                <span style="font-size: 15px" t-field="line.cant"/> -
+                                                                            </strong>
+                                                                        </t>
+                                                                    </t>
+                                                                </td>
+                                                                <td  style="boder-right: 2px solid black"/>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </t>
+
+                                                <!--FOTO AYUDA EMB-->
+                                                <table style="margin-top: 15px" width="100%">
+                                                    <tr>
+                                                        <td style="text-align:center" >
+                                                            <img src='/om_abatartrucks/static/src/img/banner_bot.jpeg' style="max-height:70%;"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </t>
+
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+
+
+
+            </t>
+        </t>
+    </template>
+
+</odoo>

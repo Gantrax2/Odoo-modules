@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+  <data>
+    <!-- Carga JS y CSS en backend -->
+    <template id="assets_backend" inherit_id="web.assets_backend" name="Abatar Trucks Assets">
+      <xpath expr="." position="inside">
+        <!-- JS -->
+        <script type="text/javascript" src="/om_abatartrucks/static/src/js/tree_view_button.js"/>
+        <!-- CSS -->
+        <link rel="stylesheet" type="text/css" href="/om_abatartrucks/static/src/css/oe_new_custom_button2.css"/>
+      </xpath>
+    </template>
+  </data>
+</odoo>

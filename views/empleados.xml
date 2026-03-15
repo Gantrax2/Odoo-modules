@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="empleados_tree" model="ir.ui.view">
+        <field name="name">abatar.empleados.tree</field>
+        <field name="model">abatar.empleados</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de empleados">
+                <field name="name"/>
+                <field name="dni"/>
+                <field name="tel"/>
+                <field name="saldo"/>
+                <field name="desc"/>
+                <field name="resumen_busqueda" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="empleados_form" model="ir.ui.view">
+        <field name="name">abatar.empleados.form</field>
+        <field name="model">abatar.empleados</field>
+        <field name="arch" type="xml">
+            <form string="Lista de empleados">
+                <group string="General">
+                    <field name="name"/>
+                    <field name="dni"/>
+                    <field name="tel"/>
+                </group>
+                <group string="Movimientos">
+                    <field name="sueldo"/>
+                    <field name="frecuencia_sueldo"/>
+                    <field name="saldo"/>
+                </group>
+                <group string="Adicional">
+                    <field name="desc"/>
+                    <field name="pagos">
+                        <tree editable="bottom" decoration-success="(monto>=0)" decoration-danger="(0>monto)">
+                            <field name="fecha_op"/>
+                            <field name="monto"/>
+                            <field name="saldo"/>
+                            <field name="desc"/>
+                            <field name="caja"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="adjunto">
+                        <tree editable="bottom">
+                            <field name="fecha_op"/>
+                            <field name="adjunto"/>
+                            <field name="desc"/>
+                            <field name="empleados_id" invisible="1"/>
+                        </tree>
+                    </field>
+                </group>
+                <group>
+                    <field name="dueño"/>
+                    <field name="admin" invisible="1"/>
+                    <field name="resumen_busqueda" invisible="1"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record id="empleados_search" model="ir.ui.view">
+        <field name="name">abatar.empleados.search.view</field>
+        <field name="model">abatar.empleados</field>
+        <field name="arch" type="xml">
+            <search string="Buscar:">
+                <field name="resumen_busqueda"/>
+                <separator/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_empleados" model="ir.actions.act_window">
+            <field name="name">Empleados</field>
+            <field name="res_model">abatar.empleados</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create Empleados</p>
+            </field>
+    </record>
+
+
+</odoo>

@@ -1,0 +1,614 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!--<template id="report_ordenes_pdf">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <h2>Orden de Trabajo</h2>
+            </t>
+        </t>
+    </template>-->
+
+    <template id="report_crm">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+
+                <!--ESTADOS ORDEN NUEVA-->
+
+                <t t-if="doc.state in ('presupuesto', 'confirmado', 'finalizado')">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div>
+                                <table width="100%">
+                                    <!--SEPARADOR DE HEADER-->
+                                    <tr>
+                                        <td style="padding-top: 30px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100%">
+
+                                            <!--ORDEN-->
+                                            <table width="100%">
+                                                <tr>
+                                                    <td width="25%" class="text-center">
+                                                        Presupuesto de <span t-field="doc.servicio.name"/> Nº:
+
+                                                        <h3>
+                                                            <span t-field="doc.pedide"/>
+                                                        </h3>
+                                                    </td>
+                                                    <td width="15%" class="text-left">
+                                                        <div t-if="doc.user_id">
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-left" width="30%">
+                                                        <strong>Fecha de Pedido:</strong><br />
+                                                        <span t-field="doc.fecha_inicial" t-options='{"hide_seconds":"True"}'/>
+                                                    </td>
+                                                    <td width="30%" class="text-right">
+                                                        <strong>Cliente: </strong><br />
+                                                        <t t-if="doc.es_conocido=='si'">
+                                                            <span t-field="doc.cliente.clientes_gral_id.name"/> -
+                                                            <span t-field="doc.cliente.sector"/><br />
+                                                            CUIT: <span t-field="doc.cliente.cuit"/><br />
+                                                            <span t-field="doc.contacto.name"/> <br /> <t t-if="doc.tel_cliente"><span t-field="doc.tel_cliente"/></t><t t-elif="doc.email_cliente"><span t-field="doc.email_cliente"/></t>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span t-field="doc.empresa"/><br />
+                                                            <span t-field="doc.name"/><br />
+                                                            <span t-field="doc.tel"/><br />
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+
+
+                                            <table style="margin-top: 40px" width="100%">
+                                                <tbody class="sale_tbody">
+                                                    <tr>
+                                                        <td class="text-center" width="100%">
+                                                            <strong style="border-bottom: 1px solid #D4D4D4 ; font-size: 22px"> Presupuesto</strong>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <!--Fila Texto presupuesto-->
+                                            <table style="margin-top: 20px" width="100%">
+
+                                                <tr>
+                                                    <td class="text-left" width="100%">
+                                                        <strong>Pauta</strong><br />
+                                                        <span t-field="doc.pauta_gral_pre"/> <t t-if="doc.pauta_gral"><span t-field="doc.pauta_gral"/></t>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+
+                                            <t t-set="contador_adicionales" t-value="0"/>
+                                            <!--DIRECCIONES-->
+                                            <table style="margin-top: 35px" class="table table-sm o_main_table">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- TODO: remove in master -->
+                                                        <th name="th_num" class="text-left"></th>
+                                                        <th name="th_description" class="text-left">Direcciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="sale_tbody">
+                                                    <t t-set="contador" t-value="0"/>
+                                                    <t t-if="doc.es_conocido == 'si'">
+                                                        <t t-foreach="doc.destinos_lines" t-as="line">
+                                                            <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                            <t t-set="contador" t-value="contador+1"/>
+                                                            <tr>
+                                                                <td>
+                                                                    <span t-esc="contador" />
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <span t-field="line.destino_id.name_gral"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="doc.es_conocido == 'no'">
+                                                        <t t-foreach="doc.destinos_lines2" t-as="line">
+                                                            <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                            <t t-set="contador" t-value="contador+1"/>
+                                                            <tr>
+                                                                <td>
+                                                                     <span t-esc="contador" />
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <span t-field="line.name_gral"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+
+
+
+                                            <table style="margin-top: 40px" width="100%">
+                                                <tbody class="sale_tbody">
+                                                    <tr>
+                                                        <td class="text-right" width="33%" >
+                                                            <strong>PRECIO DEL SERVICIO   .</strong>
+                                                        </td>
+                                                        <td class="text-left" width="27%" >
+                                                            <strong>  .................................................................................</strong>
+                                                        </td>
+                                                        <td class="text-right" width="20%" >
+                                                            <t t-if="doc.precio">
+                                                                <strong>$</strong> <strong t-esc="'{:,.2f}'.format(doc.precio)" />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <strong>$</strong><strong t-esc="'{:,.2f}'.format(doc.cotizador.total)" />
+                                                            </t>
+                                                        </td>
+                                                        <td class="text-left" width="20%">
+                                                            <t t-if="doc.mas_iva == True">
+                                                                <t t-if="doc.seguro not in (False, '')">
+                                                                    <strong> + IVA + SEGURO</strong>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <strong> + IVA</strong>
+                                                                </t>
+                                                            </t>
+                                                            <t t-elif="doc.seguro not in (False, '')">
+                                                                <strong> + SEGURO</strong>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                            <!--CONDICIONES GENERALES-->
+                                            <!--TITULO-->
+                                            <table style="margin-top: 65px" width="25%">
+                                                <tr>
+                                                    <td class="text-right" width="100%">
+                                                        <strong style=" border-bottom: 1px solid #D4D4D4" >Condiciones Generales: </strong><br />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!--CONTENIDO-->
+                                            <table style="margin-top: 10px" width="100%">
+                                                <tr>
+                                                    <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                        <strong>Forma de Pago:  </strong><br />
+                                                    </td>
+                                                    <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                        <t t-if="doc.convenio == '30'">
+                                                            <span> 30% Al Contratar, contra Entrega de Materiales. 30% Al Cierre de Embalaje. Saldo al Finalizar.</span><br />
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '40'">
+                                                            <t t-if="doc.mdz_hay_mg == True or doc.mdz_hay_mf == True">
+                                                                <span> 40% Al Contratar, contra Entrega de Materiales. Saldo al Finalizar.</span><br />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span> 40% Al Contratar. Saldo al Finalizar.</span><br />
+                                                            </t>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '25'">
+                                                            <span> 25% Al Contratar. Saldo al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '20'">
+                                                            <span> 20% Al Contratar. Saldo al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == 'contado'">
+                                                            <span> Al contado al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == 'cc'">
+                                                            <span> Cuenta Corriente.</span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span> Al contado al Finalizar.</span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="doc.mas_iva == True">
+                                                    <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                    <tr>
+                                                        <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                            <strong>IVA:  </strong><br />
+                                                        </td>
+                                                        <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                            <span> No Incluye.</span><br />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="doc.seguro not in  (False,'')">
+                                                    <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                    <tr>
+                                                        <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                            <strong>Seguro:  </strong><br />
+                                                        </td>
+                                                        <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                            <span t-field="doc.seguro"/><br />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="doc.orientacion == True">
+                                                    <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                    <tr>
+                                                        <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                            <strong>Precio Orientación:  </strong><br />
+                                                        </td>
+                                                        <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                            <span> Presupuesto por Orientación telefónica. Pasible de variación hasta un 15% en la Visita de su Domicilio.</span><br />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <t t-if="contador_adicionales>=8">
+
+                                    <table style="margin-top: 50px" width="100%">
+                                        <tr>
+                                            <td width="40%">
+                                            </td>
+                                            <td style="font-size: 14px" width="20%" class="text-center" >
+                                                <img src='/om_abatartrucks/static/src/img/ehrb_firma.jpg'  style="max-height: 80px;" alt="Firma"/><br/>
+                                                <span>Atte.</span><br/>
+                                                <span>Roisman Eduardo Hector</span><br/>
+                                                <span>+549 11-3023-3091</span><br/>
+                                                <span>Grupoabatar.com.ar</span>
+                                            </td>
+                                            <td width="40%">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                                <t t-elif="contador_adicionales>=5">
+
+                                    <table style="margin-top: 80px" width="100%">
+                                        <tr>
+                                            <td width="40%">
+                                            </td>
+                                            <td style="font-size: 14px" width="20%" class="text-center" >
+                                                <img src='/om_abatartrucks/static/src/img/ehrb_firma.jpg'  style="max-height: 80px;" alt="Firma"/><br/>
+                                                <span>Atte.</span><br/>
+                                                <span>Roisman Eduardo Hector</span><br/>
+                                                <span>+549 11-3023-3091</span><br/>
+                                                <span>Grupoabatar.com.ar</span>
+                                            </td>
+                                            <td width="40%">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+                                <t t-else="">
+
+                                    <table style="margin-top: 120px" width="100%">
+                                        <tr>
+                                            <td width="40%">
+                                            </td>
+                                            <td style="font-size: 14px" width="20%" class="text-center" >
+                                                <img src='/om_abatartrucks/static/src/img/ehrb_firma.jpg'  style="max-height: 80px;" alt="Firma"/><br/>
+                                                <span>Atte.</span><br/>
+                                                <span>Roisman Eduardo Hector</span><br/>
+                                                <span>+549 11-3023-3091</span><br/>
+                                                <span>Grupoabatar.com.ar</span>
+                                            </td>
+                                            <td width="40%">
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </t>
+
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+                <t t-if="doc.state in ('pendiente')">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div>
+                                <table width="100%">
+                                    <!--SEPARADOR DE HEADER-->
+                                    <tr>
+                                        <td style="padding-top: 30px"></td>
+                                    </tr>
+                                    <tr>
+                                        <td width="100%">
+
+                                            <!--ORDEN-->
+                                            <table width="100%">
+                                                <tr>
+                                                    <td width="20%" class="text-center">
+                                                        <span style="color:red" t-field="doc.servicio.name"/>
+                                                        <h3>
+                                                            <span t-field="doc.name_seq"/>
+                                                        </h3>
+                                                    </td>
+                                                    <td width="25%" class="text-center">
+                                                        <strong>Cliente: </strong><br />
+                                                        <t t-if="doc.es_conocido=='si'">
+                                                            <span t-field="doc.cliente.clientes_gral_id.name"/> -
+                                                            <span t-field="doc.cliente.sector"/><br />
+                                                            CUIT: <span t-field="doc.cliente.cuit"/>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <t t-if="doc.empresa">
+                                                                <span t-field="doc.empresa"/><br />
+                                                            </t>
+                                                            <t t-if="doc.name">
+                                                                <span t-field="doc.name"/><br />
+                                                            </t>
+                                                        </t>
+                                                    </td>
+                                                    <td width="20%" class="text-right">
+                                                        <div t-if="doc.user_id">
+                                                            <strong>Fecha de Pedido:</strong><br />
+                                                            <span t-field="doc.fecha_inicial" t-options='{"hide_seconds":"True"}'/>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right" width="35%" style="padding-top:15px;padding-bottom:15px">
+                                                        <strong>Fecha de Ejecucion:</strong><br />
+                                                        <span t-field="doc.fecha_ejecucion" t-options='{"hide_seconds":"True"}'/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+
+                                            <t t-if="doc.servicio.name=='Mudanza'">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="25%" class="text-left">
+                                                            <strong>Ambientes:</strong> <span t-field="doc.mdz_amb"/><br />
+                                                            <strong>Personas:</strong> <span t-field="doc.mdz_pers"/>
+                                                        </td>
+                                                        <td width="25%" class="text-left">
+                                                            <strong>Nivel de Carga:</strong> <span t-field="doc.mdz_carga"/><br />
+                                                            <strong>M3:</strong> <span t-field="doc.mdz_m3_auto"/>
+                                                        </td>
+                                                        <td width="25%" class="text-left">
+                                                            <strong>¿Hay Mat. Grueso?:</strong> <t t-if="doc.mdz_hay_mg"> Si <br /></t> <t t-else=""> No <br /></t>
+                                                            <strong>¿Hay Emb. Grueso?:</strong> <t t-if="doc.mdz_hay_emb_g"> Si <br /></t> <t t-else=""> No <br /></t>
+                                                        </td>
+                                                        <td width="25%" class="text-left">
+                                                            <strong>¿Hay Mat. Fino?:</strong> <t t-if="doc.mdz_hay_mf"> Si <br /></t> <t t-else=""> No <br /></t>
+                                                            <strong>¿Hay Emb. Fino?:</strong> <t t-if="doc.mdz_hay_emb_f"> Si <br /></t> <t t-else=""> No <br /></t>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </t>
+
+                                            <t t-if="doc.servicio.name=='Flete' or doc.servicio.name=='Reparto'">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <td width="40%" class="text-left">
+                                                            <strong>M3:</strong> <span t-field="doc.m3_flete"/><br />
+                                                            <t t-if="doc.ud_pres">
+                                                                <strong>Unidad:</strong> <span t-field="doc.ud_pres"/>
+                                                            </t>
+                                                            <t t-else="">
+                                                                <t t-if="6>doc.m3_flete">
+                                                                    <strong>Unidad:</strong> A
+                                                                </t>
+                                                                <t t-elif="11>doc.m3_flete">
+                                                                    <strong>Unidad:</strong> B
+                                                                </t>
+                                                                <t t-elif="16>doc.m3_flete">
+                                                                    <strong>Unidad:</strong> C
+                                                                </t>
+                                                                <t t-elif="19>doc.m3_flete">
+                                                                    <strong>Unidad:</strong> D
+                                                                </t>
+                                                                <t t-elif="26>doc.m3_flete">
+                                                                    <strong>Unidad: </strong>E
+                                                                </t>
+                                                                <t t-elif="36>doc.m3_flete">
+                                                                    <strong>Unidad:</strong> F
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <strong>Unidad:</strong> SEMI
+                                                                </t>
+                                                            </t>
+                                                        </td>
+                                                        <td width="60%" class="text-left">
+                                                            <t t-if="doc.cyd_flete==True">
+                                                                <strong>¿Hacemos Carga y Descarga?:</strong> Sí <br />
+                                                                <strong>¿Solo Carga y/o Descarga?:</strong> <span t-field="doc.cyd_solo_cod"/><br />
+                                                                <strong>¿Requiere Embalaje Grueso? </strong> <span t-field="doc.cyd_emb_grueso" /> <br />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <br />
+                                                                <strong>¿Hacemos Carga y/o Descarga?: </strong> No
+                                                                <t t-if="doc.cyd_autoelev==True">
+                                                                    <strong>¿Carga y Descarga con Autoelevador?: </strong> Si <br />
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <br />
+                                                                </t>
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </t>
+
+                                            <t t-set="contador_adicionales" t-value="0"/>
+                                            <!--DIRECCIONES-->
+                                            <table style="margin-top: 35px" class="table table-sm o_main_table">
+                                                <thead>
+                                                    <tr>
+                                                        <!-- TODO: remove in master -->
+                                                        <th name="th_num" class="text-left"></th>
+                                                        <th name="th_description" class="text-left">Direcciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody class="sale_tbody">
+                                                    <t t-set="contador" t-value="0"/>
+                                                    <t t-if="doc.es_conocido == 'si'">
+                                                        <t t-foreach="doc.destinos_lines" t-as="line">
+                                                            <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                            <t t-set="contador" t-value="contador+1"/>
+                                                            <tr>
+                                                                <td>
+                                                                    <span t-esc="contador" />
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <span t-field="line.destino_id.name_gral"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                    <t t-if="doc.es_conocido == 'no'">
+                                                        <t t-foreach="doc.destinos_lines2" t-as="line">
+                                                            <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                            <t t-set="contador" t-value="contador+1"/>
+                                                            <tr>
+                                                                <td>
+                                                                     <span t-esc="contador" />
+                                                                </td>
+                                                                <td class="text-left">
+                                                                    <span t-field="line.name_gral"/>
+                                                                </td>
+                                                            </tr>
+                                                        </t>
+                                                    </t>
+                                                </tbody>
+                                            </table>
+
+
+
+                                            <t t-if="doc.servicio.name=='Mudanza'">
+
+                                                <table style="margin-top: 40px" width="100%">
+                                                    <tbody class="sale_tbody">
+                                                        <tr>
+                                                            <td class="text-center" width="100%">
+                                                                <t t-if="doc.adjuntos">
+                                                                    <strong style="border-bottom: 1px solid #D4D4D4 ; font-size: 22px"> Enviar Presupuesto</strong>
+                                                                </t>
+                                                                <t t-else="">
+                                                                    <strong style="border-bottom: 1px solid #D4D4D4 ; font-size: 22px"> FALTAN IMÁGENES </strong>
+                                                                </t>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </t>
+                                            <!--Fila Texto presupuesto-->
+                                            <table style="margin-top: 20px" width="100%">
+
+                                                <tr>
+                                                    <td class="text-left" width="100%">
+                                                        <strong>Pauta</strong><br />
+                                                        <span t-field="doc.pauta_gral_pre"/>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                            <table style="margin-top: 40px" width="100%">
+                                                <tbody class="sale_tbody">
+                                                    <tr>
+                                                        <td class="text-right" width="30%" >
+                                                            <strong>PRECIO DEL SERVICIO</strong><br />
+                                                        </td>
+                                                        <td class="text-left" width="40%" >
+                                                            <strong>................................................................................</strong><br />
+                                                        </td>
+                                                        <td class="text-right" width="15%" >
+                                                            <t t-if="doc.precio">
+                                                                $<strong t-esc="'{:,.2f}'.format(doc.precio)" />
+                                                            </t>
+                                                            <t t-else="">
+                                                                $<strong t-esc="'{:,.2f}'.format(doc.cotizador.total)" />
+                                                            </t>
+                                                        </td>
+                                                        <td class="text-left" width="15%">
+                                                            <t t-if="doc.mas_iva == True">
+                                                                <strong> + IVA</strong><br />
+                                                            </t>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+                                            <!--CONDICIONES GENERALES-->
+                                            <!--TITULO-->
+                                            <table style="margin-top: 65px" width="25%">
+                                                <tr>
+                                                    <td class="text-right" width="100%">
+                                                        <strong style=" border-bottom: 1px solid #D4D4D4" >Condiciones Generales: </strong><br />
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!--CONTENIDO-->
+                                            <table style="margin-top: 10px" width="100%">
+                                                <tr>
+                                                    <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                        <strong>Forma de Pago: </strong><br />
+                                                    </td>
+                                                    <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                        <t t-if="doc.convenio == '30'">
+                                                            <span> 30% Al Contratar, contra Entrega de Materiales. 30% Al Cierre de Embalaje. Saldo al Finalizar.</span><br />
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '40'">
+                                                            <t t-if="doc.mdz_hay_mg == True or doc.mdz_hay_mf == True">
+                                                                <span> 40% Al Contratar, contra Entrega de Materiales. Saldo al Finalizar.</span><br />
+                                                            </t>
+                                                            <t t-else="">
+                                                                <span> 40% Al Contratar. Saldo al Finalizar.</span><br />
+                                                            </t>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '25'">
+                                                            <span> 25% Al Contratar. Saldo al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == '20'">
+                                                            <span> 20% Al Contratar. Saldo al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == 'contado'">
+                                                            <span> Al contado al Finalizar.</span>
+                                                        </t>
+                                                        <t t-elif="doc.convenio == 'cc'">
+                                                            <span> Cuenta Corriente.</span>
+                                                        </t>
+                                                        <t t-else="">
+                                                            <span> Al contado al Finalizar.</span>
+                                                        </t>
+                                                    </td>
+                                                </tr>
+                                                <t t-if="doc.mas_iva == True">
+                                                    <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                    <tr>
+                                                        <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                            <strong>IVA:  </strong><br />
+                                                        </td>
+                                                        <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                            <span> No Incluye.</span><br />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                                <t t-if="doc.orientacion == True">
+                                                    <t t-set="contador_adicionales" t-value="contador_adicionales+1"/>
+                                                    <tr>
+                                                        <td class="text-right"  style="margin-top: 20px" width="25%">
+                                                            <strong>Precio Orientación:  </strong><br />
+                                                        </td>
+                                                        <td class="text-left"  style="margin-top: 20px" width="75%">
+                                                            <span> Presupuesto por Orientación telefónica. Pasible de variación hasta un 15% en la Visita de su Domicilio.</span><br />
+                                                        </td>
+                                                    </tr>
+                                                </t>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

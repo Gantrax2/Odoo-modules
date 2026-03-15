@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="factura_tree" model="ir.ui.view">
+        <field name="name">abatar.factura.tree</field>
+        <field name="model">abatar.factura</field>
+        <field name="arch" type="xml">
+            <tree string="Lista de Facturas"  decoration-muted="not vto" decoration-info="vencida and hay_cheque_recibido" decoration-warning="vencida and not hay_cheque_recibido">
+                <field name="name_seq"/>
+                <field name="tipo_fc"/>
+                <field name="vencida" invisible=""/>
+                <field name="cliente_gral"/>
+                <field name="cliente"/>
+                <field name="sujeto"/>
+                <field name="responsable"/>
+                <field name="fecha_op"/>
+                <field name="vto"/>
+                <field name="monto"/>
+                <field name="iva"/>
+                <field name="total"/>
+                <field name="hay_cheque_recibido" invisible="1"/>
+                <field name="pagos_id" invisible="1"/>
+                <field name="es_pagado" invisible="1"/>
+                <field name="fecha_pago"/>
+                <field name="dias_pago"/>
+                <field name="pagos" invisible="1"/>
+                <field name="resumen_busqueda" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="factura_form" model="ir.ui.view">
+        <field name="name">abatar.factura.form</field>
+        <field name="model">abatar.factura</field>
+        <field name="arch" type="xml">
+            <form string="Form de Facturas">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_pagos"
+                            type="object"
+                            string="Pago"
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o"
+                            attrs="{'invisible': [('pagos', '=', False)]}"/>
+                        <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                            <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name_seq" /> <!-- readonly="1" -->
+                        </h1>
+                    </div>
+                    <group string="Info Factura">
+                        <field name="fecha_op"/>
+                        <field name="vencida" invisible="1"/>
+                        <field name="tipo_fc"/>
+                        <field name="resumenes" attrs="{'invisible': [('crm', '!=', False)]}"  domain="[('pagado', '=', False)]"/>
+                        <field name="crm" attrs="{'invisible': [('resumenes', '!=', False)]}" domain="[('state', '=', 'finalizado')]"/>
+                        <field name="responsable"/>
+                        <field name="es_crm_pago_line"  attrs="{'invisible': [('resumenes', '!=', False)]}" />
+                        <field name="user_id"/>
+                        <field name="email_vto"/>
+                        <field name="email_vto2"/>
+                        <field name="email_vto3"/>
+                        <field name="email_pagos"/>
+                        <field name="hay_cheque_recibido"/>
+                        <field name="pagos" invisible="1"/>
+                        <field name="es_pagado" invisible="1"/>
+                        <field name="fecha_pago" invisible="1"/>
+                        <field name="dias_pago" invisible="1"/>
+                        <field name="pagos_id" invisible="1"/>
+                    </group>
+                    <group string="Info Cliente"  attrs="{'invisible': [('crm', '!=', False)]}">
+                        <field name="cliente"/>
+                        <field name="cuit"/>
+                    </group>
+                    <group string="Info Cliente" attrs="{'invisible': [('resumenes', '!=', False)]}">
+                        <field name="sujeto"/>
+                        <field name="dni"/>
+                    </group>
+                    <group>
+                        <group string="Vto">
+                            <field name="vto"/>
+                        </group>
+                        <group string="Monto">
+                            <field name="monto"/> <!--  attrs="{'invisible': [('tipo_fc', 'in', ('B', 'B(myp)', 'C'))]}"/> -->
+                            <field name="mas_iva_sf"  attrs="{'invisible': [('tipo_fc', '!=','s/f')]}"/>
+                            <field name="iva_excento"/> <!--  attrs="{'invisible': [('tipo_fc', 'in', ('B', 'B(myp)', 'C'))]}"/> -->
+                            <field name="iva"/> <!--  attrs="{'invisible': [('tipo_fc', 'in', ('B', 'B(myp)', 'C'))]}"/> -->
+                            <field name="total"/>
+                        </group>
+                        <group string="Adjunto">
+                            <field name="adjunto"/>
+                        </group>
+                    </group>
+                    <group>
+
+                        <field name="admin" invisible="1"/>
+                        <field name="resumen_busqueda" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="board_pivot_factura" model="ir.ui.view">
+        <field name="name">abatar.factura.pivot</field>
+        <field name="model">abatar.factura</field>
+        <field name="arch" type="xml">
+            <pivot string="factura">
+                <field name="name_seq"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="board_graph_factura" model="ir.ui.view">
+        <field name="name">abatar.factura.graph</field>
+        <field name="model">abatar.factura</field>
+        <field name="arch" type="xml">
+            <graph string="factura">
+                <field name="name_seq"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_factura_search" model="ir.ui.view">
+        <field name="name">abatar.factura.search</field>
+        <field name="model">abatar.factura</field>
+        <field name="arch" type="xml">
+            <search string="Busqueda en Factura">
+                <field name="resumen_busqueda" />
+
+                <filter string="Todos" name="active" domain="[('active', 'in', (True,False))]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Pagados" name="es_pagado" context="{'group_by': 'es_pagado'}"/>
+                    <filter string="Todos" name="active" domain="[('active', 'in', (True,False))]" context="{'group_by': 'tipo_fc'}"/>
+                    <separator/>
+                    <filter string="Pendientes" name="pagos" domain="[('pagos', '=', False)]" />
+                    <filter string="Clientes" name="cliente_gral"  context="{'group_by': 'cliente_gral'}"/>
+                    <filter string="Sectores" name="cliente" domain="[('active', '=', True)]" context="{'group_by': 'cliente'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_factura" model="ir.actions.act_window">
+            <field name="name">Facturas</field>
+            <field name="res_model">abatar.factura</field>
+            <field name="view_mode">tree,form,pivot,graph</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">Create the first Factura</p>
+            </field>
+    </record>
+
+
+</odoo>

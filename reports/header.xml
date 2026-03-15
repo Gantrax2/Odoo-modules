@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="external_layout_header_inherit_cr" inherit_id="web.external_layout_standard">
+        <xpath expr="//div[@class='header']" position="replace">
+            <div class="header">
+                <table style="width: 100%">
+                    <tbody>
+                        <tr style="border-bottom: 1px solid black">
+                            <td style="vertical-align: top;width: 70%;padding-top: 30px">
+                                <table style="width: 100%;font-size: 23px;text-align: center">
+                                    <tr>
+                                        <td width="5%"></td>
+                                        <td style="border-bottom: 1px solid black"><strong>Servicios Logisticos en Tiempo y Forma</strong></td>
+                                        <td width="5%"></td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3"><strong>Un Mundo nuevo en soluciones logisticas</strong><br/> <font color="white">.</font></td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <img t-if="company.logo" t-att-src="image_data_uri(company.logo)" style="max-height: 118px;" alt="Logo"/>
+                            </td>
+                        </tr>
+                        <!--<tr style="border-bottom: 1px solid black">
+                            <td style="font-size:8pt">
+                            </td>
+                            <td style="font-size:8pt">
+                            </td>
+                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>
